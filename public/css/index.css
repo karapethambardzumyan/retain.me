@@ -1,5 +1,5 @@
-body {
-  background: purple;
+.hidden {
+  display: none;
 }
 
 .canvas-container {
@@ -9,16 +9,76 @@ body {
   right: 0;
   bottom: 0;
   margin: auto;
+  border: 1px dotted #000;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.toolbar {
+  width: 100%;
+  background: #eee;
+  padding: 10px 6px;
+  box-sizing: border-box;
+}
+
+.btn {
+  background: #2b9cdbc4;
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  text-decoration: none;
+  font-family: Arial;
+  font-size: 14px;
+}
+
+ul.controll {
+  display: flex;
+  flex-direction: row;
+}
+
+ul.controll li {
+  display: flex;
+  padding: 0 6px;
+}
+
+ul.controll li:hover a {
+  color: #61a6dc;
   background: #fff;
 }
 
-.tools {
-  display: flex;
-  box-sizing: border-box;
-  justify-content: space-between;
-  padding: 0 8px;
+.upload {
+  background: #61a6dc;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  width: 200px;
+  height: 32px;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
 }
 
-#download {
+.upload input {
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+}
+
+.upload a {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   color: #fff;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-family: Arial;
+  font-size: 30px;
 }

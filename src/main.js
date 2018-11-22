@@ -22,31 +22,42 @@ class Main {
     this.canvas = null;
   };
 
+  initialConfig() {
+    if(localStorage.getItem('config') === null) {
+      localStorage.setItem('config', JSON.stringify(config));
+    }
+
+    return JSON.parse(localStorage.getItem('config'));
+  };
+
   init() {
+    // create canvas element
     this.canvas = new fabric.Canvas('canvas');
 
+    // set canvas width and height
     this.canvas.setWidth(sizes[this.config.size].width * MM_TO_PX);
     this.canvas.setHeight(sizes[this.config.size].height * MM_TO_PX);
 
-    this.canvas.on('mouse:up', e => {
-      if(this.canvas.getActiveObject()) {
-        this.config = {
-          ...this.config,
-          background: {
-            ...this.config.background,
-            scale: {
-              x: e.target.scaleX,
-              y: e.target.scaleY
-            },
-            coords: {
-              top: e.target.aCoords.tl.y,
-              left: e.target.aCoords.tl.x
-            }
-          }
-        };
-      }
-    });
+    // this.canvas.on('mouse:up', e => {
+    //   if(this.canvas.getActiveObject()) {
+    //     this.config = {
+    //       ...this.config,
+    //       background: {
+    //         ...this.config.background,
+    //         scale: {
+    //           x: e.target.scaleX,
+    //           y: e.target.scaleY
+    //         },
+    //         coords: {
+    //           top: e.target.aCoords.tl.y,
+    //           left: e.target.aCoords.tl.x
+    //         }
+    //       }
+    //     };
+    //   }
+    // });
 
+    // add background if exists in config
     if(this.config.background !== null) {
       fabric.Image.fromURL(this.config.background.base64, img => {
         img.scaleToWidth(this.canvas.width);
@@ -57,6 +68,8 @@ class Main {
           scaleY: this.config.background.scale.y
         });
         this.canvas.add(img);
+
+        document.getElementById('upload-wrapper').classList.add('hidden');
       });
     }
 
@@ -64,7 +77,7 @@ class Main {
   };
 
   upload() {
-    document.getElementById('upload-background').onchange = e => {
+    document.getElementById('upload').onchange = e => {
       let file = e.target.files[0];
       let reader = new FileReader();
 
@@ -101,6 +114,8 @@ class Main {
                 base64: data
               }
             };
+
+            document.getElementById('upload-wrapper').classList.add('hidden');
           });
         };
 
@@ -113,10 +128,14 @@ class Main {
 
   reset() {
     document.getElementById('reset').onclick = e => {
+      e.preventDefault();
+      
       this.config = config;
       this.canvas.clear();
 
       localStorage.setItem('config', JSON.stringify(config));
+
+      document.getElementById('upload-wrapper').classList.remove('hidden');
 
       alert('Reseted!');
     };
@@ -126,6 +145,8 @@ class Main {
 
   save() {
     document.getElementById('save').onclick = e => {
+      e.preventDefault();
+
       localStorage.setItem('config', JSON.stringify(this.config));
 
       alert('Saved!');
@@ -136,17 +157,11 @@ class Main {
 
   download() {
     document.getElementById('download').onclick = e => {
+      e.preventDefault();
+
       const image = this.canvas.toDataURL();
       e.target.href = image;
     };
-  };
-
-  initialConfig() {
-    if(localStorage.getItem('config') === null) {
-      localStorage.setItem('config', JSON.stringify(config));
-    }
-
-    return JSON.parse(localStorage.getItem('config'));
   };
 };
 

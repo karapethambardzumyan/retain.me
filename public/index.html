@@ -5,23 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Retain.me</title>
+  <link rel="stylesheet" href="./css/reset.css">
   <link rel="stylesheet" href="./css/index.css">
 </head>
 <body>
-  <div class="tools">
-    <div class="upload-background">
-      <h2>Add background</h2>
-      <input type="file" id="upload-background">
-    </div>
-    <div class="edit">
-      <h2>Edit</h2>
-      <button id="save">Save</button>
-      <button id="reset">Reset</button>
-      <a href="#" id="download" download="example.png">Download</a>
-    </div>
-  </div>
+  <div class="wrapper">
 
-  <canvas id="canvas"></canvas>
+    <div class="toolbar">
+      <ul class="controll">
+        <li><a class="btn" href="#" id="save">Save</a></li>
+        <li><a class="btn" href="#" id="reset">Reset</a></li>
+        <li><a class="btn" href="#" id="download" download="example.png">Download</a></li>
+      </ul>
+    </div>
+
+    <div class="upload" id="upload-wrapper">
+      <input type="file" id="upload">
+      <a href="#">Upload</a>
+    </div>
+
+    <canvas id="canvas"></canvas>
+  </div>
 
   <script src="./bundle.js"></script>
 </body>
