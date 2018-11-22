@@ -2,6 +2,7 @@ import main from './main';
 
 main
   .init()
-  .uploadBackground()
+  .upload()
   .reset()
-  .save();
+  .save()
+  .download();

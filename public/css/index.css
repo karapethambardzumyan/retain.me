@@ -11,3 +11,14 @@ body {
   margin: auto;
   background: #fff;
 }
+
+.tools {
+  display: flex;
+  box-sizing: border-box;
+  justify-content: space-between;
+  padding: 0 8px;
+}
+
+#download {
+  color: #fff;
+}
