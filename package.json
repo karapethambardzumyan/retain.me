@@ -4,8 +4,7 @@
   "description": "",
   "main": "webpack.config.js",
   "scripts": {
-    "start": "webpack-dev-server",
-    "build": "webpack"
+    "start": "webpack-dev-server"
   },
   "repository": {
     "type": "git",
