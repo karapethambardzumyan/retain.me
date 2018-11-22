@@ -4,8 +4,7 @@ const MM_TO_PX = 3.7795275591;
 
 const config = {
   background: null,
-  size: 0,
-  text: []
+  size: 0
 };
 
 // sizes in mm
@@ -30,44 +29,66 @@ class Main {
     return JSON.parse(localStorage.getItem('config'));
   };
 
+  saveConfig(config) {
+    this.config = {
+      ...this.config,
+      background: {
+        ...this.config.background,
+        ...config.background
+      }
+    };
+  };
+
+  resetConfig() {
+    this.config = config;
+  };
+
+  disableImageControlls(img) {
+    img.set({ hasRotatingPoint: false });
+    img.setControlsVisibility({
+      ml: false,
+      mt: false,
+      mr: false,
+      mb: false,
+      mtr: false
+    });
+  };
+
   init() {
-    // create canvas element
     this.canvas = new fabric.Canvas('canvas');
 
-    // set canvas width and height
     this.canvas.setWidth(sizes[this.config.size].width * MM_TO_PX);
     this.canvas.setHeight(sizes[this.config.size].height * MM_TO_PX);
 
-    // this.canvas.on('mouse:up', e => {
-    //   if(this.canvas.getActiveObject()) {
-    //     this.config = {
-    //       ...this.config,
-    //       background: {
-    //         ...this.config.background,
-    //         scale: {
-    //           x: e.target.scaleX,
-    //           y: e.target.scaleY
-    //         },
-    //         coords: {
-    //           top: e.target.aCoords.tl.y,
-    //           left: e.target.aCoords.tl.x
-    //         }
-    //       }
-    //     };
-    //   }
-    // });
+    this.canvas.on('mouse:up', e => {
+      if(e.target !== null && this.canvas.getActiveObject() && this.canvas.getActiveObject().get('type') === 'image') {
+        this.saveConfig({
+          background: {
+            scale: {
+              x: e.target.scaleX,
+              y: e.target.scaleY
+            },
+            position: {
+              left: e.target.aCoords.tl.x,
+              top: e.target.aCoords.tl.y
+            }
+          }
+        });
+      }
+    });
 
-    // add background if exists in config
     if(this.config.background !== null) {
       fabric.Image.fromURL(this.config.background.base64, img => {
+        this.canvas.add(img);
+
+        this.disableImageControlls(img);
         img.scaleToWidth(this.canvas.width);
         img.set({
-          left: this.config.background.coords.left,
-          top: this.config.background.coords.top,
+          left: this.config.background.position.left,
+          top: this.config.background.position.top,
           scaleX: this.config.background.scale.x,
           scaleY: this.config.background.scale.y
         });
-        this.canvas.add(img);
 
         document.getElementById('upload-wrapper').classList.add('hidden');
       });
@@ -86,34 +107,25 @@ class Main {
           let data = f.target.result;
 
           fabric.Image.fromURL(data, img => {
-            img.scaleToWidth(this.canvas.width * 0.9);
             this.canvas.add(img);
-            img.center();
-            img.set({
-              hasRotatingPoint: false
-            });
-            img.setControlsVisibility({
-              ml: false,
-              mt: false,
-              mr: false,
-              mb: false,
-              mtr: false
-            });
 
-            this.config = {
-              ...this.config,
+            this.disableImageControlls(img);
+            img.scaleToWidth(this.canvas.width * 0.9);
+            img.center();
+
+            this.saveConfig({
               background: {
+                base64: data,
                 scale: {
                   x: img.scaleX,
                   y: img.scaleY
                 },
-                coords: {
-                  top: img.aCoords.tl.y,
-                  left: img.aCoords.tl.x
-                },
-                base64: data
+                position: {
+                  left: img.aCoords.tl.x,
+                  top: img.aCoords.tl.y
+                }
               }
-            };
+            });
 
             document.getElementById('upload-wrapper').classList.add('hidden');
           });
@@ -129,15 +141,15 @@ class Main {
   reset() {
     document.getElementById('reset').onclick = e => {
       e.preventDefault();
-      
-      this.config = config;
+
+      this.resetConfig();
       this.canvas.clear();
 
       localStorage.setItem('config', JSON.stringify(config));
 
       document.getElementById('upload-wrapper').classList.remove('hidden');
 
-      alert('Reseted!');
+      alert('Canvas is reseted');
     };
 
     return this;
@@ -149,7 +161,7 @@ class Main {
 
       localStorage.setItem('config', JSON.stringify(this.config));
 
-      alert('Saved!');
+      alert('Canvas is saved');
     };
 
     return this;
@@ -157,8 +169,6 @@ class Main {
 
   download() {
     document.getElementById('download').onclick = e => {
-      e.preventDefault();
-
       const image = this.canvas.toDataURL();
       e.target.href = image;
     };
