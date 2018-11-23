@@ -92,6 +92,38 @@ class Controll {
 
     return this;
   };
+
+  textAlign() {
+    document.getElementById('text-align').onclick = e => {
+      e.preventDefault();
+    };
+
+    return this;
+  };
+
+  textColor() {
+    document.getElementById('text-color').onclick = e => {
+      e.preventDefault();
+    };
+
+    return this;
+  };
+
+  textSize() {
+    document.getElementById('text-size').onclick = e => {
+      e.preventDefault();
+    };
+
+    return this;
+  };
+
+  textFont() {
+    document.getElementById('text-font').onclick = e => {
+      e.preventDefault();
+    };
+
+    return this;
+  };
 };
 
 const controll = new Controll();

@@ -2,6 +2,17 @@
   display: none;
 }
 
+.disabled {
+  opacity: 0.2;
+  cursor: not-allowed;
+  transition: none !important;
+}
+
+.disabled:hover {
+  color: #fff !important;
+  background: #2b9cdbc4 !important;
+}
+
 .canvas-container {
   position: absolute !important;
   top: 0;

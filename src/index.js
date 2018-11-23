@@ -30,5 +30,9 @@ main.init(canvas => {
     .reset()
     .preview()
     .download()
-    .size();
+    .size()
+    .textAlign()
+    .textColor()
+    .textSize()
+    .textFont();
 });
