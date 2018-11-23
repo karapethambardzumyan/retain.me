@@ -62,7 +62,12 @@ class Controll {
 
   download() {
     document.getElementById('download').onclick = e => {
-      const image = main.canvas.toDataURL();
+      const image = main.canvas.toDataURL({
+        top: 0,
+        left: 0,
+        width: 200,
+        height: 200
+      });
       e.target.href = image;
     };
 
