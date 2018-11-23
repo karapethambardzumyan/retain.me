@@ -10,7 +10,7 @@ class Controll {
 
   upload() {
     document.getElementById('upload').onchange = e => {
-      if(main.canvas.getObjects().length === 1) {
+      if(main.canvas.getObjects().length === 4) {
         let file = e.target.files[0];
         let reader = new FileReader();
 

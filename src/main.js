@@ -45,15 +45,53 @@ class Main {
       //   type: 'innerArea'
       // }));
 
-      this.canvas.add(new fabric.Line([0, 0, 100, 20], {
-        strokeDashArray: [5, 5],
-        stroke: 'black'
+      const innerCanvas = {
+        width: this.canvas.width * 0.8,
+        height: this.canvas.height * 0.8
+      };
+
+      const outerCanvas = {
+        width: this.canvas.width,
+        height: this.canvas.height
+      };
+
+      const offset = {
+        left: (outerCanvas.width - innerCanvas.width) / 2,
+        top: (outerCanvas.height - innerCanvas.height) / 2
+      };
+
+      this.canvas.add(new fabric.Line([offset.left, offset.top, offset.left + innerCanvas.width, offset.top], {
+        strokeDashArray: [5, 10],
+        stroke: 'black',
+        selectable: false,
+        type: 'innerArea'
+      }));
+
+      this.canvas.add(new fabric.Line([offset.left, offset.top + innerCanvas.height, offset.left + innerCanvas.width, offset.top + innerCanvas.height], {
+        strokeDashArray: [5, 10],
+        stroke: 'black',
+        selectable: false,
+        type: 'innerArea'
+      }));
+
+      this.canvas.add(new fabric.Line([offset.left, offset.top, offset.left, offset.top + innerCanvas.height], {
+        strokeDashArray: [5, 10],
+        stroke: 'black',
+        selectable: false,
+        type: 'innerArea'
+      }));
+
+      this.canvas.add(new fabric.Line([offset.left + innerCanvas.width, offset.top, offset.left + innerCanvas.width, offset.top + innerCanvas.height], {
+        strokeDashArray: [5, 10],
+        stroke: 'black',
+        selectable: false,
+        type: 'innerArea'
       }));
     }
 
     for(let i in this.canvas.getObjects()) {
-      if(this.canvas.getObjects()[i].type === 'innerArea') {
-        this.canvas.moveTo(this.canvas.getObjects()[i], this.canvas.getObjects().length - 1);
+      if(this.canvas.getObjects()[i].type !== 'innerArea') {
+        this.canvas.moveTo(this.canvas.getObjects()[i], 0);
       }
     }
   };
