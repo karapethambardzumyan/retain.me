@@ -9,7 +9,7 @@
   right: 0;
   bottom: 0;
   margin: auto;
-  border: 1px dotted #000;
+  border: 1px solid #000;
   box-sizing: border-box;
   overflow: hidden;
 }
