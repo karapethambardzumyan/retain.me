@@ -87,7 +87,7 @@ class Controll {
       main.canvas.setWidth(SIZES[size].width * MM_TO_PX);
       main.canvas.setHeight(SIZES[size].height * MM_TO_PX);
 
-      main.drawInnerArea();
+      main.drawInnerArea(true);
     };
 
     return this;

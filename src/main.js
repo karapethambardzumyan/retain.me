@@ -23,28 +23,28 @@ class Main {
     return cb(this.canvas);
   };
 
-  drawInnerArea() {
+  drawInnerArea(sizeChanged) {
     let isInnerAreaCreated = false;
 
-    for(let i in this.canvas.getObjects()) {
-      if(this.canvas.getObjects()[i].type === 'innerArea') {
-        isInnerAreaCreated = true;
+    if(sizeChanged) {
+      const arr = this.canvas.getObjects();
+
+      for(let i in arr) {
+        if(arr[i].type === 'innerArea') {
+          this.canvas.remove(arr[i]);
+        }
+      }
+
+      isInnerAreaCreated = false;
+    } else {
+      for(let i in this.canvas.getObjects()) {
+        if(this.canvas.getObjects()[i].type === 'innerArea') {
+          isInnerAreaCreated = true;
+        }
       }
     }
 
     if(!isInnerAreaCreated) {
-      // this.canvas.add(new fabric.Rect({
-      //   width: this.canvas.width - 60,
-      //   height: this.canvas.height - 60,
-      //   left: 30,
-      //   top: 30,
-      //   fill: 'rgba(0,0,0,0)',
-      //   strokeWidth: 1,
-      //   stroke: '#000',
-      //   selectable: false,
-      //   type: 'innerArea'
-      // }));
-
       const innerCanvas = {
         width: this.canvas.width * 0.8,
         height: this.canvas.height * 0.8
