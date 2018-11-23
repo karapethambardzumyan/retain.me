@@ -130,7 +130,7 @@ class Controll {
     document.getElementById('preview-view').onclick = e => {
       if(e.target.nodeName !== 'IMG') {
         e.target.classList.add('hidden');
-        e.target.innerHtml = '';
+        e.target.innerHTML = '';
       }
     };
 
@@ -143,8 +143,8 @@ class Controll {
 
       main.saveConfig({ size });
 
-      main.canvas.setWidth(SIZES[size].width * MM_TO_PX);
-      main.canvas.setHeight(SIZES[size].height * MM_TO_PX);
+      main.canvas.setWidth(SIZES[size].width * 1.2 * MM_TO_PX);
+      main.canvas.setHeight(SIZES[size].height * 1.2 * MM_TO_PX);
 
       main.drawInnerArea(true);
     };
