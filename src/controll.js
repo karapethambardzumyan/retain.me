@@ -22,6 +22,10 @@ class Controll {
           });
         };
 
+        reader.onerror = err => {
+          console.log(err);
+        };
+
         reader.readAsDataURL(file);
       }
     };
@@ -62,11 +66,26 @@ class Controll {
 
   download() {
     document.getElementById('download').onclick = e => {
+      const innerCanvas = {
+        width: main.canvas.width * 0.8,
+        height: main.canvas.height * 0.8
+      };
+
+      const outerCanvas = {
+        width: main.canvas.width,
+        height: main.canvas.height
+      };
+
+      const offset = {
+        left: (outerCanvas.width - innerCanvas.width) / 2,
+        top: (outerCanvas.height - innerCanvas.height) / 2
+      };
+
       const image = main.canvas.toDataURL({
-        top: 30,
-        left: 30,
-        width: main.canvas.width - 60,
-        height: main.canvas.height - 60
+        top: offset.top + 1,
+        left: offset.left + 1,
+        width: innerCanvas.width - 1,
+        height: innerCanvas.height - 1
       });
       e.target.href = image;
     };

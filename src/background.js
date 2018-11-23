@@ -15,8 +15,9 @@ class Background {
           mb: false,
           mtr: false
         });
-        img.scaleToWidth(main.canvas.width);
+        img.scaleToWidth(main.canvas.width * 0.8);
         main.canvas.add(img);
+        main.canvas.setActiveObject(img);
         img.center();
 
         main.saveConfig({
@@ -48,7 +49,7 @@ class Background {
           mb: false,
           mtr: false
         });
-        img.scaleToWidth(main.canvas.width);
+        img.scaleToWidth(main.canvas.width * 0.8);
         img.set({
           hasRotatingPoint: false,
           left: main.config.background.position.left,
@@ -57,6 +58,7 @@ class Background {
           scaleY: main.config.background.scale.y
         });
         main.canvas.add(img);
+        main.canvas.setActiveObject(img);
 
         document.getElementById('upload-wrapper').classList.add('hidden');
 

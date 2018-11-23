@@ -13,8 +13,8 @@ class Main {
       preserveObjectStacking: true
     });
 
-    this.canvas.setWidth(SIZES[this.config.size].width * MM_TO_PX);
-    this.canvas.setHeight(SIZES[this.config.size].height * MM_TO_PX);
+    this.canvas.setWidth(SIZES[this.config.size].width * 1.2 * MM_TO_PX);
+    this.canvas.setHeight(SIZES[this.config.size].height * 1.2 * MM_TO_PX);
 
     document.getElementById('size').selectedIndex = this.config.size;
 
