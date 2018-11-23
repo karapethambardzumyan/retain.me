@@ -3,7 +3,17 @@ import { fabric } from 'fabric';
 const MM_TO_PX = 3.7795275591;
 
 const config = {
-  background: null,
+  background: {
+    base64: null,
+    position: {
+      x: null,
+      y: null
+    },
+    scale: {
+      x: null,
+      y: null
+    }
+  },
   size: 0
 };
 
@@ -29,9 +39,23 @@ class Main {
     return JSON.parse(localStorage.getItem('config'));
   };
 
+  testSize() {
+    document.getElementById('size').onchange = e => {
+      const size = parseInt(e.target.value);
+
+      this.saveConfig({ size });
+
+      this.canvas.setWidth(sizes[size].width * MM_TO_PX);
+      this.canvas.setHeight(sizes[size].height * MM_TO_PX);
+    };
+
+    return this;
+  };
+
   saveConfig(config) {
     this.config = {
       ...this.config,
+      ...config,
       background: {
         ...this.config.background,
         ...config.background
@@ -60,6 +84,8 @@ class Main {
     this.canvas.setWidth(sizes[this.config.size].width * MM_TO_PX);
     this.canvas.setHeight(sizes[this.config.size].height * MM_TO_PX);
 
+    document.getElementById('size').selectedIndex = this.config.size;
+
     this.canvas.on('mouse:up', e => {
       if(e.target !== null && this.canvas.getActiveObject() && this.canvas.getActiveObject().get('type') === 'image') {
         this.saveConfig({
@@ -77,7 +103,7 @@ class Main {
       }
     });
 
-    if(this.config.background !== null) {
+    if(this.config.background.base64) {
       fabric.Image.fromURL(this.config.background.base64, img => {
         this.canvas.add(img);
 

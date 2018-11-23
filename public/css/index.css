@@ -44,7 +44,7 @@ ul.controll li, ul.textbar li {
   padding: 0 6px;
 }
 
-ul.controll li:hover a, ul.textbar li:hover a {
+.btn:hover {
   color: #61a6dc;
   background: #fff;
 }
