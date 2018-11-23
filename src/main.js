@@ -1,6 +1,6 @@
 import { fabric } from 'fabric';
 
-import { SIZES, MM_TO_PX } from './constants';
+import { CONFIG, SIZES, MM_TO_PX } from './constants';
 
 class Main {
   constructor() {
@@ -33,16 +33,21 @@ class Main {
     }
 
     if(!isInnerAreaCreated) {
-      this.canvas.add(new fabric.Rect({
-        width: this.canvas.width - 60,
-        height: this.canvas.height - 60,
-        left: 30,
-        top: 30,
-        fill: 'rgba(0,0,0,0)',
-        strokeWidth: 1,
-        stroke: '#000',
-        selectable: false,
-        type: 'innerArea'
+      // this.canvas.add(new fabric.Rect({
+      //   width: this.canvas.width - 60,
+      //   height: this.canvas.height - 60,
+      //   left: 30,
+      //   top: 30,
+      //   fill: 'rgba(0,0,0,0)',
+      //   strokeWidth: 1,
+      //   stroke: '#000',
+      //   selectable: false,
+      //   type: 'innerArea'
+      // }));
+
+      this.canvas.add(new fabric.Line([0, 0, 100, 20], {
+        strokeDashArray: [5, 5],
+        stroke: 'black'
       }));
     }
 
