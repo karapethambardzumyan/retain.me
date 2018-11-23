@@ -1,19 +1,6 @@
 import { fabric } from 'fabric';
 
-const MM_TO_PX = 3.7795275591;
-
-const config = {
-  background: null,
-  size: 0
-};
-
-// sizes in mm
-const sizes = [
-  { width: 136, height: 150 },
-  { width: 140, height: 81 },
-  { width: 200, height: 139 },
-  { width: 100, height: 150 }
-];
+import { SIZES, MM_TO_PX } from './constants';
 
 class Main {
   constructor() {
@@ -21,9 +8,54 @@ class Main {
     this.canvas = null;
   };
 
+  init(cb) {
+    this.canvas = new fabric.Canvas('canvas', {
+      preserveObjectStacking: true
+    });
+
+    this.canvas.setWidth(SIZES[this.config.size].width * MM_TO_PX);
+    this.canvas.setHeight(SIZES[this.config.size].height * MM_TO_PX);
+
+    document.getElementById('size').selectedIndex = this.config.size;
+
+    this.drawInnerArea();
+
+    return cb(this.canvas);
+  };
+
+  drawInnerArea() {
+    let isInnerAreaCreated = false;
+
+    for(let i in this.canvas.getObjects()) {
+      if(this.canvas.getObjects()[i].type === 'innerArea') {
+        isInnerAreaCreated = true;
+      }
+    }
+
+    if(!isInnerAreaCreated) {
+      this.canvas.add(new fabric.Rect({
+        width: this.canvas.width - 60,
+        height: this.canvas.height - 60,
+        left: 30,
+        top: 30,
+        fill: 'rgba(0,0,0,0)',
+        strokeWidth: 1,
+        stroke: '#000',
+        selectable: false,
+        type: 'innerArea'
+      }));
+    }
+
+    for(let i in this.canvas.getObjects()) {
+      if(this.canvas.getObjects()[i].type === 'innerArea') {
+        this.canvas.moveTo(this.canvas.getObjects()[i], this.canvas.getObjects().length - 1);
+      }
+    }
+  };
+
   initialConfig() {
     if(localStorage.getItem('config') === null) {
-      localStorage.setItem('config', JSON.stringify(config));
+      localStorage.setItem('config', JSON.stringify(CONFIG));
     }
 
     return JSON.parse(localStorage.getItem('config'));
@@ -32,6 +64,7 @@ class Main {
   saveConfig(config) {
     this.config = {
       ...this.config,
+      ...config,
       background: {
         ...this.config.background,
         ...config.background
@@ -40,138 +73,7 @@ class Main {
   };
 
   resetConfig() {
-    this.config = config;
-  };
-
-  disableImageControlls(img) {
-    img.set({ hasRotatingPoint: false });
-    img.setControlsVisibility({
-      ml: false,
-      mt: false,
-      mr: false,
-      mb: false,
-      mtr: false
-    });
-  };
-
-  init() {
-    this.canvas = new fabric.Canvas('canvas');
-
-    this.canvas.setWidth(sizes[this.config.size].width * MM_TO_PX);
-    this.canvas.setHeight(sizes[this.config.size].height * MM_TO_PX);
-
-    this.canvas.on('mouse:up', e => {
-      if(e.target !== null && this.canvas.getActiveObject() && this.canvas.getActiveObject().get('type') === 'image') {
-        this.saveConfig({
-          background: {
-            scale: {
-              x: e.target.scaleX,
-              y: e.target.scaleY
-            },
-            position: {
-              left: e.target.aCoords.tl.x,
-              top: e.target.aCoords.tl.y
-            }
-          }
-        });
-      }
-    });
-
-    if(this.config.background !== null) {
-      fabric.Image.fromURL(this.config.background.base64, img => {
-        this.canvas.add(img);
-
-        this.disableImageControlls(img);
-        img.scaleToWidth(this.canvas.width);
-        img.set({
-          left: this.config.background.position.left,
-          top: this.config.background.position.top,
-          scaleX: this.config.background.scale.x,
-          scaleY: this.config.background.scale.y
-        });
-
-        document.getElementById('upload-wrapper').classList.add('hidden');
-      });
-    }
-
-    return this;
-  };
-
-  upload() {
-    document.getElementById('upload').onchange = e => {
-      let file = e.target.files[0];
-      let reader = new FileReader();
-
-      if(this.canvas.getObjects().length === 0) {
-        reader.onload = f => {
-          let data = f.target.result;
-
-          fabric.Image.fromURL(data, img => {
-            this.canvas.add(img);
-
-            this.disableImageControlls(img);
-            img.scaleToWidth(this.canvas.width * 0.9);
-            img.center();
-
-            this.saveConfig({
-              background: {
-                base64: data,
-                scale: {
-                  x: img.scaleX,
-                  y: img.scaleY
-                },
-                position: {
-                  left: img.aCoords.tl.x,
-                  top: img.aCoords.tl.y
-                }
-              }
-            });
-
-            document.getElementById('upload-wrapper').classList.add('hidden');
-          });
-        };
-
-        reader.readAsDataURL(file);
-      }
-    };
-
-    return this;
-  };
-
-  reset() {
-    document.getElementById('reset').onclick = e => {
-      e.preventDefault();
-
-      this.resetConfig();
-      this.canvas.clear();
-
-      localStorage.setItem('config', JSON.stringify(config));
-
-      document.getElementById('upload-wrapper').classList.remove('hidden');
-
-      alert('Canvas is reseted');
-    };
-
-    return this;
-  };
-
-  save() {
-    document.getElementById('save').onclick = e => {
-      e.preventDefault();
-
-      localStorage.setItem('config', JSON.stringify(this.config));
-
-      alert('Canvas is saved');
-    };
-
-    return this;
-  };
-
-  download() {
-    document.getElementById('download').onclick = e => {
-      const image = this.canvas.toDataURL();
-      e.target.href = image;
-    };
+    this.config = CONFIG;
   };
 };
 
