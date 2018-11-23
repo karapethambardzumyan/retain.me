@@ -94,6 +94,46 @@ class Controll {
   };
 
   preview() {
+    document.getElementById('preview').onclick = e => {
+      e.preventDefault();
+
+      const innerCanvas = {
+        width: main.canvas.width * 0.8,
+        height: main.canvas.height * 0.8
+      };
+
+      const outerCanvas = {
+        width: main.canvas.width,
+        height: main.canvas.height
+      };
+
+      const offset = {
+        left: (outerCanvas.width - innerCanvas.width) / 2,
+        top: (outerCanvas.height - innerCanvas.height) / 2
+      };
+
+      const base64 = main.canvas.toDataURL({
+        top: offset.top + 1,
+        left: offset.left + 1,
+        width: innerCanvas.width - 1,
+        height: innerCanvas.height - 1
+      });
+
+      const img = document.createElement('img');
+
+      img.setAttribute('src', base64);
+
+      document.getElementById('preview-view').appendChild(img);
+      document.getElementById('preview-view').classList.remove('hidden');
+    };
+
+    document.getElementById('preview-view').onclick = e => {
+      if(e.target.nodeName !== 'IMG') {
+        e.target.classList.add('hidden');
+        e.target.innerHtml = '';
+      }
+    };
+
     return this;
   };
 

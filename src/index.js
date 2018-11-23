@@ -30,6 +30,7 @@ main.init(canvas => {
     .reset()
     .preview()
     .download()
+    .preview()
     .size()
     .textAlign()
     .textColor()
