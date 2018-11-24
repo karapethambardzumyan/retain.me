@@ -45,9 +45,12 @@ main.init(canvas => {
       if(activeObject.top - offset.top < 14 && activeObject.top > offset.top) {
         activeObject.top = offset.top;
       }
-
-      // calculate right
-      console.log(activeObject);
+      if(offset.left + innerCanvas.width - activeObject.width * activeObject.scaleX - activeObject.left < 14 && activeObject.left < offset.left + innerCanvas.width - activeObject.width * activeObject.scaleX) {
+        activeObject.left = offset.left + innerCanvas.width - activeObject.width * activeObject.scaleX;
+      }
+      if(offset.top + innerCanvas.height - activeObject.height * activeObject.scaleY - activeObject.top < 14 && activeObject.top < offset.top + innerCanvas.height - activeObject.height * activeObject.scaleY) {
+        activeObject.top = offset.top + innerCanvas.height - activeObject.height * activeObject.scaleY;
+      }
     }
   });
 
