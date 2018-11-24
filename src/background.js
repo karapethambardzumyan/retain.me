@@ -8,6 +8,9 @@ class Background {
   add(base64, cb) {
     if(base64 && !main.config.background.base64) {
       fabric.Image.fromURL(base64, img => {
+        const canvasRatio = main.canvas.width / main.canvas.height;
+        const imgRatio = img.width / img.height;
+
         img.setControlsVisibility({
           ml: false,
           mt: false,
@@ -15,7 +18,13 @@ class Background {
           mb: false,
           mtr: false
         });
-        img.scaleToWidth(main.canvas.width * 0.8);
+
+        if(canvasRatio > imgRatio) {
+          img.scaleToHeight(main.canvas.height * 0.8);
+        } else {
+          img.scaleToWidth(main.canvas.width * 0.8);
+        }
+
         main.canvas.add(img);
         main.canvas.setActiveObject(img);
         img.center();
@@ -42,6 +51,9 @@ class Background {
 
     if(!base64 && main.config.background.base64) {
       fabric.Image.fromURL(main.config.background.base64, img => {
+        const canvasRatio = main.canvas.width / main.canvas.height;
+        const imgRatio = img.width / img.height;
+        
         img.setControlsVisibility({
           ml: false,
           mt: false,
@@ -49,7 +61,13 @@ class Background {
           mb: false,
           mtr: false
         });
-        img.scaleToWidth(main.canvas.width * 0.8);
+
+        if(canvasRatio > imgRatio) {
+          img.scaleToHeight(main.canvas.height * 0.8);
+        } else {
+          img.scaleToWidth(main.canvas.width * 0.8);
+        }
+
         img.set({
           hasRotatingPoint: false,
           left: main.config.background.position.left,
