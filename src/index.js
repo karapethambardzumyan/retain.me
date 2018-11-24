@@ -20,6 +20,37 @@ main.init(canvas => {
     }
   });
 
+  canvas.on('object:moving', e => {
+    if(e.target !== null && canvas.getActiveObject() && canvas.getActiveObject().get('type') === 'image') {
+      const innerCanvas = {
+        width: main.canvas.width * 0.8,
+        height: main.canvas.height * 0.8
+      };
+
+      const outerCanvas = {
+        width: main.canvas.width,
+        height: main.canvas.height
+      };
+
+      const offset = {
+        left: (outerCanvas.width - innerCanvas.width) / 2,
+        top: (outerCanvas.height - innerCanvas.height) / 2
+      };
+
+      const activeObject = main.canvas.getActiveObject();
+
+      if(activeObject.left - offset.left < 14 && activeObject.left > offset.left) {
+        activeObject.left = offset.left;
+      }
+      if(activeObject.top - offset.top < 14 && activeObject.top > offset.top) {
+        activeObject.top = offset.top;
+      }
+
+      // calculate right
+      console.log(activeObject);
+    }
+  });
+
   background.add(null, () => {
     main.drawInnerArea();
   });
