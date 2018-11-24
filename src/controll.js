@@ -1,7 +1,7 @@
 import main from './main';
 import background from './background';
 
-import { SIZES, MM_TO_PX } from './constants';
+import { CONFIG, SIZES, MM_TO_PX } from './constants';
 
 class Controll {
   constructor() {
@@ -10,23 +10,34 @@ class Controll {
 
   upload() {
     document.getElementById('upload').onchange = e => {
-      if(main.canvas.getObjects().length === 4) {
+      if(main.canvas.getObjects().length >= 4) {
         let file = e.target.files[0];
         let reader = new FileReader();
 
         reader.onload = f => {
-          let data = f.target.result;
+          let base64 = f.target.result;
 
-          background.add(data, () => {
+          background.add(base64, () => {
             main.drawInnerArea();
           });
         };
 
-        reader.onerror = err => {
-          console.log(err);
-        };
-
         reader.readAsDataURL(file);
+      }
+    };
+
+    return this;
+  };
+
+  remove() {
+    document.getElementById('remove').onclick = e => {
+      e.preventDefault();
+
+      if(main.canvas.getActiveObject()) {
+        main.canvas.remove(main.canvas.getActiveObject());
+        main.saveConfig({
+          background: CONFIG.background
+        });
       }
     };
 
@@ -53,8 +64,6 @@ class Controll {
       main.canvas.clear();
 
       localStorage.setItem('config', JSON.stringify(main.config));
-
-      document.getElementById('upload-wrapper').classList.remove('hidden');
 
       main.drawInnerArea();
 

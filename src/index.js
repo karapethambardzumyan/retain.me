@@ -26,6 +26,7 @@ main.init(canvas => {
 
   controll
     .upload()
+    .remove()
     .save()
     .reset()
     .preview()

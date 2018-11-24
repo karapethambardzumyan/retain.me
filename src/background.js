@@ -6,7 +6,15 @@ class Background {
   };
 
   add(base64, cb) {
-    if(base64 && !main.config.background.base64) {
+    const objects = main.canvas.getObjects();
+
+    for(let i in objects) {
+      if(objects[i].get('type') === 'image') {
+        main.canvas.remove(objects[i]);
+      }
+    }
+
+    if(base64) {
       fabric.Image.fromURL(base64, img => {
         const canvasRatio = main.canvas.width / main.canvas.height;
         const imgRatio = img.width / img.height;
@@ -43,8 +51,6 @@ class Background {
           }
         });
 
-        document.getElementById('upload-wrapper').classList.add('hidden');
-
         return cb();
       });
     }
@@ -53,7 +59,7 @@ class Background {
       fabric.Image.fromURL(main.config.background.base64, img => {
         const canvasRatio = main.canvas.width / main.canvas.height;
         const imgRatio = img.width / img.height;
-        
+
         img.setControlsVisibility({
           ml: false,
           mt: false,
@@ -77,8 +83,6 @@ class Background {
         });
         main.canvas.add(img);
         main.canvas.setActiveObject(img);
-
-        document.getElementById('upload-wrapper').classList.add('hidden');
 
         return cb();
       });

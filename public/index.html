@@ -13,6 +13,11 @@
 
     <div class="toolbar">
       <ul class="controll">
+        <li class="upload">
+          <input type="file" id="upload">
+          <a class="btn" href="#">Upload</a>
+        </li>
+        <li><a class="btn" href="#" id="remove">Remove</a></li>
         <li><a class="btn" href="#" id="save">Save</a></li>
         <li><a class="btn" href="#" id="reset">Reset</a></li>
         <li><a class="btn" href="#" id="download" download="example.png">Download</a></li>
@@ -36,14 +41,10 @@
       </select>
     </div>
 
-    <div class="upload" id="upload-wrapper">
-      <input type="file" id="upload">
-      <a href="#">Upload</a>
-    </div>
-
     <div class="preview hidden" id="preview-view"></div>
 
     <canvas id="canvas"></canvas>
+
   </div>
 
   <script src="./bundle.js"></script>

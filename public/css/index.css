@@ -52,7 +52,7 @@ ul.controll, ul.textbar {
 
 ul.controll li, ul.textbar li {
   display: flex;
-  padding: 0 6px;
+  margin: 0 6px;
 }
 
 .btn:hover {
@@ -61,53 +61,23 @@ ul.controll li, ul.textbar li {
 }
 
 .upload {
-  background: #61a6dc;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1;
-  width: 200px;
-  height: 32px;
-  border-radius: 10px;
-  padding: 10px;
-  text-align: center;
-  transition: 0.3s;
-  border: 1px solid #fff;
+  position: relative;
+  overflow: hidden;
 }
 
 .upload input {
-  opacity: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
   position: absolute;
   top: 0;
   left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
   cursor: pointer;
 }
 
-.upload a {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: #fff;
-  text-transform: uppercase;
-  text-decoration: none;
-  font-family: Arial;
-  font-size: 30px;
-  transition: 0.3s;
-}
-
-.upload:hover {
-  border: 1px solid #6a9bd9;
-  background: #fff;
-  box-shadow: 0 0 23px -5px #a0a0a0;
-}
-
 .upload:hover a {
-  color: #6a9bd9;
+  color: #61a6dc;
+  background: #fff;
 }
 
 .preview {
