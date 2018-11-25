@@ -105,7 +105,7 @@ main.init(canvas => {
         attrs.scaleY = (snap.bottom - e.target.top) / e.target.height;
         attrs.scaleX = (attrs.scaleY / e.target.scaleY) * e.target.scaleX;
        }
-       
+
        break;
       default:
         break;
@@ -154,6 +154,7 @@ main.init(canvas => {
 
   controll
     .upload()
+    .addText()
     .remove()
     .save()
     .reset()

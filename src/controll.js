@@ -29,6 +29,16 @@ class Controll {
     return this;
   };
 
+  addText() {
+    document.getElementById('add-text').onclick = e => {
+      e.preventDefault();
+
+      console.log('add text');
+    };
+
+    return this;
+  };
+
   remove() {
     document.getElementById('remove').onclick = e => {
       e.preventDefault();
