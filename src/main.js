@@ -7,7 +7,7 @@ class Main {
     this.config = this.initialConfig();
     this.canvas = null;
   };
-
+  
   init(cb) {
     this.canvas = new fabric.Canvas('canvas', { preserveObjectStacking: true });
     this.canvas.setWidth(SIZES[this.config.size].width * 1.2 * MM_TO_PX);
