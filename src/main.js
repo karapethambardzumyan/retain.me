@@ -1,24 +1,33 @@
+import FontFaceObserver from 'fontfaceobserver';
 import { fabric } from 'fabric';
 
-import { CONFIG, SIZES, MM_TO_PX } from './constants';
+import { FONTS, CONFIG, SIZES, MM_TO_PX } from './constants';
 
 class Main {
   constructor() {
     this.config = this.initialConfig();
     this.canvas = null;
   };
-  
+
   init(cb) {
-    this.canvas = new fabric.Canvas('canvas', { preserveObjectStacking: true });
-    this.canvas.setWidth(SIZES[this.config.size].width * 1.2 * MM_TO_PX);
-    this.canvas.setHeight(SIZES[this.config.size].height * 1.2 * MM_TO_PX);
-    this.canvas.selection = false;
+    const fonts = [];
 
-    document.getElementById('size').selectedIndex = this.config.size;
+    for(let i in FONTS) {
+      fonts.push(new FontFaceObserver(FONTS[i]).load());
+    }
 
-    this.drawInnerArea();
+    Promise.all(fonts).then(res => {
+      this.canvas = new fabric.Canvas('canvas', { preserveObjectStacking: true });
+      this.canvas.setWidth(SIZES[this.config.size].width * 1.2 * MM_TO_PX);
+      this.canvas.setHeight(SIZES[this.config.size].height * 1.2 * MM_TO_PX);
+      this.canvas.selection = false;
 
-    return cb(this.canvas);
+      document.getElementById('size').selectedIndex = this.config.size;
+
+      this.drawInnerArea();
+
+      return cb(this.canvas);
+    });
   };
 
   drawInnerArea(sizeChanged) {

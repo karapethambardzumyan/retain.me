@@ -1,6 +1,7 @@
 import main from './main';
 import controll from './controll';
 import background from './background';
+import text from './text';
 
 main.init(canvas => {
   canvas.on('mouse:up', e => {
@@ -19,6 +20,15 @@ main.init(canvas => {
       });
     }
   });
+
+  canvas.on('object:modified', e => {
+    let texts = canvas.getObjects();
+
+    texts = texts.filter(item => item.get('type') === 'text');
+
+    main.saveConfig({ texts });
+  });
+
 
   canvas.on('object:scaling', e => {
     if(e.target !== null && canvas.getActiveObject() && canvas.getActiveObject().get('type') === 'image') {
@@ -153,6 +163,8 @@ main.init(canvas => {
   background.add(null, () => {
     main.drawInnerArea();
   });
+
+  text.addAll();
 
   controll
     .upload()

@@ -19,7 +19,8 @@ export const CONFIG = {
       y: null
     }
   },
-  size: 0
+  size: 0,
+  texts: []
 };
 
 export const FONTS = [

@@ -1,9 +1,8 @@
-import FontFaceObserver from 'fontfaceobserver';
 import main from './main';
 import background from './background';
 import text from './text';
 
-import { FONTS, CONFIG, SIZES, MM_TO_PX } from './constants';
+import { CONFIG, SIZES, MM_TO_PX } from './constants';
 
 class Controll {
   constructor() {
@@ -164,23 +163,15 @@ class Controll {
   };
 
   addText() {
-    const fonts = [];
+    document.getElementById('add-text').onclick = e => {
+      e.preventDefault();
 
-    for(let i in FONTS) {
-      fonts.push(new FontFaceObserver(FONTS[i]).load());
-    }
+      const textValue = document.getElementById('text').value || 'Empty text';
 
-    Promise.all(fonts).then(res => {
-      document.getElementById('add-text').onclick = e => {
-        e.preventDefault();
+      text.add(textValue);
 
-        const textValue = document.getElementById('text').value || 'Empty text';
-
-        text.add(textValue);
-
-        document.getElementById('text').value = '';
-      };
-    });
+      document.getElementById('text').value = '';
+    };
 
     return this;
   };
