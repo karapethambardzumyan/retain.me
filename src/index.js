@@ -20,48 +20,33 @@ main.init(canvas => {
     }
   });
 
-  canvas.on('object:scaling', options => {
-    const innerCanvas = {
-      width: main.canvas.width * 0.8,
-      height: main.canvas.height * 0.8
-    };
-    const outerCanvas = {
-      width: main.canvas.width,
-      height: main.canvas.height
-    };
-    const offset = {
-      left: (outerCanvas.width - innerCanvas.width) / 2,
-      top: (outerCanvas.height - innerCanvas.height) / 2
-    };
-
-    let target = options.target;
-    let grid = 50;
-    let w = target.getScaledWidth();
-    let h = target.getScaledHeight();
+  canvas.on('object:scaling', e => {
+    let threshold = 50;
+    let w = e.target.getScaledWidth();
+    let h = e.target.getScaledHeight();
     let snap = {
-       top: Math.round(target.top / grid) * grid,
-       left: Math.round(target.left / grid) * grid,
-       bottom: Math.round((target.top + h) / grid) * grid,
-       right: Math.round((target.left + w) / grid) * grid
+       top: Math.round(e.target.top / threshold) * threshold,
+       left: Math.round(e.target.left / threshold) * threshold,
+       bottom: Math.round((e.target.top + h) / threshold) * threshold,
+       right: Math.round((e.target.left + w) / threshold) * threshold
     };
-    let threshold = grid;
     let dist = {
-      top: Math.abs(snap.top - target.top),
-      left: Math.abs(snap.left - target.left),
-      bottom: Math.abs(snap.bottom - target.top - h),
-      right: Math.abs(snap.right - target.left - w)
+      top: Math.abs(snap.top - e.target.top),
+      left: Math.abs(snap.left - e.target.left),
+      bottom: Math.abs(snap.bottom - e.target.top - h),
+      right: Math.abs(snap.right - e.target.left - w)
     };
     let attrs = {
-      scaleX: target.scaleX,
-      scaleY: target.scaleY,
-      top: target.top,
-      left: target.left
+      scaleX: e.target.scaleX,
+      scaleY: e.target.scaleY,
+      top: e.target.top,
+      left: e.target.left
     };
 
-    switch(target.__corner) {
+    switch(e.target.__corner) {
       case 'ml':
-        if(target.left - offset.left < 14) {
-          attrs.scaleX = (w - (snap.left - target.left)) / target.width;
+        if(dist.left < threshold) {
+          attrs.scaleX = (w - (snap.left - e.target.left)) / e.target.width;
           attrs.left = snap.left;
         }
         break;
@@ -69,7 +54,7 @@ main.init(canvas => {
         break;
     }
 
-    target.set(attrs);
+    e.target.set(attrs);
   });
 
   canvas.on('object:moving', e => {
