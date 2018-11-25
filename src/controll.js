@@ -1,7 +1,8 @@
+import FontFaceObserver from 'fontfaceobserver';
 import main from './main';
 import background from './background';
 
-import { CONFIG, SIZES, MM_TO_PX } from './constants';
+import { FONTS, CONFIG, SIZES, MM_TO_PX } from './constants';
 
 class Controll {
   constructor() {
@@ -30,11 +31,27 @@ class Controll {
   };
 
   addText() {
-    document.getElementById('add-text').onclick = e => {
-      e.preventDefault();
+    const fonts = [];
 
-      console.log('add text');
-    };
+    for(let i in FONTS) {
+      fonts.push(new FontFaceObserver(FONTS[i]).load());
+    }
+
+    Promise.all(fonts).then(res => {
+      document.getElementById('add-text').onclick = e => {
+        e.preventDefault();
+
+        let text = new fabric.IText("Hello, World!", {
+          fontSize: 70
+        });
+
+        main.canvas.add(text);
+        text.center();
+        main.canvas.setActiveObject(text);
+
+        main.canvas.getActiveObject().set('fontFamily', 'DancingScript-Regular');
+      };
+    });
 
     return this;
   };

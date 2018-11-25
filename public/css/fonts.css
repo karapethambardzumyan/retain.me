@@ -1,0 +1,39 @@
+@font-face {
+  font-family: 'Anton-Regular';
+  src: url('../fonts/Anton-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'DancingScript-Regular';
+  src: url('../fonts/DancingScript-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'IndieFlower';
+  src: url('../fonts/IndieFlower.ttf');
+}
+
+@font-face {
+  font-family: 'JosefinSans-Regular';
+  src: url('../fonts/JosefinSans-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Niramit-Regular';
+  src: url('../fonts/Niramit-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Pacifico-Regular';
+  src: url('../fonts/Pacifico-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Ranga-Regular';
+  src: url('../fonts/Ranga-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'ShadowsIntoLight';
+  src: url('../fonts/ShadowsIntoLight.ttf');
+}

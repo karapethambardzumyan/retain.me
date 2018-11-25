@@ -21,3 +21,13 @@ export const CONFIG = {
   },
   size: 0
 };
+
+export const FONTS = [
+  'DancingScript-Regular',
+  'IndieFlower',
+  'JosefinSans-Regular',
+  'Niramit-Regular',
+  'Pacifico-Regular',
+  'Ranga-Regular',
+  'ShadowsIntoLight'
+];
