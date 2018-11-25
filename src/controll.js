@@ -46,7 +46,6 @@ class Controll {
         });
 
         main.canvas.add(text);
-        text.center();
         main.canvas.setActiveObject(text);
 
         main.canvas.getActiveObject().set('fontFamily', 'DancingScript-Regular');
