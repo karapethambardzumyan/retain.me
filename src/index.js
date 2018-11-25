@@ -21,14 +21,29 @@ main.init(canvas => {
   });
 
   canvas.on('object:scaling', e => {
-    let threshold = 50;
+    const innerCanvas = {
+      width: main.canvas.width * 0.8,
+      height: main.canvas.height * 0.8
+    };
+
+    const outerCanvas = {
+      width: main.canvas.width,
+      height: main.canvas.height
+    };
+
+    const offset = {
+      left: (outerCanvas.width - innerCanvas.width) / 2,
+      top: (outerCanvas.height - innerCanvas.height) / 2
+    };
+
+    let threshold = 14;
     let w = e.target.getScaledWidth();
     let h = e.target.getScaledHeight();
     let snap = {
-       top: Math.round(e.target.top / threshold) * threshold,
-       left: Math.round(e.target.left / threshold) * threshold,
-       bottom: Math.round((e.target.top + h) / threshold) * threshold,
-       right: Math.round((e.target.left + w) / threshold) * threshold
+       top: offset.top,
+       left: offset.left,
+       bottom: offset.top + innerCanvas.height,
+       right: offset.left + innerCanvas.width
     };
     let dist = {
       top: Math.abs(snap.top - e.target.top),
@@ -44,12 +59,54 @@ main.init(canvas => {
     };
 
     switch(e.target.__corner) {
-      case 'ml':
-        if(dist.left < threshold) {
+      case 'tl':
+        if(dist.left < dist.top && dist.left < threshold) {
           attrs.scaleX = (w - (snap.left - e.target.left)) / e.target.width;
+          attrs.scaleY = (attrs.scaleX / e.target.scaleX) * e.target.scaleY;
+          attrs.top = e.target.top + (h - e.target.height * attrs.scaleY);
           attrs.left = snap.left;
+        } else if (dist.top < threshold) {
+          attrs.scaleY = (h - (snap.top - e.target.top)) / e.target.height;
+          attrs.scaleX = (attrs.scaleY / e.target.scaleY) * e.target.scaleX;
+          attrs.left = attrs.left + (w - e.target.width * attrs.scaleX);
+          attrs.top = snap.top;
         }
+
         break;
+      case 'tr':
+         if(dist.right < dist.top && dist.right < threshold) {
+          attrs.scaleX = (snap.right - e.target.left) / e.target.width;
+          attrs.scaleY = (attrs.scaleX / e.target.scaleX) * e.target.scaleY;
+          attrs.top = e.target.top + (h - e.target.height * attrs.scaleY);
+         } else if (dist.top < threshold) {
+          attrs.scaleY = (h - (snap.top - e.target.top)) / e.target.height;
+          attrs.scaleX = (attrs.scaleY / e.target.scaleY) * e.target.scaleX;
+          attrs.top = snap.top;
+         }
+
+         break;
+       case 'bl':
+        if(dist.left < dist.bottom && dist.left < threshold) {
+         attrs.scaleX = (w - (snap.left - e.target.left)) / e.target.width;
+         attrs.scaleY = (attrs.scaleX / e.target.scaleX) * e.target.scaleY;
+         attrs.left = snap.left;
+        } else if (dist.bottom < threshold) {
+         attrs.scaleY = (snap.bottom - e.target.top) / e.target.height;
+         attrs.scaleX = (attrs.scaleY / e.target.scaleY) * e.target.scaleX;
+         attrs.left = attrs.left + (w - e.target.width * attrs.scaleX);
+        }
+
+        break;
+      case 'br':
+       if(dist.right < dist.bottom && dist.right < threshold) {
+        attrs.scaleX = (snap.right - e.target.left) / e.target.width;
+        attrs.scaleY = (attrs.scaleX / e.target.scaleX) * e.target.scaleY;
+       } else if (dist.bottom < threshold) {
+        attrs.scaleY = (snap.bottom - e.target.top) / e.target.height;
+        attrs.scaleX = (attrs.scaleY / e.target.scaleY) * e.target.scaleX;
+       }
+       
+       break;
       default:
         break;
     }

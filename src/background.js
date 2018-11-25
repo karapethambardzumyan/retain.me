@@ -60,13 +60,13 @@ class Background {
         const canvasRatio = main.canvas.width / main.canvas.height;
         const imgRatio = img.width / img.height;
 
-        // img.setControlsVisibility({
-        //   ml: false,
-        //   mt: false,
-        //   mr: false,
-        //   mb: false,
-        //   mtr: false
-        // });
+        img.setControlsVisibility({
+          ml: false,
+          mt: false,
+          mr: false,
+          mb: false,
+          mtr: false
+        });
 
         if(canvasRatio > imgRatio) {
           img.scaleToHeight(main.canvas.height * 0.8);
