@@ -1,6 +1,7 @@
 import FontFaceObserver from 'fontfaceobserver';
 import main from './main';
 import background from './background';
+import text from './text';
 
 import { FONTS, CONFIG, SIZES, MM_TO_PX } from './constants';
 
@@ -26,31 +27,6 @@ class Controll {
         reader.readAsDataURL(file);
       }
     };
-
-    return this;
-  };
-
-  addText() {
-    const fonts = [];
-
-    for(let i in FONTS) {
-      fonts.push(new FontFaceObserver(FONTS[i]).load());
-    }
-
-    Promise.all(fonts).then(res => {
-      document.getElementById('add-text').onclick = e => {
-        e.preventDefault();
-
-        let text = new fabric.IText("Hello, World!", {
-          fontSize: 70
-        });
-
-        main.canvas.add(text);
-        main.canvas.setActiveObject(text);
-
-        main.canvas.getActiveObject().set('fontFamily', 'DancingScript-Regular');
-      };
-    });
 
     return this;
   };
@@ -187,33 +163,59 @@ class Controll {
     return this;
   };
 
-  textAlign() {
-    document.getElementById('text-align').onclick = e => {
+  addText() {
+    const fonts = [];
+
+    for(let i in FONTS) {
+      fonts.push(new FontFaceObserver(FONTS[i]).load());
+    }
+
+    Promise.all(fonts).then(res => {
+      document.getElementById('add-text').onclick = e => {
+        e.preventDefault();
+
+        const textValue = document.getElementById('text').value || 'Empty text';
+
+        text.add(textValue);
+
+        document.getElementById('text').value = '';
+      };
+    });
+
+    return this;
+  };
+
+  setFontSize() {
+    document.getElementById('font-size').onchange = e => {
       e.preventDefault();
+
+      if(main.canvas.getActiveObject() && main.canvas.getActiveObject().get('type') === 'text') {
+        text.setSize(e.target.value);
+      }
     };
 
     return this;
   };
 
-  textColor() {
-    document.getElementById('text-color').onclick = e => {
+  setFontFamily() {
+    document.getElementById('font-family').onchange = e => {
       e.preventDefault();
+
+      if(main.canvas.getActiveObject() && main.canvas.getActiveObject().get('type') === 'text') {
+        text.setFamily(e.target.value);
+      }
     };
 
     return this;
   };
 
-  textSize() {
-    document.getElementById('text-size').onclick = e => {
+  setFontColor() {
+    document.getElementById('font-color').onchange = e => {
       e.preventDefault();
-    };
 
-    return this;
-  };
-
-  textFont() {
-    document.getElementById('text-font').onclick = e => {
-      e.preventDefault();
+      if(main.canvas.getActiveObject() && main.canvas.getActiveObject().get('type') === 'text') {
+        text.setColor(e.target.value);
+      }
     };
 
     return this;

@@ -156,7 +156,6 @@ main.init(canvas => {
 
   controll
     .upload()
-    .addText()
     .remove()
     .save()
     .reset()
@@ -164,8 +163,8 @@ main.init(canvas => {
     .download()
     .preview()
     .size()
-    .textAlign()
-    .textColor()
-    .textSize()
-    .textFont();
+    .addText()
+    .setFontSize()
+    .setFontFamily()
+    .setFontColor();
 });
