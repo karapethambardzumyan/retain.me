@@ -1,25 +1,27 @@
 import main from './main';
 import { TEXT_TOOLBAR } from './constants';
 
+const getLine = (text, selectionStart) => {
+  return text.substr(0, selectionStart).split('\n').length - 1;
+};
+
 class Text {
   constructor() {
 
   };
 
-  parseStyles(selection) {
+  parseStyles(text, start) {
     const activeObject = main.canvas.getActiveObject();
-    let styles = {};
-    let k = 0;
+    const lines = text.split('\n').map(line => line.length);
+    const selectionLine = text.substr(0, start).split('\n').length - 1;
+    const previousIndexesLength = lines.reduce((accumulator, currentValue, index) => index < selectionLine ? accumulator + currentValue : accumulator, 0);
+    const selectionStart = start - previousIndexesLength - selectionLine;
 
-    for(let i in activeObject.styles) {
-      for(let j in activeObject.styles[i]) {
-        styles[k] = activeObject.styles[i][j];
-        k++;
-      }
+
+
+    if(activeObject.styles[selectionLine]) {
+      console.log(activeObject.styles[selectionLine][selectionStart]);
     }
-
-    console.log(styles, activeObject.styles);
-    console.log(styles[selection.end])
   };
 
   openToolbar(target) {

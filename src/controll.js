@@ -258,12 +258,7 @@ class Controll {
 
   setText() {
     document.onselect = e => {
-      const selection = {
-        start: e.target.selectionStart,
-        end: e.target.selectionEnd
-      };
-
-      text.parseStyles(selection);
+      text.parseStyles(e.target.value, e.target.selectionStart);
     }
 
     document.getElementById('text').onkeyup = e => {
