@@ -4,12 +4,12 @@ import background from './background';
 import text from './text';
 
 main.init(canvas => {
-  canvas.on('selection:created', e => {
-    text.openToolbar(e.target);
-  });
-
-  canvas.on('selection:cleared', e => {
-    text.closeToolbar();
+  canvas.on('mouse:down', e => {
+    if(e.target !== null && canvas.getActiveObject() && canvas.getActiveObject().get('type') === 'text') {
+      text.openToolbar(e.target);
+    } else {
+      text.closeToolbar();
+    }
   });
 
   canvas.on('mouse:up', e => {
@@ -189,5 +189,9 @@ main.init(canvas => {
     .download()
     .preview()
     .size()
-    .addText();
+    .addText()
+    .setFontSize()
+    .setFontFamily()
+    .setFontColor()
+    .setText();
 });

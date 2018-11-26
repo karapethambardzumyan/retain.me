@@ -12,6 +12,8 @@ class Text {
 
     textToolbar.style.top = `${ target.top - textToolbar.offsetHeight - 14 }px`;
     textToolbar.style.left = `${ target.left }px`;
+
+    document.getElementById('text').value = target.text;
   };
 
   closeToolbar() {
@@ -72,6 +74,12 @@ class Text {
 
   setColor(color) {
     main.canvas.getActiveObject().setColor(color);
+    main.canvas.renderAll();
+    main.canvas.fire('object:modified', { target: main.canvas.getActiveObject() });
+  };
+
+  setText(textValue) {
+    main.canvas.getActiveObject().set({ text: textValue });
     main.canvas.renderAll();
     main.canvas.fire('object:modified', { target: main.canvas.getActiveObject() });
   };
