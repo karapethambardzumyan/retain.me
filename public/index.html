@@ -41,7 +41,9 @@
 
       <div class="text-toolbar hidden" id="text-toolbar">
         <div class="text-toolbar-header">
+
           <div class="text-family">
+            <label for="font-family">Font family:</label>
             <select id="font-family">
               <option value="DancingScript-Regular">DancingScript-Regular</option>
               <option value="IndieFlower">IndieFlower</option>
@@ -52,12 +54,36 @@
               <option value="ShadowsIntoLight">ShadowsIntoLight</option>
             </select>
           </div>
+
           <div class="text-size">
-            <input type="range" min="7" max="96" id="font-size">
+            <label for="font-size">Font size:</label>
+            <input type="range" min="1" max="100" id="font-size">
+            <span class="font-value" id="font-size-value">50px</span>
           </div>
+
+          <div class="text-weight">
+            <label for="font-weight">Font weight:</label>
+            <select id="font-weight">
+              <option value="normal">Normal</option>
+              <option value="bold">Bold</option>
+            </select>
+          </div>
+
+          <div class="text-align">
+            <label for="font-align">Font align:</label>
+            <select id="font-align">
+              <option value="left">Left</option>
+              <option value="center">Center</option>
+              <option value="right">Right</option>
+            </select>
+          </div>
+
           <div class="text-color">
+            <label for="font-color">Font color:</label>
             <input type="color" id="font-color">
+            <span class="font-value" id="font-color-value">#000000</span>
           </div>
+
         </div>
         <div class="text-toolbar-content">
           <textarea type="text" id="text" placeholder="Enter your text"></textarea>

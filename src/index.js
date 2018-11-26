@@ -190,8 +190,10 @@ main.init(canvas => {
     .preview()
     .size()
     .addText()
-    .setFontSize()
     .setFontFamily()
+    .setFontSize()
+    .setFontWeight()
+    .setFontAlign()
     .setFontColor()
     .setText();
 });

@@ -67,6 +67,17 @@ class Text {
     main.config.texts.push(textObject);
   };
 
+  setFamily(fontFamily, selection) {
+    if(selection.start === selection.end) {
+      main.canvas.getActiveObject().setSelectionStyles({ fontFamily }, 0, selection.end);
+    } else {
+      main.canvas.getActiveObject().setSelectionStyles({ fontFamily }, selection.start, selection.end);
+    }
+    main.canvas.getActiveObject().setCoords();
+    main.canvas.renderAll();
+    main.canvas.fire('object:modified', { target: main.canvas.getActiveObject() });
+  };
+
   setSize(fontSize, selection) {
     if(selection.start === selection.end) {
       main.canvas.getActiveObject().setSelectionStyles({ fontSize }, 0, selection.end);
@@ -78,12 +89,19 @@ class Text {
     main.canvas.fire('object:modified', { target: main.canvas.getActiveObject() });
   };
 
-  setFamily(fontFamily, selection) {
+  setWeight(fontWeight, selection) {
     if(selection.start === selection.end) {
-      main.canvas.getActiveObject().setSelectionStyles({ fontFamily }, 0, selection.end);
+      main.canvas.getActiveObject().setSelectionStyles({ fontWeight }, 0, selection.end);
     } else {
-      main.canvas.getActiveObject().setSelectionStyles({ fontFamily }, selection.start, selection.end);
+      main.canvas.getActiveObject().setSelectionStyles({ fontWeight }, selection.start, selection.end);
     }
+    main.canvas.getActiveObject().setCoords();
+    main.canvas.renderAll();
+    main.canvas.fire('object:modified', { target: main.canvas.getActiveObject() });
+  };
+
+  setAlign(textAlign, selection) {
+    main.canvas.getActiveObject().set({ textAlign });
     main.canvas.getActiveObject().setCoords();
     main.canvas.renderAll();
     main.canvas.fire('object:modified', { target: main.canvas.getActiveObject() });

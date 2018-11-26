@@ -129,13 +129,62 @@ ul.controll li:last-child {
 }
 
 .text-toolbar-header {
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid #ededee;
   box-sizing: border-box;
-  padding: 6px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+}
+
+.text-family,
+.text-size,
+.text-weight,
+.text-align,
+.text-color {
+  width: 100%;
+  padding: 6px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ededee;
+}
+
+.text-color {
+  border: none;
+}
+
+.text-family label,
+.text-size label,
+.text-weight label,
+.text-align label,
+.text-color label {
+  width: 30%;
+  font-family: Arial;
+  font-size: 13px;
+}
+
+.text-family select,
+.text-size input,
+.text-weight input,
+.text-align select,
+.text-color input{
+  width: 50%;
+}
+
+.text-family select,
+.text-align select,
+.text-weight select {
+  width: 70%;
+}
+
+.text-size span,
+.text-color span {
+  width: 20%;
+  text-align: center;
+  font-family: Arial;
+  font-size: 13px;
 }
 
 .text-toolbar-content {

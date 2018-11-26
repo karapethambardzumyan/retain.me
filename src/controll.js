@@ -185,7 +185,39 @@ class Controll {
         end: document.getElementById('text').selectionEnd
       };
 
+      document.getElementById('font-size-value').innerHTML = `${ e.target.value }px`;
+
       text.setSize(e.target.value, selection);
+    };
+
+    return this;
+  };
+
+  setFontWeight() {
+    document.getElementById('font-weight').onchange = e => {
+      e.preventDefault();
+
+      const selection = {
+        start: document.getElementById('text').selectionStart,
+        end: document.getElementById('text').selectionEnd
+      };
+
+      text.setWeight(e.target.value, selection);
+    };
+
+    return this;
+  };
+
+  setFontAlign() {
+    document.getElementById('font-align').onchange = e => {
+      e.preventDefault();
+
+      const selection = {
+        start: document.getElementById('text').selectionStart,
+        end: document.getElementById('text').selectionEnd
+      };
+
+      text.setAlign(e.target.value, selection);
     };
 
     return this;
@@ -215,6 +247,8 @@ class Controll {
         end: document.getElementById('text').selectionEnd
       };
 
+      document.getElementById('font-color-value').innerHTML = `${ e.target.value }`;
+
       text.setColor(e.target.value, selection);
     };
 
@@ -222,8 +256,6 @@ class Controll {
   };
 
   setText() {
-    const rule = /[a-zA-Z0-9]/;
-
     document.getElementById('text').onkeyup = e => {
       text.setText(e.target.value);
     };
