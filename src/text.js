@@ -27,12 +27,15 @@ class Text {
       objects.forEach(o => {
         main.canvas.add(o);
         o.setControlsVisibility({
-          ml: false,
+          tl: false,
+          tr: false,
+          bl: false,
+          br: false,
           mt: false,
-          mr: false,
           mb: false,
           mtr: false
         });
+        o.set({ editable: false });
       });
     });
   };
@@ -41,7 +44,7 @@ class Text {
     let textObject = new fabric.Textbox(text, {
       fontSize: 14,
       fontFamily: 'Arial',
-      // editable: false
+      editable: false
     });
 
     textObject.setControlsVisibility({
@@ -63,20 +66,35 @@ class Text {
     main.config.texts.push(textObject);
   };
 
-  setSize(fontSize) {
-    main.canvas.getActiveObject().set({ fontSize });
+  setSize(fontSize, selection) {
+    if(selection.start === selection.end) {
+      main.canvas.getActiveObject().setSelectionStyles({ fontSize }, 0, selection.end);
+    } else {
+      main.canvas.getActiveObject().setSelectionStyles({ fontSize }, selection.start, selection.end);
+    }
+    main.canvas.getActiveObject().setCoords();
     main.canvas.renderAll();
     main.canvas.fire('object:modified', { target: main.canvas.getActiveObject() });
   };
 
-  setFamily(fontFamily) {
-    main.canvas.getActiveObject().set({ fontFamily });
+  setFamily(fontFamily, selection) {
+    if(selection.start === selection.end) {
+      main.canvas.getActiveObject().setSelectionStyles({ fontFamily }, 0, selection.end);
+    } else {
+      main.canvas.getActiveObject().setSelectionStyles({ fontFamily }, selection.start, selection.end);
+    }
+    main.canvas.getActiveObject().setCoords();
     main.canvas.renderAll();
     main.canvas.fire('object:modified', { target: main.canvas.getActiveObject() });
   };
 
-  setColor(color) {
-    main.canvas.getActiveObject().setColor(color);
+  setColor(color, selection) {
+    if(selection.start === selection.end) {
+      main.canvas.getActiveObject().setSelectionStyles({ fill: color }, 0, selection.end);
+    } else {
+      main.canvas.getActiveObject().setSelectionStyles({ fill: color }, selection.start, selection.end);
+    }
+    main.canvas.getActiveObject().setCoords();
     main.canvas.renderAll();
     main.canvas.fire('object:modified', { target: main.canvas.getActiveObject() });
   };

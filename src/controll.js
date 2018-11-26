@@ -35,12 +35,14 @@ class Controll {
     document.getElementById('remove').onclick = e => {
       e.preventDefault();
 
-      if(main.canvas.getActiveObject()) {
-        main.canvas.remove(main.canvas.getActiveObject());
+      if(main.canvas.getActiveObject() && main.canvas.getActiveObject().get('type') === 'image') {
         text.closeToolbar();
-        main.saveConfig({
-          background: CONFIG.background
-        });
+        main.canvas.remove(main.canvas.getActiveObject());
+        main.saveConfig({ background: CONFIG.background });
+      } else if(main.canvas.getActiveObject() && main.canvas.getActiveObject().get('type') === 'textbox') {
+        text.closeToolbar();
+        main.canvas.remove(main.canvas.getActiveObject());
+        main.saveConfig({ texts: CONFIG.texts });
       }
     };
 
@@ -178,9 +180,12 @@ class Controll {
     document.getElementById('font-size').onchange = e => {
       e.preventDefault();
 
-      if(main.canvas.getActiveObject() && main.canvas.getActiveObject().get('type') === 'text') {
-        text.setSize(e.target.value);
-      }
+      const selection = {
+        start: document.getElementById('text').selectionStart,
+        end: document.getElementById('text').selectionEnd
+      };
+
+      text.setSize(e.target.value, selection);
     };
 
     return this;
@@ -190,9 +195,12 @@ class Controll {
     document.getElementById('font-family').onchange = e => {
       e.preventDefault();
 
-      if(main.canvas.getActiveObject() && main.canvas.getActiveObject().get('type') === 'text') {
-        text.setFamily(e.target.value);
-      }
+      const selection = {
+        start: document.getElementById('text').selectionStart,
+        end: document.getElementById('text').selectionEnd
+      };
+
+      text.setFamily(e.target.value, selection);
     };
 
     return this;
@@ -202,9 +210,12 @@ class Controll {
     document.getElementById('font-color').onchange = e => {
       e.preventDefault();
 
-      if(main.canvas.getActiveObject() && main.canvas.getActiveObject().get('type') === 'text') {
-        text.setColor(e.target.value);
-      }
+      const selection = {
+        start: document.getElementById('text').selectionStart,
+        end: document.getElementById('text').selectionEnd
+      };
+
+      text.setColor(e.target.value, selection);
     };
 
     return this;
@@ -214,9 +225,7 @@ class Controll {
     const rule = /[a-zA-Z0-9]/;
 
     document.getElementById('text').onkeyup = e => {
-      if(main.canvas.getActiveObject() && main.canvas.getActiveObject().get('type') === 'text') {
-        text.setText(e.target.value);
-      }
+      text.setText(e.target.value);
     };
 
     return this;

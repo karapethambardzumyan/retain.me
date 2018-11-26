@@ -5,7 +5,7 @@ import text from './text';
 
 main.init(canvas => {
   canvas.on('mouse:down', e => {
-    if(e.target !== null && canvas.getActiveObject() && canvas.getActiveObject().get('type') === 'text') {
+    if(e.target !== null && canvas.getActiveObject() && canvas.getActiveObject().get('type') === 'textbox') {
       text.openToolbar(e.target);
     } else {
       text.closeToolbar();
@@ -26,7 +26,7 @@ main.init(canvas => {
           }
         }
       });
-    } else if(e.target !== null && canvas.getActiveObject() && canvas.getActiveObject().get('type') === 'text') {
+    } else if(e.target !== null && canvas.getActiveObject() && canvas.getActiveObject().get('type') === 'textbox') {
       text.openToolbar(e.target);
     }
   });
@@ -34,7 +34,7 @@ main.init(canvas => {
   canvas.on('object:modified', e => {
     let texts = canvas.getObjects();
 
-    texts = texts.filter(item => item.get('type') === 'text');
+    texts = texts.filter(item => item.get('type') === 'textbox');
 
     main.saveConfig({ texts });
   });
