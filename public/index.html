@@ -18,6 +18,7 @@
           <input type="file" id="upload">
           <a class="btn" href="#">Upload</a>
         </li>
+        <li><a class="btn" href="#" id="add-text">Add</a></li>
         <li><a class="btn" href="#" id="remove">Remove</a></li>
         <li><a class="btn" href="#" id="save">Save</a></li>
         <li><a class="btn" href="#" id="reset">Reset</a></li>
@@ -35,72 +36,37 @@
       </div>
     </div>
 
-    <div class="preview hidden" id="preview-view"></div>
+    <div class="canvas" id="canvas-wrapper">
+      <canvas id="canvas"></canvas>
 
-    <div class="container">
-
-      <div class="textbar">
-        <div class="add-text">
-          <textarea id="text" placeholder="Enter any text, please"></textarea>
-          <button id="add-text">Add text</button>
+      <div class="text-toolbar hidden" id="text-toolbar">
+        <div class="text-toolbar-header">
+          <div class="text-family">
+            <select id="font-family">
+              <option value="DancingScript-Regular">DancingScript-Regular</option>
+              <option value="IndieFlower">IndieFlower</option>
+              <option value="JosefinSans-Regular">JosefinSans-Regular</option>
+              <option value="Niramit-Regular">Niramit-Regular</option>
+              <option value="Pacifico-Regular">Pacifico-Regular</option>
+              <option value="Ranga-Regular">Ranga-Regular</option>
+              <option value="ShadowsIntoLight">ShadowsIntoLight</option>
+            </select>
+          </div>
+          <div class="text-size">
+            <button id="">-</button>
+            <button id="">+</button>
+          </div>
+          <div class="text-color">
+            <input type="color">
+          </div>
         </div>
-
-        <h2>Options below are experimental</h2>
-        <div class="text-size">
-          <label for="font-size">Font size:</label>
-          <select id="font-size">
-            <option value="23">23</option>
-            <option value="24">24</option>
-            <option value="25">25</option>
-            <option value="26">26</option>
-            <option value="27">27</option>
-            <option value="28">28</option>
-            <option value="29">29</option>
-            <option value="30">30</option>
-            <option value="31">31</option>
-            <option value="32">32</option>
-            <option value="33">33</option>
-            <option value="34">34</option>
-            <option value="35">35</option>
-            <option value="36">36</option>
-            <option value="37">37</option>
-            <option value="38">38</option>
-            <option value="39">39</option>
-            <option value="40">40</option>
-            <option value="41">41</option>
-            <option value="100">100</option>
-          </select>
-        </div>
-
-        <div class="text-family">
-          <label for="font-family">Font family:</label>
-          <select id="font-family">
-            <option value="DancingScript-Regular">DancingScript-Regular</option>
-            <option value="IndieFlower">IndieFlower</option>
-            <option value="JosefinSans-Regular">JosefinSans-Regular</option>
-            <option value="Niramit-Regular">Niramit-Regular</option>
-            <option value="Pacifico-Regular">Pacifico-Regular</option>
-            <option value="Ranga-Regular">Ranga-Regular</option>
-            <option value="ShadowsIntoLight">ShadowsIntoLight</option>
-          </select>
-        </div>
-
-        <div class="text-color">
-          <label for="font-color">Font color:</label>
-          <select id="font-color">
-            <option value="red">Red</option>
-            <option value="blue">Blue</option>
-            <option value="green">Green</option>
-            <option value="orange">Orange</option>
-          </select>
+        <div class="text-toolbar-content">
+          <input type="text" id="text" placeholder="Enter your text">
         </div>
       </div>
-
-      <div class="canvas">
-        <canvas id="canvas"></canvas>
-      </div>
-
     </div>
+
+    <div class="preview hidden" id="preview-view"></div>
 
   </div>
 

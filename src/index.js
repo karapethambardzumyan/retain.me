@@ -4,6 +4,14 @@ import background from './background';
 import text from './text';
 
 main.init(canvas => {
+  canvas.on('selection:created', e => {
+    text.openToolbar(e.target);
+  });
+
+  canvas.on('selection:cleared', e => {
+    text.closeToolbar();
+  });
+
   canvas.on('mouse:up', e => {
     if(e.target !== null && canvas.getActiveObject() && canvas.getActiveObject().get('type') === 'image') {
       main.saveConfig({
@@ -18,6 +26,8 @@ main.init(canvas => {
           }
         }
       });
+    } else if(e.target !== null && canvas.getActiveObject() && canvas.getActiveObject().get('type') === 'text') {
+      text.openToolbar(e.target);
     }
   });
 
@@ -124,6 +134,8 @@ main.init(canvas => {
 
       e.target.set(attrs);
     }
+
+    text.closeToolbar();
   });
 
   canvas.on('object:moving', e => {
@@ -158,6 +170,8 @@ main.init(canvas => {
         activeObject.top = offset.top + innerCanvas.height - activeObject.height * activeObject.scaleY;
       }
     }
+
+    text.closeToolbar();
   });
 
   background.add(null, () => {
@@ -175,8 +189,5 @@ main.init(canvas => {
     .download()
     .preview()
     .size()
-    .addText()
-    .setFontSize()
-    .setFontFamily()
-    .setFontColor();
+    .addText();
 });

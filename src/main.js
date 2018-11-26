@@ -20,6 +20,9 @@ class Main {
       this.canvas = new fabric.Canvas('canvas', { preserveObjectStacking: true });
       this.canvas.setWidth(SIZES[this.config.size].width * 1.2 * MM_TO_PX);
       this.canvas.setHeight(SIZES[this.config.size].height * 1.2 * MM_TO_PX);
+      console.log(document.getElementById('canvas-wrapper'));
+      document.getElementById('canvas-wrapper').style.width = `${ SIZES[this.config.size].width * 1.2 * MM_TO_PX }px`;
+      document.getElementById('canvas-wrapper').style.height = `${ SIZES[this.config.size].height * 1.2 * MM_TO_PX }px`;
       this.canvas.selection = false;
 
       document.getElementById('size').selectedIndex = this.config.size;

@@ -166,11 +166,7 @@ class Controll {
     document.getElementById('add-text').onclick = e => {
       e.preventDefault();
 
-      const textValue = document.getElementById('text').value || 'Empty text';
-
-      text.add(textValue);
-
-      document.getElementById('text').value = '';
+      text.add('Enter your text');
     };
 
     return this;

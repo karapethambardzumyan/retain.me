@@ -5,15 +5,26 @@ class Text {
 
   };
 
+  openToolbar(target) {
+    const textToolbar = document.getElementById('text-toolbar');
+
+    textToolbar.classList.remove('hidden');
+
+    textToolbar.style.top = `${ target.top - textToolbar.offsetHeight - 14 }px`;
+    textToolbar.style.left = `${ target.left }px`;
+  };
+
+  closeToolbar() {
+    const textToolbar = document.getElementById('text-toolbar');
+
+    textToolbar.classList.add('hidden');
+  };
+
   addAll() {
     fabric.util.enlivenObjects(main.config.texts, function(objects) {
       objects.forEach(o => {
         main.canvas.add(o);
         o.setControlsVisibility({
-          tl: false,
-          tr: false,
-          bl: false,
-          br: false,
           ml: false,
           mt: false,
           mr: false,
@@ -31,10 +42,6 @@ class Text {
     });
 
     textObject.setControlsVisibility({
-      tl: false,
-      tr: false,
-      bl: false,
-      br: false,
       ml: false,
       mt: false,
       mr: false,
@@ -45,6 +52,8 @@ class Text {
     main.canvas.add(textObject);
     main.canvas.setActiveObject(textObject);
     textObject.center();
+
+    this.openToolbar(textObject);
 
     main.config.texts.push(textObject);
   };
