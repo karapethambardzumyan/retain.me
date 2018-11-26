@@ -19,6 +19,7 @@ class Controll {
           let base64 = f.target.result;
 
           background.add(base64, () => {
+            text.closeToolbar();
             main.drawInnerArea();
           });
         };
