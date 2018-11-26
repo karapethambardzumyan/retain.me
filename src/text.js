@@ -1,10 +1,6 @@
 import main from './main';
 import { TEXT_TOOLBAR } from './constants';
 
-const getLine = (text, selectionStart) => {
-  return text.substr(0, selectionStart).split('\n').length - 1;
-};
-
 class Text {
   constructor() {
 
@@ -16,8 +12,6 @@ class Text {
     const selectionLine = text.substr(0, start).split('\n').length - 1;
     const previousIndexesLength = lines.reduce((accumulator, currentValue, index) => index < selectionLine ? accumulator + currentValue : accumulator, 0);
     const selectionStart = start - previousIndexesLength - selectionLine;
-
-
 
     if(activeObject.styles[selectionLine]) {
       console.log(activeObject.styles[selectionLine][selectionStart]);
