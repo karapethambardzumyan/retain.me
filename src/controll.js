@@ -212,17 +212,7 @@ class Controll {
   setText() {
     const rule = /[a-zA-Z0-9]/;
 
-    document.getElementById('text').onkeydown = e => { // ??? need to implement more flexible typing method
-      e.preventDefault();
-
-      if(e.keyCode === 8) {
-        e.target.value = e.target.value.substring(0, e.target.value.length - 1);
-      } else if(e.keyCode === 32) {
-        e.target.value += ' ';
-      } else if(rule.test(String.fromCharCode(e.keyCode || e.charCode))) {
-        e.target.value += e.key;
-      }
-
+    document.getElementById('text').onkeyup = e => {
       if(main.canvas.getActiveObject() && main.canvas.getActiveObject().get('type') === 'text') {
         text.setText(e.target.value);
       }
