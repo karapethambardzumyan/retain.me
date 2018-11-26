@@ -38,15 +38,18 @@ class Text {
   };
 
   add(text) {
-    let textObject = new fabric.Text(text, {
+    let textObject = new fabric.Textbox(text, {
       fontSize: 14,
-      fontFamily: 'Arial'
+      fontFamily: 'Arial',
+      // editable: false
     });
 
     textObject.setControlsVisibility({
-      ml: false,
+      tl: false,
+      tr: false,
+      bl: false,
+      br: false,
       mt: false,
-      mr: false,
       mb: false,
       mtr: false
     });

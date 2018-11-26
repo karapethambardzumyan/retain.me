@@ -37,6 +37,7 @@ class Controll {
 
       if(main.canvas.getActiveObject()) {
         main.canvas.remove(main.canvas.getActiveObject());
+        text.closeToolbar();
         main.saveConfig({
           background: CONFIG.background
         });
