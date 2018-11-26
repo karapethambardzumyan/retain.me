@@ -44,7 +44,8 @@ class Text {
     let textObject = new fabric.Textbox(text, {
       fontSize: 14,
       fontFamily: 'Arial',
-      editable: false
+      editable: false,
+      width: 400
     });
 
     textObject.setControlsVisibility({
