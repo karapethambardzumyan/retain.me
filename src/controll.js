@@ -256,6 +256,15 @@ class Controll {
   };
 
   setText() {
+    document.onselect = e => {
+      const selection = {
+        start: e.target.selectionStart,
+        end: e.target.selectionEnd
+      };
+
+      console.log(selection);
+    }
+
     document.getElementById('text').onkeyup = e => {
       text.setText(e.target.value);
     };
