@@ -32,3 +32,12 @@ export const FONTS = [
   'Ranga-Regular',
   'ShadowsIntoLight'
 ];
+
+export const TEXT_TOOLBAR = {
+  fontSize: 50,
+  fontFamily: 'Arial',
+  fontWeight: 'normal',
+  fontAlign: 'left',
+  fontColor: '#000000',
+  text: 'Enter your text'
+};

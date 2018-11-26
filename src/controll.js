@@ -133,7 +133,7 @@ class Controll {
         height: innerCanvas.height - 1
       });
 
-      const img = document.createElement('img');
+      const img = document.createElyourement('img');
 
       img.setAttribute('src', base64);
 
@@ -170,6 +170,7 @@ class Controll {
     document.getElementById('add-text').onclick = e => {
       e.preventDefault();
 
+      text.resetToolbar();
       text.add('Enter your text');
     };
 
@@ -262,7 +263,7 @@ class Controll {
         end: e.target.selectionEnd
       };
 
-      console.log(selection);
+      text.parseStyles(selection);
     }
 
     document.getElementById('text').onkeyup = e => {

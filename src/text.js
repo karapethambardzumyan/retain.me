@@ -1,17 +1,35 @@
 import main from './main';
+import { TEXT_TOOLBAR } from './constants';
 
 class Text {
   constructor() {
 
   };
 
+  parseStyles(selection) {
+    const activeObject = main.canvas.getActiveObject();
+    let styles = {};
+    let k = 0;
+
+    for(let i in activeObject.styles) {
+      for(let j in activeObject.styles[i]) {
+        styles[k] = activeObject.styles[i][j];
+        k++;
+      }
+    }
+
+    console.log(styles, activeObject.styles);
+    console.log(styles[selection.end])
+  };
+
   openToolbar(target) {
     const textToolbar = document.getElementById('text-toolbar');
 
-    textToolbar.classList.remove('hidden');
+    this.resetToolbar();
 
+    textToolbar.classList.remove('hidden');
     textToolbar.style.top = `${ target.top - textToolbar.offsetHeight - 14 }px`;
-    textToolbar.style.left = `${ target.left }px`;
+    textToolbar.style.left = `${ target.left + ((main.canvas.getActiveObject().width - textToolbar.offsetWidth) / 2) }px`;
 
     document.getElementById('text').value = target.text;
   };
@@ -20,6 +38,16 @@ class Text {
     const textToolbar = document.getElementById('text-toolbar');
 
     textToolbar.classList.add('hidden');
+  };
+
+  resetToolbar() {
+    document.getElementById('font-family').value = TEXT_TOOLBAR.fontFamily;
+    document.getElementById('font-size').value = TEXT_TOOLBAR.fontSize;
+    document.getElementById('font-weight').value = TEXT_TOOLBAR.fontWeight;
+    document.getElementById('font-align').value = TEXT_TOOLBAR.fontAlign;
+    document.getElementById('font-color').value = TEXT_TOOLBAR.fontColor;
+    document.getElementById('font-size-value').innerHTML = TEXT_TOOLBAR.fontSize;
+    document.getElementById('font-color-value').innerHTML = TEXT_TOOLBAR.fontColor;
   };
 
   addAll() {
@@ -42,8 +70,12 @@ class Text {
 
   add(text) {
     let textObject = new fabric.Textbox(text, {
-      fontSize: 14,
-      fontFamily: 'Arial',
+      fontSize: TEXT_TOOLBAR.fontSize,
+      fontFamily: TEXT_TOOLBAR.fontFamily,
+      fontWeight: TEXT_TOOLBAR.fontWeight,
+      alignText: TEXT_TOOLBAR.fontAlign,
+      fill: TEXT_TOOLBAR.fontColor,
+      text: TEXT_TOOLBAR.text,
       editable: false,
       width: 400
     });
@@ -73,8 +105,8 @@ class Text {
     } else {
       main.canvas.getActiveObject().setSelectionStyles({ fontFamily }, selection.start, selection.end);
     }
-    main.canvas.getActiveObject().setCoords();
     main.canvas.renderAll();
+    main.canvas.getActiveObject().setCoords();
     main.canvas.fire('object:modified', { target: main.canvas.getActiveObject() });
   };
 
@@ -84,8 +116,8 @@ class Text {
     } else {
       main.canvas.getActiveObject().setSelectionStyles({ fontSize }, selection.start, selection.end);
     }
-    main.canvas.getActiveObject().setCoords();
     main.canvas.renderAll();
+    main.canvas.getActiveObject().setCoords();
     main.canvas.fire('object:modified', { target: main.canvas.getActiveObject() });
   };
 
@@ -95,8 +127,8 @@ class Text {
     } else {
       main.canvas.getActiveObject().setSelectionStyles({ fontWeight }, selection.start, selection.end);
     }
-    main.canvas.getActiveObject().setCoords();
     main.canvas.renderAll();
+    main.canvas.getActiveObject().setCoords();
     main.canvas.fire('object:modified', { target: main.canvas.getActiveObject() });
   };
 
@@ -113,8 +145,8 @@ class Text {
     } else {
       main.canvas.getActiveObject().setSelectionStyles({ fill: color }, selection.start, selection.end);
     }
-    main.canvas.getActiveObject().setCoords();
     main.canvas.renderAll();
+    main.canvas.getActiveObject().setCoords();
     main.canvas.fire('object:modified', { target: main.canvas.getActiveObject() });
   };
 
