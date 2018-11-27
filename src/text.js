@@ -14,7 +14,13 @@ class Text {
     const selectionStart = start - previousIndexesLength - selectionLine;
 
     if(activeObject.styles[selectionLine]) {
-      console.log(activeObject.styles[selectionLine][selectionStart]);
+      document.getElementById('font-family').value = activeObject.styles[selectionLine][selectionStart].fontFamily || TEXT_TOOLBAR.fontFamily;
+      document.getElementById('font-size').value = activeObject.styles[selectionLine][selectionStart].fontSize || TEXT_TOOLBAR.fontSize;
+      document.getElementById('font-weight').value = activeObject.styles[selectionLine][selectionStart].fontWeight || TEXT_TOOLBAR.fontWeight;
+      document.getElementById('font-align').value = activeObject.styles[selectionLine][selectionStart].textAlign || TEXT_TOOLBAR.fontAlign;
+      document.getElementById('font-color').value = activeObject.styles[selectionLine][selectionStart].fill || TEXT_TOOLBAR.fontColor;
+      document.getElementById('font-size-value').innerHTML = activeObject.styles[selectionLine][selectionStart].fontSize ? activeObject.styles[selectionLine][selectionStart].fontSize + 'px' : TEXT_TOOLBAR.fontSize + 'px';
+      document.getElementById('font-color-value').innerHTML = activeObject.styles[selectionLine][selectionStart].fill || TEXT_TOOLBAR.fontColor;
     }
   };
 
@@ -22,6 +28,7 @@ class Text {
     const textToolbar = document.getElementById('text-toolbar');
 
     this.resetToolbar();
+    this.parseStyles(target.text, 0);
 
     textToolbar.classList.remove('hidden');
     textToolbar.style.top = `${ target.top - textToolbar.offsetHeight - 14 }px`;
@@ -42,7 +49,7 @@ class Text {
     document.getElementById('font-weight').value = TEXT_TOOLBAR.fontWeight;
     document.getElementById('font-align').value = TEXT_TOOLBAR.fontAlign;
     document.getElementById('font-color').value = TEXT_TOOLBAR.fontColor;
-    document.getElementById('font-size-value').innerHTML = TEXT_TOOLBAR.fontSize;
+    document.getElementById('font-size-value').innerHTML = TEXT_TOOLBAR.fontSize + 'px';
     document.getElementById('font-color-value').innerHTML = TEXT_TOOLBAR.fontColor;
   };
 
