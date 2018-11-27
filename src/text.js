@@ -6,6 +6,16 @@ class Text {
 
   };
 
+  updateToolbar(styles) {
+    document.getElementById('font-family').value = styles.fontFamily || TEXT_TOOLBAR.fontFamily;
+    document.getElementById('font-size').value = styles.fontSize || TEXT_TOOLBAR.fontSize;
+    document.getElementById('font-weight').value = styles.fontWeight || TEXT_TOOLBAR.fontWeight;
+    document.getElementById('font-align').value = styles.alignText || TEXT_TOOLBAR.fontAlign;
+    document.getElementById('font-color').value = styles.fill || TEXT_TOOLBAR.fontColor;
+    document.getElementById('font-size-value').innerHTML = `${ styles.fontSize || TEXT_TOOLBAR.fontSize }px`;
+    document.getElementById('font-color-value').innerHTML = styles.fill || TEXT_TOOLBAR.fontColor;
+  }
+
   openToolbar(target) {
     const textToolbar = document.getElementById('text-toolbar');
 
@@ -14,22 +24,23 @@ class Text {
     textToolbar.classList.remove('hidden');
     textToolbar.style.top = `${ target.top - textToolbar.offsetHeight - 14 }px`;
     textToolbar.style.left = `${ target.left + ((main.canvas.getActiveObject().width - textToolbar.offsetWidth) / 2) }px`;
-
   };
 
   closeToolbar() {
+    console.log(2);
     const textToolbar = document.getElementById('text-toolbar');
 
     textToolbar.classList.add('hidden');
   };
 
   resetToolbar() {
+    console.log(3);
     document.getElementById('font-family').value = TEXT_TOOLBAR.fontFamily;
     document.getElementById('font-size').value = TEXT_TOOLBAR.fontSize;
     document.getElementById('font-weight').value = TEXT_TOOLBAR.fontWeight;
     document.getElementById('font-align').value = TEXT_TOOLBAR.fontAlign;
     document.getElementById('font-color').value = TEXT_TOOLBAR.fontColor;
-    document.getElementById('font-size-value').innerHTML = TEXT_TOOLBAR.fontSize;
+    document.getElementById('font-size-value').innerHTML = `${ TEXT_TOOLBAR.fontSize }px`;
     document.getElementById('font-color-value').innerHTML = TEXT_TOOLBAR.fontColor;
   };
 

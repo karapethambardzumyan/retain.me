@@ -133,7 +133,7 @@ class Controll {
         height: innerCanvas.height - 1
       });
 
-      const img = document.createElyourement('img');
+      const img = document.createElement('img');
 
       img.setAttribute('src', base64);
 
