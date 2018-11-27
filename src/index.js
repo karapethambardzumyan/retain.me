@@ -4,12 +4,12 @@ import background from './background';
 import text from './text';
 
 main.init(canvas => {
-  canvas.on('mouse:down', e => {
-    if(e.target !== null && canvas.getActiveObject() && canvas.getActiveObject().get('type') === 'textbox') {
-      text.openToolbar(e.target);
-    } else {
-      text.closeToolbar();
-    }
+  canvas.on('text:selection:changed', e => {
+    text.updateToolbar(e.target.getSelectionStyles()[0] || e.target.getSelectionStyles(e.target.selectionStart, e.target.text.length)[0] || {});
+  });
+
+  canvas.on('object:selected', e => {
+    text.openToolbar(e.target);
   });
 
   canvas.on('mouse:up', e => {
@@ -26,8 +26,10 @@ main.init(canvas => {
           }
         }
       });
-    } else if(e.target !== null && canvas.getActiveObject() && canvas.getActiveObject().get('type') === 'textbox') {
-      text.openToolbar(e.target);
+    }
+
+    if(e.target === null) {
+      text.closeToolbar();
     }
   });
 
@@ -37,6 +39,8 @@ main.init(canvas => {
     texts = texts.filter(item => item.get('type') === 'textbox');
 
     main.saveConfig({ texts });
+
+    text.openToolbar(e.target);
   });
 
 
@@ -194,6 +198,5 @@ main.init(canvas => {
     .setFontSize()
     .setFontWeight()
     .setFontAlign()
-    .setFontColor()
-    .setText();
+    .setFontColor();
 });
