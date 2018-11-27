@@ -13,16 +13,42 @@ class Text {
     const previousIndexesLength = lines.reduce((accumulator, currentValue, index) => index < selectionLine ? accumulator + currentValue : accumulator, 0);
     const selectionStart = start - previousIndexesLength - selectionLine;
 
+    // console.log(activeObject.styles, selectionLine);
+
     if(activeObject.styles[selectionLine]) {
-      document.getElementById('font-family').value = activeObject.styles[selectionLine][selectionStart].fontFamily || TEXT_TOOLBAR.fontFamily;
-      document.getElementById('font-size').value = activeObject.styles[selectionLine][selectionStart].fontSize || TEXT_TOOLBAR.fontSize;
-      document.getElementById('font-weight').value = activeObject.styles[selectionLine][selectionStart].fontWeight || TEXT_TOOLBAR.fontWeight;
-      document.getElementById('font-align').value = activeObject.styles[selectionLine][selectionStart].textAlign || TEXT_TOOLBAR.fontAlign;
-      document.getElementById('font-color').value = activeObject.styles[selectionLine][selectionStart].fill || TEXT_TOOLBAR.fontColor;
-      document.getElementById('font-size-value').innerHTML = activeObject.styles[selectionLine][selectionStart].fontSize ? activeObject.styles[selectionLine][selectionStart].fontSize + 'px' : TEXT_TOOLBAR.fontSize + 'px';
-      document.getElementById('font-color-value').innerHTML = activeObject.styles[selectionLine][selectionStart].fill || TEXT_TOOLBAR.fontColor;
+      // document.getElementById('font-family').value = activeObject.styles[selectionLine][selectionStart].fontFamily || TEXT_TOOLBAR.fontFamily;
+      // document.getElementById('font-size').value = activeObject.styles[selectionLine][selectionStart].fontSize || TEXT_TOOLBAR.fontSize;
+      // document.getElementById('font-weight').value = activeObject.styles[selectionLine][selectionStart].fontWeight || TEXT_TOOLBAR.fontWeight;
+      // document.getElementById('font-align').value = activeObject.styles[selectionLine][selectionStart].textAlign || TEXT_TOOLBAR.fontAlign;
+      // document.getElementById('font-color').value = activeObject.styles[selectionLine][selectionStart].fill || TEXT_TOOLBAR.fontColor;
+      // document.getElementById('font-size-value').innerHTML = activeObject.styles[selectionLine][selectionStart].fontSize ? activeObject.styles[selectionLine][selectionStart].fontSize + 'px' : TEXT_TOOLBAR.fontSize + 'px';
+      // document.getElementById('font-color-value').innerHTML = activeObject.styles[selectionLine][selectionStart].fill || TEXT_TOOLBAR.fontColor;
     }
   };
+
+  constructNewStyles(textLines, styles) {
+    let obj = {};
+
+    for(let i = 0; i < textLines.length; i++){
+      obj[i] = [];
+      const line = textLines[i];
+      for(let j = 0; j < line.length; j++) {
+        if(styles[i] && styles[i][j]) {
+          obj[i].push({
+            sym: line[j],
+            style: styles[i][j]
+          })
+        } else {
+          obj[i].push({
+            sym: line[j],
+            style: undefined
+          })
+        }
+      }
+    }
+
+    return obj;
+  }
 
   openToolbar(target) {
     const textToolbar = document.getElementById('text-toolbar');
@@ -30,11 +56,20 @@ class Text {
     this.resetToolbar();
     this.parseStyles(target.text, 0);
 
+    // console.log(main.canvas.getActiveObject());
+    const activeEl = main.canvas.getActiveObject();
+    const newStyles = this.constructNewStyles(activeEl.textLines, activeEl.styles);
+    console.log(newStyles, 'newStyles');
+console.log(activeEl);
     textToolbar.classList.remove('hidden');
     textToolbar.style.top = `${ target.top - textToolbar.offsetHeight - 14 }px`;
     textToolbar.style.left = `${ target.left + ((main.canvas.getActiveObject().width - textToolbar.offsetWidth) / 2) }px`;
 
     document.getElementById('text').value = target.text;
+
+    activeEl.on('selection:modifed', e => {
+      console.log(e);
+    });
   };
 
   closeToolbar() {
@@ -66,7 +101,7 @@ class Text {
           mb: false,
           mtr: false
         });
-        o.set({ editable: false });
+        o.set({ editable: true });
       });
     });
   };
@@ -79,7 +114,7 @@ class Text {
       alignText: TEXT_TOOLBAR.fontAlign,
       fill: TEXT_TOOLBAR.fontColor,
       text: TEXT_TOOLBAR.text,
-      editable: false,
+      editable: true,
       width: 400
     });
 

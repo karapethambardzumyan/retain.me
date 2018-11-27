@@ -262,6 +262,7 @@ class Controll {
     }
 
     document.getElementById('text').onkeyup = e => {
+      console.log(e.target.selectionStart);
       text.setText(e.target.value);
     };
 
