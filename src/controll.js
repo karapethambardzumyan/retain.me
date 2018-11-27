@@ -225,24 +225,7 @@ class Controll {
 
       document.getElementById('font-color-value').innerHTML = `${ e.target.value }`;
 
-<<<<<<< HEAD
-      text.setColor(e.target.value, selection);
-    };
-
-    return this;
-  };
-
-  setText() {
-    document.onselect = e => {
-      text.parseStyles(e.target.value, e.target.selectionStart);
-    }
-
-    document.getElementById('text').onkeyup = e => {
-      console.log(e.target.selectionStart);
-      text.setText(e.target.value);
-=======
       text.setColor(e.target.value);
->>>>>>> Styles
     };
 
     return this;
