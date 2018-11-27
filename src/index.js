@@ -5,7 +5,7 @@ import text from './text';
 
 main.init(canvas => {
   canvas.on('text:selection:changed', e => {
-    text.updateToolbar(e.target.getSelectionStyles()[0] || {});
+    text.updateToolbar(e.target.getSelectionStyles()[0] || e.target.getSelectionStyles(e.target.selectionStart, e.target.text.length)[0] || {});
   });
 
   canvas.on('object:selected', e => {

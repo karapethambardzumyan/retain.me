@@ -27,14 +27,12 @@ class Text {
   };
 
   closeToolbar() {
-    console.log(2);
     const textToolbar = document.getElementById('text-toolbar');
 
     textToolbar.classList.add('hidden');
   };
 
   resetToolbar() {
-    console.log(3);
     document.getElementById('font-family').value = TEXT_TOOLBAR.fontFamily;
     document.getElementById('font-size').value = TEXT_TOOLBAR.fontSize;
     document.getElementById('font-weight').value = TEXT_TOOLBAR.fontWeight;
