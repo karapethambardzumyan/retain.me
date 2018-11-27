@@ -1,0 +1,31 @@
+{
+  "name": "retain.me",
+  "version": "1.0.0",
+  "description": "",
+  "main": "webpack.config.js",
+  "scripts": {
+    "start": "webpack-dev-server --mode=development"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karapethambardzumyan/retain.me.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/karapethambardzumyan/retain.me/issues"
+  },
+  "homepage": "https://github.com/karapethambardzumyan/retain.me#readme",
+  "devDependencies": {
+    "@babel/core": "^7.1.6",
+    "@babel/preset-env": "^7.1.6",
+    "babel-loader": "^8.0.4",
+    "webpack": "^4.26.0",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.10"
+  },
+  "dependencies": {
+    "fabric": "^2.4.3",
+    "fontfaceobserver": "^2.0.13"
+  }
+}
