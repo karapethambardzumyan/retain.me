@@ -181,14 +181,9 @@ class Controll {
     document.getElementById('font-size').onchange = e => {
       e.preventDefault();
 
-      const selection = {
-        start: document.getElementById('text').selectionStart,
-        end: document.getElementById('text').selectionEnd
-      };
-
       document.getElementById('font-size-value').innerHTML = `${ e.target.value }px`;
 
-      text.setSize(e.target.value, selection);
+      text.setSize(e.target.value);
     };
 
     return this;
@@ -198,12 +193,7 @@ class Controll {
     document.getElementById('font-weight').onchange = e => {
       e.preventDefault();
 
-      const selection = {
-        start: document.getElementById('text').selectionStart,
-        end: document.getElementById('text').selectionEnd
-      };
-
-      text.setWeight(e.target.value, selection);
+      text.setWeight(e.target.value);
     };
 
     return this;
@@ -213,12 +203,7 @@ class Controll {
     document.getElementById('font-align').onchange = e => {
       e.preventDefault();
 
-      const selection = {
-        start: document.getElementById('text').selectionStart,
-        end: document.getElementById('text').selectionEnd
-      };
-
-      text.setAlign(e.target.value, selection);
+      text.setAlign(e.target.value);
     };
 
     return this;
@@ -228,12 +213,7 @@ class Controll {
     document.getElementById('font-family').onchange = e => {
       e.preventDefault();
 
-      const selection = {
-        start: document.getElementById('text').selectionStart,
-        end: document.getElementById('text').selectionEnd
-      };
-
-      text.setFamily(e.target.value, selection);
+      text.setFamily(e.target.value);
     };
 
     return this;
@@ -243,26 +223,9 @@ class Controll {
     document.getElementById('font-color').onchange = e => {
       e.preventDefault();
 
-      const selection = {
-        start: document.getElementById('text').selectionStart,
-        end: document.getElementById('text').selectionEnd
-      };
-
       document.getElementById('font-color-value').innerHTML = `${ e.target.value }`;
 
-      text.setColor(e.target.value, selection);
-    };
-
-    return this;
-  };
-
-  setText() {
-    document.onselect = e => {
-      text.parseStyles(e.target.value, e.target.selectionStart);
-    }
-
-    document.getElementById('text').onkeyup = e => {
-      text.setText(e.target.value);
+      text.setColor(e.target.value);
     };
 
     return this;
