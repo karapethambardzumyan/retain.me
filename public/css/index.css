@@ -137,6 +137,7 @@ ul.controll li:last-child {
   justify-content: space-between;
 }
 
+.text-template,
 .text-family,
 .text-size,
 .text-weight,
@@ -155,6 +156,7 @@ ul.controll li:last-child {
   border: none;
 }
 
+.text-template label,
 .text-family label,
 .text-size label,
 .text-weight label,
@@ -165,13 +167,13 @@ ul.controll li:last-child {
   font-size: 13px;
 }
 
-.text-family select,
 .text-size input,
 .text-weight input,
 .text-color input{
   width: 50%;
 }
 
+.text-template select,
 .text-family select,
 .text-align select,
 .text-weight select {

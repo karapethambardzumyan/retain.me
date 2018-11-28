@@ -246,6 +246,16 @@ class Controll {
 
     return this;
   };
+
+  addFontTemplate() {
+    document.getElementById('font-template').onchange = e => {
+      e.preventDefault();
+
+      text.addTemplate(e.target.value);
+    };
+
+    return this;
+  };
 };
 
 const controll = new Controll();

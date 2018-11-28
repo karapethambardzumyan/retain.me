@@ -13,6 +13,7 @@ main.init(canvas => {
   });
 
   canvas.on('selection:updated', e => {
+    text.resetToolbar();
     text.openToolbar(e.target);
   });
 
@@ -202,5 +203,6 @@ main.init(canvas => {
     .setFontSize()
     .setFontWeight()
     .setFontAlign()
-    .setFontColor();
+    .setFontColor()
+    .addFontTemplate();
 });

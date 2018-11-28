@@ -26,8 +26,6 @@ class Text {
   openToolbar(target) {
     const textToolbar = document.getElementById('text-toolbar');
 
-    this.resetToolbar();
-
     textToolbar.classList.remove('hidden');
     textToolbar.style.top = `${ target.top - textToolbar.offsetHeight - 14 }px`;
     textToolbar.style.left = `${ target.left + ((main.canvas.getActiveObject().width - textToolbar.offsetWidth) / 2) }px`;
@@ -101,6 +99,13 @@ class Text {
     this.openToolbar(textObject);
 
     main.config.texts.push(textObject);
+  };
+
+  addTemplate(template) {
+    const activeObject = main.canvas.getActiveObject();
+
+    activeObject.insertChars(template, null, 0);
+    main.canvas.renderAll();
   };
 
   setFamily(fontFamily) {
