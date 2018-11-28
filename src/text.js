@@ -35,6 +35,7 @@ class Text {
     document.getElementById('font-weight').value = styles.fontWeight || TEXT_TOOLBAR.fontWeight;
     document.getElementById(`font-align-${ position }`).classList.add('active');
     document.getElementById('font-color').value = styles.fill || TEXT_TOOLBAR.fontColor;
+    document.getElementById('font-color-value').value = styles.fill || TEXT_TOOLBAR.fontColor;
     document.getElementById('font-size-value').innerHTML = `${ styles.fontSize || TEXT_TOOLBAR.fontSize }px`;
     document.getElementById('font-color-value').innerHTML = styles.fill || TEXT_TOOLBAR.fontColor;
   }
