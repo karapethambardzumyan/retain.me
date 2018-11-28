@@ -65,6 +65,7 @@ class Controll {
     document.getElementById('reset').onclick = e => {
       e.preventDefault();
 
+      text.closeToolbar();
       main.resetConfig();
       main.canvas.clear();
 
@@ -200,10 +201,25 @@ class Controll {
   };
 
   setFontAlign() {
-    document.getElementById('font-align').onchange = e => {
-      e.preventDefault();
+    document.getElementById('font-align-left').onclick = e => {
+      document.getElementById('font-align-center').classList.remove('active');
+      document.getElementById('font-align-right').classList.remove('active');
+      e.target.classList.add('active');
+      text.setAlign('left');
+    };
 
-      text.setAlign(e.target.value);
+    document.getElementById('font-align-center').onclick = e => {
+      document.getElementById('font-align-left').classList.remove('active');
+      document.getElementById('font-align-right').classList.remove('active');
+      e.target.classList.add('active');
+      text.setAlign('center');
+    };
+
+    document.getElementById('font-align-right').onclick = e => {
+      document.getElementById('font-align-left').classList.remove('active');
+      document.getElementById('font-align-center').classList.remove('active');
+      e.target.classList.add('active');
+      text.setAlign('right');
     };
 
     return this;

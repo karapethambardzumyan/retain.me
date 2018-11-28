@@ -168,7 +168,6 @@ ul.controll li:last-child {
 .text-family select,
 .text-size input,
 .text-weight input,
-.text-align select,
 .text-color input{
   width: 50%;
 }
@@ -185,4 +184,13 @@ ul.controll li:last-child {
   text-align: center;
   font-family: Arial;
   font-size: 13px;
+}
+
+.text-align i {
+  margin: 0 4px;
+  cursor: pointer;
+}
+
+.text-align i:hover, .text-align i.active {
+  color: #61a6dc;
 }

@@ -9,6 +9,11 @@ main.init(canvas => {
   });
 
   canvas.on('object:selected', e => {
+    console.log(e);
+    text.openToolbar(e.target);
+  });
+
+  canvas.on('selection:updated', e => {
     text.openToolbar(e.target);
   });
 
