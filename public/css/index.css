@@ -142,6 +142,7 @@ ul.controll li:last-child {
 .text-size,
 .text-weight,
 .text-align,
+.text-style,
 .text-color {
   width: 100%;
   padding: 6px;
@@ -161,6 +162,7 @@ ul.controll li:last-child {
 .text-size label,
 .text-weight label,
 .text-align label,
+.text-style label,
 .text-color label {
   width: 30%;
   font-family: Arial;
@@ -169,7 +171,7 @@ ul.controll li:last-child {
 
 .text-size input,
 .text-weight input,
-.text-color input{
+.text-color input {
   width: 50%;
 }
 
@@ -193,6 +195,25 @@ ul.controll li:last-child {
   cursor: pointer;
 }
 
-.text-align i:hover, .text-align i.active {
+.text-align i:hover, .text-align i.active, .text-style i:hover, .text-style i.active {
   color: #61a6dc;
+}
+
+.text-style i {
+  margin: 0 4px;
+  cursor: pointer;
+}
+
+.text-group {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.text-align {
+  width: 75%
+}
+
+.text-style {
+  width: 25%;
 }
