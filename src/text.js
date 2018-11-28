@@ -104,7 +104,7 @@ class Text {
   addTemplate(template) {
     const activeObject = main.canvas.getActiveObject();
 
-    activeObject.insertChars(template, null, 0);
+    activeObject.insertChars(template, null, activeObject.selectionStart);
     main.canvas.renderAll();
   };
 
