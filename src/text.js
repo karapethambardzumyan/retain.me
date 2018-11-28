@@ -1,6 +1,15 @@
 import main from './main';
 import { TEXT_TOOLBAR } from './constants';
 
+function insertAtCursor(input, textToInsert) {
+  const value = input.value;
+  const start = input.selectionStart;
+  const end = input.selectionEnd;
+
+  input.value = value.slice(0, start) + textToInsert + value.slice(end);
+  input.selectionStart = input.selectionEnd = start + textToInsert.length;
+}
+
 class Text {
   constructor() {
 
@@ -104,7 +113,14 @@ class Text {
   addTemplate(template) {
     const activeObject = main.canvas.getActiveObject();
 
-    activeObject.insertChars(template, null, activeObject.selectionStart);
+    activeObject.insertChars(template, null, activeObject.selectionStart, activeObject.selectionStart);
+    main.canvas.renderAll();
+    activeObject.setCoords();
+    insertAtCursor(document.querySelector('textarea[data-fabric-hiddentextarea]'), template);
+
+    activeObject.setSelectionStart(activeObject.selectionStart + template.length);
+    activeObject.setSelectionEnd(activeObject.selectionStart);
+
     main.canvas.renderAll();
   };
 
@@ -114,9 +130,10 @@ class Text {
     } else {
       main.canvas.getActiveObject().setSelectionStyles({ fontFamily });
     }
+
+    main.canvas.fire('object:modified', { target: main.canvas.getActiveObject() });
     main.canvas.renderAll();
     main.canvas.getActiveObject().setCoords();
-    main.canvas.fire('object:modified', { target: main.canvas.getActiveObject() });
   };
 
   setSize(fontSize) {
