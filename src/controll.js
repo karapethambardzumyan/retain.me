@@ -260,9 +260,7 @@ class Controll {
     templateElement.onchange = e => {
       e.preventDefault();
 
-      // console.log(e.target.value,111);
-
-      text.addTemplate(e.target.value);
+      text.addTemplate(e.target.value, e.target);
     };
 
     return this;

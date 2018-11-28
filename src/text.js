@@ -112,14 +112,15 @@ class Text {
     main.config.texts.push(textObject);
   };
 
-  addTemplate(template) {
+  addTemplate(template, target) {
     const activeObject = main.canvas.getActiveObject();
 
     activeObject.insertChars(template, null, activeObject.selectionStart, activeObject.selectionStart);
     main.canvas.renderAll();
     activeObject.setCoords();
 
-    activeObject.initHiddenTextarea();
+    target.blur();
+    document.querySelector('textarea[data-fabric-hiddentextarea]').focus();
     insertAtCursor(document.querySelector('textarea[data-fabric-hiddentextarea]'), template);
 
     activeObject.setSelectionStart(activeObject.selectionStart + template.length);
