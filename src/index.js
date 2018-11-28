@@ -9,7 +9,6 @@ main.init(canvas => {
   });
 
   canvas.on('object:selected', e => {
-    console.log(e);
     text.openToolbar(e.target);
   });
 
@@ -35,6 +34,8 @@ main.init(canvas => {
 
     if(e.target === null) {
       text.closeToolbar();
+    } else if(e.target !== null && canvas.getActiveObject() &&  canvas.getActiveObject().get('type') === 'textbox') {
+      text.openToolbar(e.target);
     }
   });
 
@@ -44,8 +45,6 @@ main.init(canvas => {
     texts = texts.filter(item => item.get('type') === 'textbox');
 
     main.saveConfig({ texts });
-
-    text.openToolbar(e.target);
   });
 
 
