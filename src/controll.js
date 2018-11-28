@@ -2,7 +2,7 @@ import main from './main';
 import background from './background';
 import text from './text';
 
-import { CONFIG, SIZES, MM_TO_PX } from './constants';
+import { TEMPLATES, CONFIG, SIZES, MM_TO_PX } from './constants';
 
 class Controll {
   constructor() {
@@ -248,8 +248,19 @@ class Controll {
   };
 
   addFontTemplate() {
-    document.getElementById('font-template').onchange = e => {
+    const templateElement = document.getElementById('font-template');
+
+    for(let i in TEMPLATES) {
+      const template = document.createElement('option');
+      template.value = TEMPLATES[i].value;
+      template.innerHTML = TEMPLATES[i].text;
+      templateElement.appendChild(template);
+    }
+
+    templateElement.onchange = e => {
       e.preventDefault();
+
+      // console.log(e.target.value,111);
 
       text.addTemplate(e.target.value);
     };

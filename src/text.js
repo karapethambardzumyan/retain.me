@@ -43,6 +43,8 @@ class Text {
   closeToolbar() {
     const textToolbar = document.getElementById('text-toolbar');
 
+    document.getElementById('font-template').setAttribute('disabled', true);
+
     textToolbar.classList.add('hidden');
   };
 
@@ -116,6 +118,8 @@ class Text {
     activeObject.insertChars(template, null, activeObject.selectionStart, activeObject.selectionStart);
     main.canvas.renderAll();
     activeObject.setCoords();
+
+    activeObject.initHiddenTextarea();
     insertAtCursor(document.querySelector('textarea[data-fabric-hiddentextarea]'), template);
 
     activeObject.setSelectionStart(activeObject.selectionStart + template.length);
