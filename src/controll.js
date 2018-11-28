@@ -285,6 +285,8 @@ class Controll {
       e.preventDefault();
 
       text.addTemplate(e.target.value, e.target);
+
+      e.target.value = '';
     };
 
     return this;
