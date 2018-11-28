@@ -205,5 +205,6 @@ main.init(canvas => {
     .setFontWeight()
     .setFontAlign()
     .setFontColor()
+    .setFontUnderline()
     .addFontTemplate();
 });

@@ -247,6 +247,24 @@ class Controll {
     return this;
   };
 
+  setFontUnderline() {
+    document.getElementById('font-underline').onclick = e => {
+      e.preventDefault();
+
+      const underline = !!e.target.classList.contains('active');
+
+      if(underline) {
+        e.target.classList.remove('active');
+      } else {
+        e.target.classList.add('active');
+      }
+
+      text.setUnderline(underline);
+    };
+
+    return this;
+  };
+
   addFontTemplate() {
     const templateElement = document.getElementById('font-template');
 

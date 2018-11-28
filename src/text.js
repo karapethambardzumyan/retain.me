@@ -16,8 +16,15 @@ class Text {
   };
 
   updateToolbar(styles) {
+    console.log(styles);
     const activeObject = main.canvas.getActiveObject();
     const position = activeObject && activeObject.textAlign ? activeObject.textAlign : TEXT_TOOLBAR.fontAlign;
+
+    if(styles.underline) {
+      document.getElementById('font-underline').classList.add('active');
+    } else {
+      document.getElementById('font-underline').classList.remove('active');
+    }
 
     document.getElementById('font-align-left').classList.remove('active');
     document.getElementById('font-align-center').classList.remove('active');
@@ -175,6 +182,17 @@ class Text {
       main.canvas.getActiveObject().setSelectionStyles({ fill }, 0, main.canvas.getActiveObject().text.length);
     } else {
       main.canvas.getActiveObject().setSelectionStyles({ fill });
+    }
+    main.canvas.renderAll();
+    main.canvas.getActiveObject().setCoords();
+    main.canvas.fire('object:modified', { target: main.canvas.getActiveObject() });
+  };
+
+  setUnderline(underline) {
+    if(main.canvas.getActiveObject().selectionStart === main.canvas.getActiveObject().selectionEnd) {
+      main.canvas.getActiveObject().setSelectionStyles({ underline: !underline }, 0, main.canvas.getActiveObject().text.length);
+    } else {
+      main.canvas.getActiveObject().setSelectionStyles({ underline: !underline });
     }
     main.canvas.renderAll();
     main.canvas.getActiveObject().setCoords();
