@@ -67,28 +67,24 @@ class Main {
 
     if(!isInnerAreaCreated) {
       this.canvas.add(new fabric.Line([this.offset.left, this.offset.top, this.offset.left + this.innerCanvas.width, this.offset.top], {
-        strokeDashArray: [5, 10],
         stroke: 'black',
         selectable: false,
         type: 'innerArea'
       }));
 
       this.canvas.add(new fabric.Line([this.offset.left, this.offset.top + this.innerCanvas.height, this.offset.left + this.innerCanvas.width, this.offset.top + this.innerCanvas.height], {
-        strokeDashArray: [5, 10],
         stroke: 'black',
         selectable: false,
         type: 'innerArea'
       }));
 
       this.canvas.add(new fabric.Line([this.offset.left, this.offset.top, this.offset.left, this.offset.top + this.innerCanvas.height], {
-        strokeDashArray: [5, 10],
         stroke: 'black',
         selectable: false,
         type: 'innerArea'
       }));
 
       this.canvas.add(new fabric.Line([this.offset.left + this.innerCanvas.width, this.offset.top, this.offset.left + this.innerCanvas.width, this.offset.top + this.innerCanvas.height], {
-        strokeDashArray: [5, 10],
         stroke: 'black',
         selectable: false,
         type: 'innerArea'
