@@ -14,7 +14,9 @@ main.init(canvas => {
   });
 
   canvas.on('object:selected', e => {
-    text.openToolbar(e.target);
+    if(e.target.get('type') === 'textbox') {
+      text.openToolbar(e.target);
+    }
   });
 
   canvas.on('selection:updated', e => {
