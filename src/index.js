@@ -10,7 +10,7 @@ main.init(canvas => {
 
   canvas.on('text:selection:changed', e => {
     document.getElementById('font-template').removeAttribute('disabled');
-    text.updateToolbar(e.target.getSelectionStyles(e.target.selectionStart, e.target.selectionEnd + 1, true)[0] || {});
+    text.updateToolbar(e.target.getSelectionStyles(e.target.selectionStart === e.target.selectionEnd ? e.target.selectionStart - 1 : e.target.selectionStart, e.target.selectionEnd));
   });
 
   canvas.on('object:selected', e => {
