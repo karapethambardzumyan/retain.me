@@ -84,23 +84,22 @@ class Text {
           br: false,
           mt: false,
           mb: false,
-          mtr: false,
-          ml: false,
-          mr: false
+          mtr: false
         });
       });
     });
   };
 
   add(text) {
-    let textObject = new fabric.IText(text, {
+    let textObject = new fabric.Textbox(text, {
       fontSize: TEXT_TOOLBAR.fontSize,
       fontFamily: TEXT_TOOLBAR.fontFamily,
       fontWeight: TEXT_TOOLBAR.fontWeight,
       alignText: TEXT_TOOLBAR.fontAlign,
       fill: TEXT_TOOLBAR.fontColor,
       text: TEXT_TOOLBAR.text,
-      width: 400
+      width: 400,
+      breakWords: true
     });
 
     textObject.setControlsVisibility({
@@ -110,9 +109,7 @@ class Text {
       br: false,
       mt: false,
       mb: false,
-      mtr: false,
-      ml: false,
-      mr: false
+      mtr: false
     });
 
     main.canvas.add(textObject);

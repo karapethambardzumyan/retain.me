@@ -55,7 +55,7 @@ main.init(canvas => {
 
     if(e.target === null) {
       text.closeToolbar();
-    } else if(e.target !== null && canvas.getActiveObject() &&  canvas.getActiveObject().get('type') === 'i-text') {
+    } else if(e.target !== null && canvas.getActiveObject() &&  canvas.getActiveObject().get('type') === 'textbox') {
       text.openToolbar(e.target);
     }
   });
@@ -63,7 +63,7 @@ main.init(canvas => {
   canvas.on('object:modified', e => {
     let texts = canvas.getObjects();
 
-    texts = texts.filter(item => item.get('type') === 'i-text');
+    texts = texts.filter(item => item.get('type') === 'textbox');
 
     main.saveConfig({ texts });
   });
@@ -164,7 +164,9 @@ main.init(canvas => {
       e.target.set(attrs);
     }
 
-    text.closeToolbar();
+    if(e.target !== null && canvas.getActiveObject() && canvas.getActiveObject().get('type') === 'textbox') {
+
+    }
   });
 
   canvas.on('object:moving', e => {
@@ -200,7 +202,7 @@ main.init(canvas => {
       }
     }
 
-    if(e.target !== null && canvas.getActiveObject() && canvas.getActiveObject().get('type') === 'i-text') {
+    if(e.target !== null && canvas.getActiveObject() && canvas.getActiveObject().get('type') === 'textbox') {
       const innerCanvas = {
         width: main.canvas.width * 0.8,
         height: main.canvas.height * 0.8

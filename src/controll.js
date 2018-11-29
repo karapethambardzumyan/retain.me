@@ -39,7 +39,7 @@ class Controll {
         text.closeToolbar();
         main.canvas.remove(main.canvas.getActiveObject());
         main.saveConfig({ background: CONFIG.background });
-      } else if(main.canvas.getActiveObject() && main.canvas.getActiveObject().get('type') === 'i-text') {
+      } else if(main.canvas.getActiveObject() && main.canvas.getActiveObject().get('type') === 'textbox') {
         text.closeToolbar();
         main.canvas.remove(main.canvas.getActiveObject());
         main.saveConfig({ texts: CONFIG.texts });
