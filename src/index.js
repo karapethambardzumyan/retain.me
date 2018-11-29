@@ -194,6 +194,8 @@ main.init(canvas => {
         e.target.top = innerCanvas.height + offset.top - e.target.height;
       }
     }
+
+    text.closeToolbar();
   });
 
   canvas.on('object:moving', e => {
