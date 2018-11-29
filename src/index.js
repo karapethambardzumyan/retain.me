@@ -59,29 +59,14 @@ main.init(canvas => {
 
   canvas.on('object:scaling', e => {
     if(e.target !== null && canvas.getActiveObject() && canvas.getActiveObject().get('type') === 'image') {
-      const innerCanvas = {
-        width: main.canvas.width * 0.8,
-        height: main.canvas.height * 0.8
-      };
-
-      const outerCanvas = {
-        width: main.canvas.width,
-        height: main.canvas.height
-      };
-
-      const offset = {
-        left: (outerCanvas.width - innerCanvas.width) / 2,
-        top: (outerCanvas.height - innerCanvas.height) / 2
-      };
-
       let threshold = 14;
       let w = e.target.getScaledWidth();
       let h = e.target.getScaledHeight();
       let snap = {
-         top: offset.top,
-         left: offset.left,
-         bottom: offset.top + innerCanvas.height,
-         right: offset.left + innerCanvas.width
+         top: main.offset.top,
+         left: main.offset.left,
+         bottom: main.offset.top + main.innerCanvas.height,
+         right: main.offset.left + main.innerCanvas.width
       };
       let dist = {
         top: Math.abs(snap.top - e.target.top),
@@ -153,32 +138,17 @@ main.init(canvas => {
     }
 
     if(e.target !== null && canvas.getActiveObject() && canvas.getActiveObject().get('type') === 'textbox') {
-      const innerCanvas = {
-        width: main.canvas.width * 0.8,
-        height: main.canvas.height * 0.8
-      };
-
-      const outerCanvas = {
-        width: main.canvas.width,
-        height: main.canvas.height
-      };
-
-      const offset = {
-        left: (outerCanvas.width - innerCanvas.width) / 2,
-        top: (outerCanvas.height - innerCanvas.height) / 2
-      };
-
-      if(e.target.left < offset.left) {
-        e.target.width = main.canvas.getActiveObject().left + main.canvas.getActiveObject().width - offset.left;
-        e.target.left = offset.left;
+      if(e.target.left < main.offset.left) {
+        e.target.width = main.canvas.getActiveObject().left + main.canvas.getActiveObject().width - main.offset.left;
+        e.target.left = main.offset.left;
       }
 
-      if(e.target.left + e.target.width > offset.left + innerCanvas.width) {
-        e.target.width = innerCanvas.width - main.canvas.getActiveObject().left + offset.left;
+      if(e.target.left + e.target.width > main.offset.left + main.innerCanvas.width) {
+        e.target.width = main.innerCanvas.width - main.canvas.getActiveObject().left + main.offset.left;
       }
 
-      if(e.target.top + e.target.height > innerCanvas.height + offset.top) {
-        e.target.top = innerCanvas.height + offset.top - e.target.height;
+      if(e.target.top + e.target.height > main.innerCanvas.height + main.offset.top) {
+        e.target.top = main.innerCanvas.height + main.offset.top - e.target.height;
       }
     }
 
@@ -187,66 +157,36 @@ main.init(canvas => {
 
   canvas.on('object:moving', e => {
     if(e.target !== null && canvas.getActiveObject() && canvas.getActiveObject().get('type') === 'image') {
-      const innerCanvas = {
-        width: main.canvas.width * 0.8,
-        height: main.canvas.height * 0.8
-      };
-
-      const outerCanvas = {
-        width: main.canvas.width,
-        height: main.canvas.height
-      };
-
-      const offset = {
-        left: (outerCanvas.width - innerCanvas.width) / 2,
-        top: (outerCanvas.height - innerCanvas.height) / 2
-      };
-
       const activeObject = main.canvas.getActiveObject();
 
-      if(activeObject.left - offset.left < 14 && activeObject.left > offset.left) {
-        activeObject.left = offset.left;
+      if(activeObject.left - main.offset.left < 14 && activeObject.left > main.offset.left) {
+        activeObject.left = main.offset.left;
       }
-      if(activeObject.top - offset.top < 14 && activeObject.top > offset.top) {
-        activeObject.top = offset.top;
+      if(activeObject.top - main.offset.top < 14 && activeObject.top > main.offset.top) {
+        activeObject.top = main.offset.top;
       }
-      if(offset.left + innerCanvas.width - activeObject.width * activeObject.scaleX - activeObject.left < 14 && activeObject.left < offset.left + innerCanvas.width - activeObject.width * activeObject.scaleX) {
-        activeObject.left = offset.left + innerCanvas.width - activeObject.width * activeObject.scaleX;
+      if(main.offset.left + main.innerCanvas.width - activeObject.width * activeObject.scaleX - activeObject.left < 14 && activeObject.left < main.offset.left + main.innerCanvas.width - activeObject.width * activeObject.scaleX) {
+        activeObject.left = main.offset.left + main.innerCanvas.width - activeObject.width * activeObject.scaleX;
       }
-      if(offset.top + innerCanvas.height - activeObject.height * activeObject.scaleY - activeObject.top < 14 && activeObject.top < offset.top + innerCanvas.height - activeObject.height * activeObject.scaleY) {
-        activeObject.top = offset.top + innerCanvas.height - activeObject.height * activeObject.scaleY;
+      if(main.offset.top + main.innerCanvas.height - activeObject.height * activeObject.scaleY - activeObject.top < 14 && activeObject.top < main.offset.top + main.innerCanvas.height - activeObject.height * activeObject.scaleY) {
+        activeObject.top = main.offset.top + main.innerCanvas.height - activeObject.height * activeObject.scaleY;
       }
     }
 
     if(e.target !== null && canvas.getActiveObject() && canvas.getActiveObject().get('type') === 'textbox') {
-      const innerCanvas = {
-        width: main.canvas.width * 0.8,
-        height: main.canvas.height * 0.8
-      };
-
-      const outerCanvas = {
-        width: main.canvas.width,
-        height: main.canvas.height
-      };
-
-      const offset = {
-        left: (outerCanvas.width - innerCanvas.width) / 2,
-        top: (outerCanvas.height - innerCanvas.height) / 2
-      };
-
       const activeObject = main.canvas.getActiveObject();
 
-      if(activeObject.left - offset.left < 14) {
-        activeObject.left = offset.left;
+      if(activeObject.left - main.offset.left < 14) {
+        activeObject.left = main.offset.left;
       }
-      if(activeObject.top - offset.top < 14) {
-        activeObject.top = offset.top;
+      if(activeObject.top - main.offset.top < 14) {
+        activeObject.top = main.offset.top;
       }
-      if(offset.left + innerCanvas.width - activeObject.width * activeObject.scaleX - activeObject.left < 14) {
-        activeObject.left = offset.left + innerCanvas.width - activeObject.width * activeObject.scaleX;
+      if(main.offset.left + main.innerCanvas.width - activeObject.width * activeObject.scaleX - activeObject.left < 14) {
+        activeObject.left = main.offset.left + main.innerCanvas.width - activeObject.width * activeObject.scaleX;
       }
-      if(offset.top + innerCanvas.height - activeObject.height * activeObject.scaleY - activeObject.top < 14) {
-        activeObject.top = offset.top + innerCanvas.height - activeObject.height * activeObject.scaleY;
+      if(main.offset.top + main.innerCanvas.height - activeObject.height * activeObject.scaleY - activeObject.top < 14) {
+        activeObject.top = main.offset.top + main.innerCanvas.height - activeObject.height * activeObject.scaleY;
       }
     }
 

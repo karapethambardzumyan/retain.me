@@ -18,13 +18,24 @@ class Main {
 
     Promise.all(fonts).then(res => {
       this.canvas = new fabric.Canvas('canvas', { preserveObjectStacking: true });
-      this.canvas.setWidth(SIZES[this.config.size].width * 1.2 * MM_TO_PX);
-      this.canvas.setHeight(SIZES[this.config.size].height * 1.2 * MM_TO_PX);
+      this.canvas.setWidth((SIZES[this.config.size].width * MM_TO_PX) + (10 * MM_TO_PX));
+      this.canvas.setHeight((SIZES[this.config.size].height * MM_TO_PX) + (10 * MM_TO_PX));
       this.canvas.selection = false;
+      this.innerCanvas = {
+        width: SIZES[this.config.size].width * MM_TO_PX,
+        height: SIZES[this.config.size].height * MM_TO_PX
+      };
+      this.outerCanvas = {
+        width: this.canvas.width,
+        height: this.canvas.height
+      };
+      this.offset = {
+        left: (this.outerCanvas.width - this.innerCanvas.width) / 2,
+        top: (this.outerCanvas.height - this.innerCanvas.height) / 2
+      };
 
-      document.getElementById('canvas-wrapper').style.width = `${ SIZES[this.config.size].width * 1.2 * MM_TO_PX }px`;
-      document.getElementById('canvas-wrapper').style.height = `${ SIZES[this.config.size].height * 1.2 * MM_TO_PX }px`;
-
+      document.getElementById('canvas-wrapper').style.width = `${ (SIZES[this.config.size].width * MM_TO_PX) + (10 * MM_TO_PX) }px`;
+      document.getElementById('canvas-wrapper').style.height = `${ (SIZES[this.config.size].height * MM_TO_PX) + (10 * MM_TO_PX) }px`;
       document.getElementById('size').selectedIndex = this.config.size;
 
       this.drawInnerArea();
@@ -55,43 +66,28 @@ class Main {
     }
 
     if(!isInnerAreaCreated) {
-      const innerCanvas = {
-        width: this.canvas.width * 0.8,
-        height: this.canvas.height * 0.8
-      };
-
-      const outerCanvas = {
-        width: this.canvas.width,
-        height: this.canvas.height
-      };
-
-      const offset = {
-        left: (outerCanvas.width - innerCanvas.width) / 2,
-        top: (outerCanvas.height - innerCanvas.height) / 2
-      };
-
-      this.canvas.add(new fabric.Line([offset.left, offset.top, offset.left + innerCanvas.width, offset.top], {
+      this.canvas.add(new fabric.Line([this.offset.left, this.offset.top, this.offset.left + this.innerCanvas.width, this.offset.top], {
         strokeDashArray: [5, 10],
         stroke: 'black',
         selectable: false,
         type: 'innerArea'
       }));
 
-      this.canvas.add(new fabric.Line([offset.left, offset.top + innerCanvas.height, offset.left + innerCanvas.width, offset.top + innerCanvas.height], {
+      this.canvas.add(new fabric.Line([this.offset.left, this.offset.top + this.innerCanvas.height, this.offset.left + this.innerCanvas.width, this.offset.top + this.innerCanvas.height], {
         strokeDashArray: [5, 10],
         stroke: 'black',
         selectable: false,
         type: 'innerArea'
       }));
 
-      this.canvas.add(new fabric.Line([offset.left, offset.top, offset.left, offset.top + innerCanvas.height], {
+      this.canvas.add(new fabric.Line([this.offset.left, this.offset.top, this.offset.left, this.offset.top + this.innerCanvas.height], {
         strokeDashArray: [5, 10],
         stroke: 'black',
         selectable: false,
         type: 'innerArea'
       }));
 
-      this.canvas.add(new fabric.Line([offset.left + innerCanvas.width, offset.top, offset.left + innerCanvas.width, offset.top + innerCanvas.height], {
+      this.canvas.add(new fabric.Line([this.offset.left + this.innerCanvas.width, this.offset.top, this.offset.left + this.innerCanvas.width, this.offset.top + this.innerCanvas.height], {
         strokeDashArray: [5, 10],
         stroke: 'black',
         selectable: false,
