@@ -189,6 +189,10 @@ main.init(canvas => {
       if(e.target.left + e.target.width > offset.left + innerCanvas.width) {
         e.target.width = innerCanvas.width - main.canvas.getActiveObject().left + offset.left;
       }
+
+      if(e.target.top + e.target.height > innerCanvas.height + offset.top) {
+        e.target.top = innerCanvas.height + offset.top - e.target.height;
+      }
     }
   });
 
