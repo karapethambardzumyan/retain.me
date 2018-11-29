@@ -5,22 +5,9 @@ import text from './text';
 
 main.init(canvas => {
   canvas.on('text:changed', e => {
-    const innerCanvas = {
-      width: main.canvas.width * 0.8,
-      height: main.canvas.height * 0.8
-    };
-
-    const outerCanvas = {
-      width: main.canvas.width,
-      height: main.canvas.height
-    };
-
-    const offset = {
-      left: (outerCanvas.width - innerCanvas.width) / 2,
-      top: (outerCanvas.height - innerCanvas.height) / 2
-    };
-
-    console.log(offset.left + e.target.width, offset.left + innerCanvas.width);
+    console.log(e.target.selectionStart, e.target.selectionStart);
+    e.target.setSelectionStyles(e.target.getStyleAtPosition(e.target.selectionEnd - 2), e.target.selectionStart, e.target.selectionEnd + 1);
+    console.log(e.target.styles);
   });
 
   canvas.on('text:selection:changed', e => {

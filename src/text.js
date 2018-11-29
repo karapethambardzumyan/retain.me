@@ -16,7 +16,6 @@ class Text {
   };
 
   updateToolbar(styles) {
-    console.log(styles);
     const activeObject = main.canvas.getActiveObject();
     const position = activeObject && activeObject.textAlign ? activeObject.textAlign : TEXT_TOOLBAR.fontAlign;
 
