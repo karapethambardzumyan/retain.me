@@ -4,6 +4,25 @@ import background from './background';
 import text from './text';
 
 main.init(canvas => {
+  canvas.on('text:changed', e => {
+    const innerCanvas = {
+      width: main.canvas.width * 0.8,
+      height: main.canvas.height * 0.8
+    };
+
+    const outerCanvas = {
+      width: main.canvas.width,
+      height: main.canvas.height
+    };
+
+    const offset = {
+      left: (outerCanvas.width - innerCanvas.width) / 2,
+      top: (outerCanvas.height - innerCanvas.height) / 2
+    };
+
+    console.log(offset.left + e.target.width, offset.left + innerCanvas.width);
+  });
+
   canvas.on('text:selection:changed', e => {
     document.getElementById('font-template').removeAttribute('disabled');
     text.updateToolbar(e.target.getSelectionStyles()[0] || e.target.getSelectionStyles(e.target.selectionStart - 1)[0] || {});
@@ -36,7 +55,7 @@ main.init(canvas => {
 
     if(e.target === null) {
       text.closeToolbar();
-    } else if(e.target !== null && canvas.getActiveObject() &&  canvas.getActiveObject().get('type') === 'textbox') {
+    } else if(e.target !== null && canvas.getActiveObject() &&  canvas.getActiveObject().get('type') === 'i-text') {
       text.openToolbar(e.target);
     }
   });
@@ -44,7 +63,7 @@ main.init(canvas => {
   canvas.on('object:modified', e => {
     let texts = canvas.getObjects();
 
-    texts = texts.filter(item => item.get('type') === 'textbox');
+    texts = texts.filter(item => item.get('type') === 'i-text');
 
     main.saveConfig({ texts });
   });
@@ -177,6 +196,38 @@ main.init(canvas => {
         activeObject.left = offset.left + innerCanvas.width - activeObject.width * activeObject.scaleX;
       }
       if(offset.top + innerCanvas.height - activeObject.height * activeObject.scaleY - activeObject.top < 14 && activeObject.top < offset.top + innerCanvas.height - activeObject.height * activeObject.scaleY) {
+        activeObject.top = offset.top + innerCanvas.height - activeObject.height * activeObject.scaleY;
+      }
+    }
+
+    if(e.target !== null && canvas.getActiveObject() && canvas.getActiveObject().get('type') === 'i-text') {
+      const innerCanvas = {
+        width: main.canvas.width * 0.8,
+        height: main.canvas.height * 0.8
+      };
+
+      const outerCanvas = {
+        width: main.canvas.width,
+        height: main.canvas.height
+      };
+
+      const offset = {
+        left: (outerCanvas.width - innerCanvas.width) / 2,
+        top: (outerCanvas.height - innerCanvas.height) / 2
+      };
+
+      const activeObject = main.canvas.getActiveObject();
+
+      if(activeObject.left - offset.left < 14) {
+        activeObject.left = offset.left;
+      }
+      if(activeObject.top - offset.top < 14) {
+        activeObject.top = offset.top;
+      }
+      if(offset.left + innerCanvas.width - activeObject.width * activeObject.scaleX - activeObject.left < 14) {
+        activeObject.left = offset.left + innerCanvas.width - activeObject.width * activeObject.scaleX;
+      }
+      if(offset.top + innerCanvas.height - activeObject.height * activeObject.scaleY - activeObject.top < 14) {
         activeObject.top = offset.top + innerCanvas.height - activeObject.height * activeObject.scaleY;
       }
     }

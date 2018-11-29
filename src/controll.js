@@ -39,7 +39,7 @@ class Controll {
         text.closeToolbar();
         main.canvas.remove(main.canvas.getActiveObject());
         main.saveConfig({ background: CONFIG.background });
-      } else if(main.canvas.getActiveObject() && main.canvas.getActiveObject().get('type') === 'textbox') {
+      } else if(main.canvas.getActiveObject() && main.canvas.getActiveObject().get('type') === 'i-text') {
         text.closeToolbar();
         main.canvas.remove(main.canvas.getActiveObject());
         main.saveConfig({ texts: CONFIG.texts });
@@ -102,6 +102,7 @@ class Controll {
         width: innerCanvas.width - 1,
         height: innerCanvas.height - 1
       });
+
       e.target.href = image;
     };
 

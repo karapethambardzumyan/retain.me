@@ -74,7 +74,7 @@ class Text {
   };
 
   addAll() {
-    fabric.util.enlivenObjects(main.config.texts, function(objects) {
+    fabric.util.enlivenObjects(main.config.texts, objects => {
       objects.forEach(o => {
         main.canvas.add(o);
         o.setControlsVisibility({
@@ -84,14 +84,16 @@ class Text {
           br: false,
           mt: false,
           mb: false,
-          mtr: false
+          mtr: false,
+          ml: false,
+          mr: false
         });
       });
     });
   };
 
   add(text) {
-    let textObject = new fabric.Textbox(text, {
+    let textObject = new fabric.IText(text, {
       fontSize: TEXT_TOOLBAR.fontSize,
       fontFamily: TEXT_TOOLBAR.fontFamily,
       fontWeight: TEXT_TOOLBAR.fontWeight,
@@ -108,16 +110,17 @@ class Text {
       br: false,
       mt: false,
       mb: false,
-      mtr: false
+      mtr: false,
+      ml: false,
+      mr: false
     });
 
     main.canvas.add(textObject);
     main.canvas.setActiveObject(textObject);
     textObject.center();
+    main.config.texts.push(textObject);
 
     this.openToolbar(textObject);
-
-    main.config.texts.push(textObject);
   };
 
   addTemplate(template, target) {
