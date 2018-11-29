@@ -66,8 +66,9 @@ main.init(canvas => {
     texts = texts.filter(item => item.get('type') === 'textbox');
 
     main.saveConfig({ texts });
-  });
 
+    e.target.lastWidth = e.target.width;
+  });
 
   canvas.on('object:scaling', e => {
     if(e.target !== null && canvas.getActiveObject() && canvas.getActiveObject().get('type') === 'image') {
@@ -165,7 +166,29 @@ main.init(canvas => {
     }
 
     if(e.target !== null && canvas.getActiveObject() && canvas.getActiveObject().get('type') === 'textbox') {
+      const innerCanvas = {
+        width: main.canvas.width * 0.8,
+        height: main.canvas.height * 0.8
+      };
 
+      const outerCanvas = {
+        width: main.canvas.width,
+        height: main.canvas.height
+      };
+
+      const offset = {
+        left: (outerCanvas.width - innerCanvas.width) / 2,
+        top: (outerCanvas.height - innerCanvas.height) / 2
+      };
+
+      if(e.target.left < offset.left) {
+        e.target.width = main.canvas.getActiveObject().left + main.canvas.getActiveObject().width - offset.left;
+        e.target.left = offset.left;
+      }
+
+      if(e.target.left + e.target.width > offset.left + innerCanvas.width) {
+        e.target.width = innerCanvas.width - main.canvas.getActiveObject().left + offset.left;
+      }
     }
   });
 

@@ -98,8 +98,7 @@ class Text {
       alignText: TEXT_TOOLBAR.fontAlign,
       fill: TEXT_TOOLBAR.fontColor,
       text: TEXT_TOOLBAR.text,
-      width: 400,
-      breakWords: true
+      width: 400
     });
 
     textObject.setControlsVisibility({
