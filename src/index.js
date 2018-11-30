@@ -8,13 +8,19 @@ main.init(canvas => {
     const styles = e.target.getSelectionStyles(0, e.target.text.length);
     const start = e.target.selectionStart;
 
-    if(styles[start] && !styles[start - 1].modifed && styles[start].modifed) {
+    if(styles[start] && styles[start - 1] && !styles[start - 1].modifed && styles[start].modifed) {
       e.target.setSelectionStyles(styles[start], start - 1, start);
       main.canvas.renderAll();
       e.target.setCoords();
     }
 
-    if(styles[start] && !styles[start].modifed && !styles[start - 1].modifed && styles[start + 1].modifed) {
+    if(styles[start] && !styles[start].modifed && styles[start - 1] && !styles[start - 1].modifed && styles[start + 1] && styles[start + 1].modifed) {
+      e.target.setSelectionStyles(styles[start - 2], start, start + 1);
+      main.canvas.renderAll();
+      e.target.setCoords();
+    }
+
+    if(styles[start] === undefined) {
       e.target.setSelectionStyles(styles[start - 2], start, start + 1);
       main.canvas.renderAll();
       e.target.setCoords();
@@ -24,14 +30,10 @@ main.init(canvas => {
   canvas.on('text:selection:changed', e => {
     const styles = e.target.getSelectionStyles(0, e.target.text.length);
     const start = e.target.selectionStart;
+    const end = e.target.selectionEnd;
 
-    console.log(styles, start);
-
-    if(e.target.selectionStart === e.target.selectionEnd) {
-      text.updateToolbar(e.target.getSelectionStyles(e.target.selectionStart - 1));
-    } else {
-      text.updateToolbar(e.target.getSelectionStyles(e.target.selectionStart, e.target.selectionEnd));
-    }
+    // console.log(styles, start, end);
+    // text.updateToolbar(styles[start]);
 
     document.getElementById('font-template').removeAttribute('disabled');
   });

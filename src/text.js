@@ -19,8 +19,6 @@ class Text {
     const activeObject = main.canvas.getActiveObject();
     const position = activeObject && activeObject.textAlign ? activeObject.textAlign : TEXT_TOOLBAR.fontAlign;
 
-    styles = styles.filter(style => Object.keys(style).length !== 0)[0] || {};
-
     if(styles.underline) {
       document.getElementById('font-underline').classList.add('active');
     } else {
