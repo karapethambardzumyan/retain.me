@@ -150,9 +150,9 @@ class Text {
 
   setFamily(fontFamily) {
     if(main.canvas.getActiveObject().selectionStart === main.canvas.getActiveObject().selectionEnd) {
-      main.canvas.getActiveObject().setSelectionStyles({ fontFamily, modifed: true }, 0, main.canvas.getActiveObject().text.length);
+      main.canvas.getActiveObject().setSelectionStyles({ fontFamily }, 0, main.canvas.getActiveObject().text.length);
     } else {
-      main.canvas.getActiveObject().setSelectionStyles({ fontFamily, modifed: true });
+      main.canvas.getActiveObject().setSelectionStyles({ fontFamily });
     }
 
     main.canvas.fire('object:modified', { target: main.canvas.getActiveObject() });
@@ -162,9 +162,9 @@ class Text {
 
   setSize(fontSize) {
     if(main.canvas.getActiveObject().selectionStart === main.canvas.getActiveObject().selectionEnd) {
-      main.canvas.getActiveObject().setSelectionStyles({ fontSize: fontSize * PT_TO_PX, modifed: true }, 0, main.canvas.getActiveObject().text.length);
+      main.canvas.getActiveObject().setSelectionStyles({ fontSize: fontSize * PT_TO_PX }, 0, main.canvas.getActiveObject().text.length);
     } else {
-      main.canvas.getActiveObject().setSelectionStyles({ fontSize: fontSize * PT_TO_PX, modifed: true });
+      main.canvas.getActiveObject().setSelectionStyles({ fontSize: fontSize * PT_TO_PX });
     }
     main.canvas.renderAll();
     main.canvas.getActiveObject().setCoords();
@@ -180,9 +180,9 @@ class Text {
 
   setWeight(fontWeight) {
     if(main.canvas.getActiveObject().selectionStart === main.canvas.getActiveObject().selectionEnd) {
-      main.canvas.getActiveObject().setSelectionStyles({ fontWeight, modifed: true }, 0, main.canvas.getActiveObject().text.length);
+      main.canvas.getActiveObject().setSelectionStyles({ fontWeight }, 0, main.canvas.getActiveObject().text.length);
     } else {
-      main.canvas.getActiveObject().setSelectionStyles({ fontWeight, modifed: true });
+      main.canvas.getActiveObject().setSelectionStyles({ fontWeight });
     }
     main.canvas.renderAll();
     main.canvas.getActiveObject().setCoords();
@@ -198,9 +198,9 @@ class Text {
 
   setColor(fill) {
     if(main.canvas.getActiveObject().selectionStart === main.canvas.getActiveObject().selectionEnd) {
-      main.canvas.getActiveObject().setSelectionStyles({ fill, modifed: true }, 0, main.canvas.getActiveObject().text.length);
+      main.canvas.getActiveObject().setSelectionStyles({ fill }, 0, main.canvas.getActiveObject().text.length);
     } else {
-      main.canvas.getActiveObject().setSelectionStyles({ fill, modifed: true });
+      main.canvas.getActiveObject().setSelectionStyles({ fill });
     }
     main.canvas.renderAll();
     main.canvas.getActiveObject().setCoords();
@@ -209,9 +209,9 @@ class Text {
 
   setUnderline(underline) {
     if(main.canvas.getActiveObject().selectionStart === main.canvas.getActiveObject().selectionEnd) {
-      main.canvas.getActiveObject().setSelectionStyles({ underline: !underline, modifed: true }, 0, main.canvas.getActiveObject().text.length);
+      main.canvas.getActiveObject().setSelectionStyles({ underline: !underline }, 0, main.canvas.getActiveObject().text.length);
     } else {
-      main.canvas.getActiveObject().setSelectionStyles({ underline: !underline, modifed: true });
+      main.canvas.getActiveObject().setSelectionStyles({ underline: !underline });
     }
     main.canvas.renderAll();
     main.canvas.getActiveObject().setCoords();
