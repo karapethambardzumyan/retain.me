@@ -43,6 +43,11 @@ class Controll {
     return this;
   };
 
+  cancelRemove() {
+    document.getElementById('remove').onclick = null;
+    document.onkeyup = null;
+  };
+
   remove() {
     document.getElementById('remove').onclick = e => {
       e.preventDefault();

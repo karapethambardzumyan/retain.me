@@ -5,37 +5,44 @@ import text from './text';
 
 main.init(canvas => {
   canvas.on('text:changed', e => {
-    const styles = e.target.getSelectionStyles(0, e.target.text.length);
-    const start = e.target.selectionStart;
-
-    if(styles[start] && styles[start - 1] && !styles[start - 1].modifed && styles[start].modifed) {
-      e.target.setSelectionStyles(styles[start], start - 1, start);
-      main.canvas.renderAll();
-      e.target.setCoords();
-    }
-
-    if(styles[start] && !styles[start].modifed && styles[start - 1] && !styles[start - 1].modifed && styles[start + 1] && styles[start + 1].modifed) {
-      e.target.setSelectionStyles(styles[start - 2], start, start + 1);
-      main.canvas.renderAll();
-      e.target.setCoords();
-    }
-
-    if(styles[start] === undefined) {
-      e.target.setSelectionStyles(styles[start - 2], start, start + 1);
-      main.canvas.renderAll();
-      e.target.setCoords();
-    }
+    // const styles = e.target.getSelectionStyles(0, e.target.text.length);
+    // const start = e.target.selectionStart;
+    //
+    // if(styles[start] && styles[start - 1] && !styles[start - 1].modifed && styles[start].modifed) {
+    //   e.target.setSelectionStyles(styles[start], start - 1, start);
+    //   main.canvas.renderAll();
+    //   e.target.setCoords();
+    // }
+    //
+    // if(styles[start] && !styles[start].modifed && styles[start - 1] && !styles[start - 1].modifed && styles[start + 1] && styles[start + 1].modifed) {
+    //   e.target.setSelectionStyles(styles[start - 2], start, start + 1);
+    //   main.canvas.renderAll();
+    //   e.target.setCoords();
+    // }
+    //
+    // if(styles[start] === undefined) {
+    //   e.target.setSelectionStyles(styles[start - 2], start, start + 1);
+    //   main.canvas.renderAll();
+    //   e.target.setCoords();
+    // }
   });
 
   canvas.on('text:selection:changed', e => {
-    const styles = e.target.getSelectionStyles(0, e.target.text.length);
-    const start = e.target.selectionStart;
-    const end = e.target.selectionEnd;
-
-    console.log(styles, start, end);
+    // const styles = e.target.getSelectionStyles(0, e.target.text.length);
+    // const start = e.target.selectionStart;
+    // const end = e.target.selectionEnd;
+    //
     // text.updateToolbar(styles[start]);
+    //
+    // document.getElementById('font-template').removeAttribute('disabled');
+  });
 
-    document.getElementById('font-template').removeAttribute('disabled');
+  canvas.on('text:editing:entered', e => {
+    controll.cancelRemove();
+  });
+
+  canvas.on('text:editing:exited', e => {
+    controll.remove();
   });
 
   canvas.on('object:selected', e => {
