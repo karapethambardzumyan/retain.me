@@ -165,8 +165,6 @@ class Controll {
     document.getElementById('font-height').onchange = e => {
       e.preventDefault();
 
-      document.getElementById('font-height-value').innerHTML = `${ e.target.value }px`;
-
       text.setHeight(e.target.value);
     };
 
