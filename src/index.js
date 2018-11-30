@@ -59,7 +59,7 @@ main.init(canvas => {
     let next = _text[start + 1];
     next = next === '\n' ? '\\n' : next;
 
-    if(current === '\\n' || prev === undefined) {
+    if(current === '\\n' || prev === undefined || start !== end) {
       start = start + 1;
     }
 
@@ -70,6 +70,8 @@ main.init(canvas => {
     if(next === '\\n' && start !== end) {
       start = start + 2;
     }
+
+    // console.log(prev, current, next, start, end);
 
     text.updateToolbar(styles[start]);
 
