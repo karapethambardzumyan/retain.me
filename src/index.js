@@ -211,6 +211,7 @@ main.init(canvas => {
     .addText()
     .setFontFamily()
     .setFontSize()
+    .setFontHeight()
     .setFontWeight()
     .setFontAlign()
     .setFontColor()

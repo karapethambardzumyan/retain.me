@@ -99,10 +99,10 @@ class Controll {
       e.preventDefault();
 
       const base64 = main.canvas.toDataURL({
-        top: rhis.offset.top + 1,
-        left: rhis.offset.left + 1,
-        width: rhis.innerCanvas.width - 1,
-        height: rhis.innerCanvas.height - 1
+        top: main.offset.top + 1,
+        left: main.offset.left + 1,
+        width: main.innerCanvas.width - 1,
+        height: main.innerCanvas.height - 1
       });
 
       const img = document.createElement('img');
@@ -156,6 +156,18 @@ class Controll {
       document.getElementById('font-size-value').innerHTML = `${ e.target.value }px`;
 
       text.setSize(e.target.value);
+    };
+
+    return this;
+  };
+
+  setFontHeight() {
+    document.getElementById('font-height').onchange = e => {
+      e.preventDefault();
+
+      document.getElementById('font-height-value').innerHTML = `${ e.target.value }px`;
+
+      text.setHeight(e.target.value);
     };
 
     return this;

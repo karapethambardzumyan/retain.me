@@ -2,7 +2,6 @@ import main from './main';
 import { TEXT_TOOLBAR } from './constants';
 
 function insertAtCursor(input, textToInsert) {
-  console.log(input, textToInsert);
   const value = input.value;
   const start = input.selectionStart;
   const end = input.selectionEnd;
@@ -100,6 +99,7 @@ class Text {
       alignText: TEXT_TOOLBAR.fontAlign,
       fill: TEXT_TOOLBAR.fontColor,
       text: TEXT_TOOLBAR.text,
+      lineHeight: 1,
       width: 400
     });
 
@@ -161,6 +161,13 @@ class Text {
     main.canvas.fire('object:modified', { target: main.canvas.getActiveObject() });
   };
 
+  setHeight(lineHeight) {
+    main.canvas.getActiveObject().set({ lineHeight });
+    main.canvas.renderAll();
+    main.canvas.getActiveObject().setCoords();
+    main.canvas.fire('object:modified', { target: main.canvas.getActiveObject() });
+  };
+
   setWeight(fontWeight) {
     if(main.canvas.getActiveObject().selectionStart === main.canvas.getActiveObject().selectionEnd) {
       main.canvas.getActiveObject().setSelectionStyles({ fontWeight }, 0, main.canvas.getActiveObject().text.length);
@@ -209,8 +216,6 @@ class Text {
     let selectedChars = activeObject.text.substring(selectionStart, selectionEnd);
 
     selectedChars = selectedChars.toUpperCase();
-
-    console.log('a:', selectionStart, selectionEnd, selectedChars);
 
     activeObject.insertChars(selectedChars, activeObject.getSelectionStyles(selectionStart, selectionEnd), selectionStart, selectionEnd);
     main.canvas.renderAll();
