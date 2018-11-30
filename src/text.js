@@ -217,8 +217,11 @@ class Text {
     activeObject.setCoords();
 
     const textarea = document.querySelector('textarea[data-fabric-hiddentextarea]');
-    textarea.focus();
-    textarea.value = activeObject.text;
+
+    if(textarea) {
+      textarea.focus();
+      textarea.value = activeObject.text;
+    }
   };
 
   setCamelcase() {
@@ -242,8 +245,11 @@ class Text {
     activeObject.setCoords();
 
     const textarea = document.querySelector('textarea[data-fabric-hiddentextarea]');
-    textarea.focus();
-    textarea.value = activeObject.text;
+
+    if(textarea) {
+      textarea.focus();
+      textarea.value = activeObject.text;
+    }
   };
 };
 
