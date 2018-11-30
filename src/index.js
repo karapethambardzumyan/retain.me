@@ -5,18 +5,35 @@ import text from './text';
 
 main.init(canvas => {
   canvas.on('text:changed', e => {
-    console.log(e.target.getStyleAtPosition(e.target.selectionStart - 2, e.target.selectionEnd - 1));
-    console.log(e.target.styles);
-    if(Object.keys(e.target.getStyleAtPosition(e.target.selectionStart - 2, e.target.selectionEnd - 1)).length === 0) {
-      // e.target.setSelectionStyles(e.target.getStyleAtPosition(e.target.selectionStart, e.target.selectionEnd + 1), e.target.selectionStart - 2, e.target.selectionEnd);
-    } else {
-      e.target.setSelectionStyles(e.target.getStyleAtPosition(e.target.selectionStart - 2, e.target.selectionEnd - 1), e.target.selectionStart - 1, e.target.selectionEnd);
+    const styles = e.target.getSelectionStyles(0, e.target.text.length);
+    const start = e.target.selectionStart;
+
+    if(styles[start] && !styles[start - 1].modifed && styles[start].modifed) {
+      e.target.setSelectionStyles(styles[start], start - 1, start);
+      main.canvas.renderAll();
+      e.target.setCoords();
+    }
+
+    if(styles[start] && !styles[start].modifed && !styles[start - 1].modifed && styles[start + 1].modifed) {
+      e.target.setSelectionStyles(styles[start - 2], start, start + 1);
+      main.canvas.renderAll();
+      e.target.setCoords();
     }
   });
 
   canvas.on('text:selection:changed', e => {
+    const styles = e.target.getSelectionStyles(0, e.target.text.length);
+    const start = e.target.selectionStart;
+
+    console.log(styles, start);
+
+    if(e.target.selectionStart === e.target.selectionEnd) {
+      text.updateToolbar(e.target.getSelectionStyles(e.target.selectionStart - 1));
+    } else {
+      text.updateToolbar(e.target.getSelectionStyles(e.target.selectionStart, e.target.selectionEnd));
+    }
+
     document.getElementById('font-template').removeAttribute('disabled');
-    text.updateToolbar(e.target.getSelectionStyles(e.target.selectionStart === e.target.selectionEnd ? e.target.selectionStart - 1 : e.target.selectionStart, e.target.selectionEnd));
   });
 
   canvas.on('object:selected', e => {
