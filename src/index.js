@@ -48,6 +48,7 @@ main.init(canvas => {
   canvas.on('text:selection:changed', e => {
     const target = e.target;
     let start = target.selectionStart - 1;
+    let end = target.selectionEnd - 1;
     const _text = target._text;
     const styles = target.getSelectionStyles(0, _text.length);
 
@@ -66,7 +67,7 @@ main.init(canvas => {
       start = start - 1;
     }
 
-    if(next === '\\n') {
+    if(next === '\\n' && start !== end) {
       start = start + 2;
     }
 
