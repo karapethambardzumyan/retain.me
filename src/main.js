@@ -34,6 +34,7 @@ class Main {
         top: (this.outerCanvas.height - this.innerCanvas.height) / 2
       };
 
+      document.getElementById('canvas-wrapper').style.background = 'rgb(190, 75, 90)';
       document.getElementById('canvas-wrapper').style.width = `${ (SIZES[this.config.size].width * MM_TO_PX) + (10 * MM_TO_PX) }px`;
       document.getElementById('canvas-wrapper').style.height = `${ (SIZES[this.config.size].height * MM_TO_PX) + (10 * MM_TO_PX) }px`;
       document.getElementById('size').selectedIndex = this.config.size;

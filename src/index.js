@@ -5,6 +5,7 @@ import text from './text';
 
 main.init(canvas => {
   canvas.on('text:changed', e => {
+    console.log( e.target.selectionStart,  e.target.selectionEnd);
     e.target.setSelectionStyles(e.target.getStyleAtPosition(e.target.selectionEnd - 2), e.target.selectionStart, e.target.selectionEnd + 1);
   });
 
