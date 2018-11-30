@@ -5,22 +5,26 @@ import text from './text';
 
 main.init(canvas => {
   canvas.on('text:changed', e => {
-    // const styles = e.target.getSelectionStyles(0, e.target.text.length);
-    // const start = e.target.selectionStart;
-    //
-    // if(styles[start] && styles[start - 1] && !styles[start - 1].modifed && styles[start].modifed) {
-    //   e.target.setSelectionStyles(styles[start], start - 1, start);
+    const styles = e.target.getSelectionStyles(0, e.target.text.length);
+    const start = e.target.selectionStart;
+
+    console.log(1);
+
+    // if(styles[start] && !styles[start - 1].modifed && styles[start].modifed) {
+    //   e.target.setSelectionStyles(styles[start - 2], start, start + 1);
     //   main.canvas.renderAll();
     //   e.target.setCoords();
     // }
     //
     // if(styles[start] && !styles[start].modifed && styles[start - 1] && !styles[start - 1].modifed && styles[start + 1] && styles[start + 1].modifed) {
+    //   console.log(2);
     //   e.target.setSelectionStyles(styles[start - 2], start, start + 1);
     //   main.canvas.renderAll();
     //   e.target.setCoords();
     // }
     //
     // if(styles[start] === undefined) {
+    //   console.log(3);
     //   e.target.setSelectionStyles(styles[start - 2], start, start + 1);
     //   main.canvas.renderAll();
     //   e.target.setCoords();
