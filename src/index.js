@@ -199,6 +199,7 @@ main.init(canvas => {
   text.addAll();
 
   controll
+    .blurAll()
     .upload()
     .remove()
     .save()

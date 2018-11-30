@@ -100,6 +100,12 @@ class Text {
       fill: TEXT_TOOLBAR.fontColor,
       text: TEXT_TOOLBAR.text,
       lineHeight: 1,
+      transparentCorners: false,
+      cornerColor: 'rgb(100,144,206)',
+      cornerStyle: 'circle',
+      cornerSize: 11,
+      borderColor: 'rgb(100,144,206)',
+      borderDashArray: [2, 3],
       width: 400
     });
 

@@ -9,6 +9,18 @@ class Controll {
 
   };
 
+  blurAll() {
+    document.onclick = e => {
+      if(e.target.nodeName !== 'CANVAS' && e.target.nodeName === 'DIV') {
+        text.closeToolbar();
+        main.canvas.discardActiveObject(main.canvas.getActiveObjects());
+        main.canvas.renderAll();
+      }
+    }
+
+    return this;
+  };
+
   upload() {
     document.getElementById('upload').onchange = e => {
       if(main.canvas.getObjects().length >= 4) {
@@ -43,6 +55,22 @@ class Controll {
         text.closeToolbar();
         main.canvas.remove(main.canvas.getActiveObject());
         main.saveConfig({ texts: CONFIG.texts });
+      }
+    };
+
+    document.onkeyup = e => {
+      if(e.keyCode === 46 && main.canvas.getActiveObject()) {
+        e.preventDefault();
+
+        if(main.canvas.getActiveObject() && main.canvas.getActiveObject().get('type') === 'image') {
+          text.closeToolbar();
+          main.canvas.remove(main.canvas.getActiveObject());
+          main.saveConfig({ background: CONFIG.background });
+        } else if(main.canvas.getActiveObject() && main.canvas.getActiveObject().get('type') === 'textbox') {
+          text.closeToolbar();
+          main.canvas.remove(main.canvas.getActiveObject());
+          main.saveConfig({ texts: CONFIG.texts });
+        }
       }
     };
 
