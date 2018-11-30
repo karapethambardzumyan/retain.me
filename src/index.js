@@ -26,9 +26,11 @@ main.init(canvas => {
     let next = text[start + 1];
     next = next === '\n' ? '\\n' : next;
 
-    // if(prev === '\\n' && current === '\\n' && next === '\\n') {
-    //   console.log('just new line');
-    // }
+    if(prev === '\\n' && current === '\\n' && (next === '\\n' || next === undefined)) {
+      console.log('just new line');
+      target.setSelectionStyles(styles[start - 2], start - 1, start + 1);
+      main.canvas.renderAll();
+    }
 
     if((prev === '\\n' || prev === undefined) && current === '\\n' && next !== '\\n' && next !== undefined) {
       console.log('left side');
@@ -44,13 +46,33 @@ main.init(canvas => {
   });
 
   canvas.on('text:selection:changed', e => {
-    // const styles = e.target.getSelectionStyles(0, e.target.text.length);
-    // const start = e.target.selectionStart;
-    // const end = e.target.selectionEnd;
-    //
-    // text.updateToolbar(styles[start]);
-    //
-    // document.getElementById('font-template').removeAttribute('disabled');
+    const target = e.target;
+    let start = target.selectionStart - 1;
+    const _text = target._text;
+    const styles = target.getSelectionStyles(0, _text.length);
+
+    let prev = _text[start - 1];
+    prev = prev === '\n' ? '\\n' : prev;
+    let current = _text[start];
+    current = current === '\n' ? '\\n' : current;
+    let next = _text[start + 1];
+    next = next === '\n' ? '\\n' : next;
+
+    if(current === '\\n' || prev === undefined) {
+      start = start + 1;
+    }
+
+    if(next === undefined) {
+      start = start - 1;
+    }
+
+    if(next === '\\n') {
+      start = start + 2;
+    }
+
+    text.updateToolbar(styles[start]);
+
+    document.getElementById('font-template').removeAttribute('disabled');
   });
 
   canvas.on('text:editing:entered', e => {
