@@ -1,0 +1,114 @@
+.text-toolbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 300px;
+  background: white;
+  box-shadow: 0px 0px 13px -5px #000;
+  border-radius: 8px;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.text-toolbar-header {
+  border-bottom: 1px solid #ededee;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.text-template,
+.text-family,
+.text-size,
+.text-weight,
+.text-align,
+.text-style,
+.text-color {
+  width: 100%;
+  padding: 6px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ededee;
+}
+
+.text-color {
+  border: none;
+}
+
+.text-template label,
+.text-family label,
+.text-size label,
+.text-weight label,
+.text-align label,
+.text-style label,
+.text-color label {
+  width: 30%;
+  font-family: Arial;
+  font-size: 13px;
+}
+
+.text-size input,
+.text-weight input,
+.text-color input {
+  width: 50%;
+}
+
+.text-template select,
+.text-family select,
+.text-align select,
+.text-weight select {
+  width: 70%;
+}
+
+.text-size span,
+.text-color span {
+  width: 20%;
+  text-align: center;
+  font-family: Arial;
+  font-size: 13px;
+}
+
+.text-align i {
+  margin: 0 4px;
+  cursor: pointer;
+}
+
+.text-align i:hover, .text-align i.active, .text-style i:hover, .text-style i.active {
+  color: #61a6dc;
+}
+
+.text-style i {
+  margin: 0 4px;
+  cursor: pointer;
+}
+
+.text-group {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.text-align {
+  width: 50%
+}
+
+.text-style {
+  width: 25%;
+}
+
+.font-color {
+  width: 70% !important;
+}
+
+.font-value {
+  width: 30% !important;
+  margin-left: 8px;
+  text-align: center;
+  font-family: Arial;
+  font-size: 13px;
+  outline: none;
+}

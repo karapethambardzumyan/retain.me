@@ -21,7 +21,6 @@ main.init(canvas => {
 
   canvas.on('selection:updated', e => {
     text.resetToolbar();
-    text.openToolbar(e.target);
   });
 
   canvas.on('mouse:up', e => {
@@ -40,10 +39,10 @@ main.init(canvas => {
       });
     }
 
-    if(e.target === null) {
-      text.closeToolbar();
-    } else if(e.target !== null && canvas.getActiveObject() &&  canvas.getActiveObject().get('type') === 'textbox') {
+    if(e.target !== null && canvas.getActiveObject() &&  canvas.getActiveObject().get('type') === 'textbox') {
       text.openToolbar(e.target);
+    } else {
+      text.closeToolbar();
     }
   });
 
@@ -59,7 +58,7 @@ main.init(canvas => {
 
   canvas.on('object:scaling', e => {
     if(e.target !== null && canvas.getActiveObject() && canvas.getActiveObject().get('type') === 'image') {
-      let threshold = 14;
+      let threshold = 7;
       let w = e.target.getScaledWidth();
       let h = e.target.getScaledHeight();
       let snap = {
@@ -159,16 +158,16 @@ main.init(canvas => {
     if(e.target !== null && canvas.getActiveObject() && canvas.getActiveObject().get('type') === 'image') {
       const activeObject = main.canvas.getActiveObject();
 
-      if(activeObject.left - main.offset.left < 14 && activeObject.left > main.offset.left) {
+      if(activeObject.left - main.offset.left < 7 && activeObject.left > main.offset.left) {
         activeObject.left = main.offset.left;
       }
-      if(activeObject.top - main.offset.top < 14 && activeObject.top > main.offset.top) {
+      if(activeObject.top - main.offset.top < 7 && activeObject.top > main.offset.top) {
         activeObject.top = main.offset.top;
       }
-      if(main.offset.left + main.innerCanvas.width - activeObject.width * activeObject.scaleX - activeObject.left < 14 && activeObject.left < main.offset.left + main.innerCanvas.width - activeObject.width * activeObject.scaleX) {
+      if(main.offset.left + main.innerCanvas.width - activeObject.width * activeObject.scaleX - activeObject.left < 7 && activeObject.left < main.offset.left + main.innerCanvas.width - activeObject.width * activeObject.scaleX) {
         activeObject.left = main.offset.left + main.innerCanvas.width - activeObject.width * activeObject.scaleX;
       }
-      if(main.offset.top + main.innerCanvas.height - activeObject.height * activeObject.scaleY - activeObject.top < 14 && activeObject.top < main.offset.top + main.innerCanvas.height - activeObject.height * activeObject.scaleY) {
+      if(main.offset.top + main.innerCanvas.height - activeObject.height * activeObject.scaleY - activeObject.top < 7 && activeObject.top < main.offset.top + main.innerCanvas.height - activeObject.height * activeObject.scaleY) {
         activeObject.top = main.offset.top + main.innerCanvas.height - activeObject.height * activeObject.scaleY;
       }
     }
@@ -176,16 +175,16 @@ main.init(canvas => {
     if(e.target !== null && canvas.getActiveObject() && canvas.getActiveObject().get('type') === 'textbox') {
       const activeObject = main.canvas.getActiveObject();
 
-      if(activeObject.left - main.offset.left < 14) {
+      if(activeObject.left - main.offset.left < 7) {
         activeObject.left = main.offset.left;
       }
-      if(activeObject.top - main.offset.top < 14) {
+      if(activeObject.top - main.offset.top < 7) {
         activeObject.top = main.offset.top;
       }
-      if(main.offset.left + main.innerCanvas.width - activeObject.width * activeObject.scaleX - activeObject.left < 14) {
+      if(main.offset.left + main.innerCanvas.width - activeObject.width * activeObject.scaleX - activeObject.left < 7) {
         activeObject.left = main.offset.left + main.innerCanvas.width - activeObject.width * activeObject.scaleX;
       }
-      if(main.offset.top + main.innerCanvas.height - activeObject.height * activeObject.scaleY - activeObject.top < 14) {
+      if(main.offset.top + main.innerCanvas.height - activeObject.height * activeObject.scaleY - activeObject.top < 7) {
         activeObject.top = main.offset.top + main.innerCanvas.height - activeObject.height * activeObject.scaleY;
       }
     }
