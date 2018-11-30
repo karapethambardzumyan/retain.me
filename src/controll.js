@@ -242,6 +242,26 @@ class Controll {
     return this;
   };
 
+  setFontUppercase() {
+    document.getElementById('font-uppercase').onclick = e => {
+      e.preventDefault();
+
+      text.setUppercase();
+    };
+
+    return this;
+  };
+
+  setFontCamelCase() {
+    document.getElementById('font-camelcase').onclick = e => {
+      e.preventDefault();
+
+      text.setCamelcase();
+    };
+
+    return this;
+  };
+
   addFontTemplate() {
     const templateElement = document.getElementById('font-template');
 

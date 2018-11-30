@@ -215,5 +215,7 @@ main.init(canvas => {
     .setFontAlign()
     .setFontColor()
     .setFontUnderline()
+    .setFontUppercase()
+    .setFontCamelCase()
     .addFontTemplate();
 });

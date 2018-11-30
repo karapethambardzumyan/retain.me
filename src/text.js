@@ -2,6 +2,7 @@ import main from './main';
 import { TEXT_TOOLBAR } from './constants';
 
 function insertAtCursor(input, textToInsert) {
+  console.log(input, textToInsert);
   const value = input.value;
   const start = input.selectionStart;
   const end = input.selectionEnd;
@@ -198,6 +199,51 @@ class Text {
     main.canvas.renderAll();
     main.canvas.getActiveObject().setCoords();
     main.canvas.fire('object:modified', { target: main.canvas.getActiveObject() });
+  };
+
+  setUppercase() {
+    const activeObject = main.canvas.getActiveObject();
+
+    let selectionStart = activeObject.selectionStart === activeObject.selectionEnd ? 0 : activeObject.selectionStart;
+    let selectionEnd = activeObject.selectionStart === activeObject.selectionEnd ? activeObject.text.length : activeObject.selectionEnd;
+    let selectedChars = activeObject.text.substring(selectionStart, selectionEnd);
+
+    selectedChars = selectedChars.toUpperCase();
+
+    console.log('a:', selectionStart, selectionEnd, selectedChars);
+
+    activeObject.insertChars(selectedChars, activeObject.getSelectionStyles(selectionStart, selectionEnd), selectionStart, selectionEnd);
+    main.canvas.renderAll();
+    activeObject.setCoords();
+
+    const textarea = document.querySelector('textarea[data-fabric-hiddentextarea]');
+    textarea.focus();
+    textarea.value = activeObject.text;
+  };
+
+  setCamelcase() {
+    const activeObject = main.canvas.getActiveObject();
+
+    let selectionStart = activeObject.selectionStart === activeObject.selectionEnd ? 0 : activeObject.selectionStart;
+    let selectionEnd = activeObject.selectionStart === activeObject.selectionEnd ? activeObject.text.length : activeObject.selectionEnd;
+    let selectedChars = activeObject.text.substring(selectionStart, selectionEnd);
+
+    selectedChars = selectedChars.split(' ');
+    selectedChars = selectedChars.map(word => {
+      word = word.toLowerCase();
+      word = word[0].toUpperCase() + word.substring(1, word.length);
+
+      return word;
+    });
+    selectedChars = selectedChars.join(' ');
+
+    activeObject.insertChars(selectedChars, activeObject.getSelectionStyles(selectionStart, selectionEnd), selectionStart, selectionEnd);
+    main.canvas.renderAll();
+    activeObject.setCoords();
+
+    const textarea = document.querySelector('textarea[data-fabric-hiddentextarea]');
+    textarea.focus();
+    textarea.value = activeObject.text;
   };
 };
 
