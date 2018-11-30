@@ -1,5 +1,5 @@
 import main from './main';
-import { TEXT_TOOLBAR } from './constants';
+import { PT_TO_PX, TEXT_TOOLBAR } from './constants';
 
 function insertAtCursor(input, textToInsert) {
   const value = input.value;
@@ -32,12 +32,11 @@ class Text {
     document.getElementById('font-align-right').classList.remove('active');
 
     document.getElementById('font-family').value = styles.fontFamily || TEXT_TOOLBAR.fontFamily;
-    document.getElementById('font-size').value = styles.fontSize || TEXT_TOOLBAR.fontSize;
+    document.getElementById('font-size').value = styles.fontSize / PT_TO_PX || TEXT_TOOLBAR.fontSize;
     document.getElementById('font-weight').value = styles.fontWeight || TEXT_TOOLBAR.fontWeight;
     document.getElementById(`font-align-${ position }`).classList.add('active');
     document.getElementById('font-color').value = styles.fill || TEXT_TOOLBAR.fontColor;
     document.getElementById('font-color-value').value = styles.fill || TEXT_TOOLBAR.fontColor;
-    document.getElementById('font-size-value').innerHTML = `${ styles.fontSize || TEXT_TOOLBAR.fontSize }px`;
     document.getElementById('font-color-value').innerHTML = styles.fill || TEXT_TOOLBAR.fontColor;
   }
 
@@ -70,7 +69,6 @@ class Text {
     document.getElementById('font-weight').value = TEXT_TOOLBAR.fontWeight;
     document.getElementById(`font-align-${ position }`).classList.add('active');
     document.getElementById('font-color').value = TEXT_TOOLBAR.fontColor;
-    document.getElementById('font-size-value').innerHTML = `${ TEXT_TOOLBAR.fontSize }px`;
     document.getElementById('font-color-value').innerHTML = TEXT_TOOLBAR.fontColor;
   };
 
@@ -87,6 +85,14 @@ class Text {
           mb: false,
           mtr: false
         });
+        o.set({
+          transparentCorners: false,
+          cornerColor: 'rgb(100,144,206)',
+          cornerStyle: 'circle',
+          cornerSize: 11,
+          borderColor: 'rgb(100,144,206)',
+          borderDashArray: [2, 3]
+        });
       });
     });
   };
@@ -100,13 +106,13 @@ class Text {
       fill: TEXT_TOOLBAR.fontColor,
       text: TEXT_TOOLBAR.text,
       lineHeight: 1,
+      width: 400,
       transparentCorners: false,
       cornerColor: 'rgb(100,144,206)',
       cornerStyle: 'circle',
       cornerSize: 11,
       borderColor: 'rgb(100,144,206)',
-      borderDashArray: [2, 3],
-      width: 400
+      borderDashArray: [2, 3]
     });
 
     textObject.setControlsVisibility({
@@ -158,9 +164,9 @@ class Text {
 
   setSize(fontSize) {
     if(main.canvas.getActiveObject().selectionStart === main.canvas.getActiveObject().selectionEnd) {
-      main.canvas.getActiveObject().setSelectionStyles({ fontSize }, 0, main.canvas.getActiveObject().text.length);
+      main.canvas.getActiveObject().setSelectionStyles({ fontSize: fontSize * PT_TO_PX }, 0, main.canvas.getActiveObject().text.length);
     } else {
-      main.canvas.getActiveObject().setSelectionStyles({ fontSize });
+      main.canvas.getActiveObject().setSelectionStyles({ fontSize: fontSize * PT_TO_PX });
     }
     main.canvas.renderAll();
     main.canvas.getActiveObject().setCoords();

@@ -51,13 +51,13 @@
   font-size: 13px;
 }
 
-.text-size input,
 .text-weight input,
 .text-color input {
   width: 50%;
 }
 
 .text-template select,
+.text-size select,
 .text-family select,
 .text-align select,
 .text-weight select {

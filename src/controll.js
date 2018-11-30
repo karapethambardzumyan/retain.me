@@ -191,8 +191,6 @@ class Controll {
     document.getElementById('font-size').onchange = e => {
       e.preventDefault();
 
-      document.getElementById('font-size-value').innerHTML = `${ e.target.value }px`;
-
       text.setSize(e.target.value);
     };
 

@@ -1,5 +1,7 @@
 export const MM_TO_PX = 3.7795275591;
 
+export const PT_TO_PX = 1.333333;
+
 export const SIZES = [
   { width: 136, height: 150 },
   { width: 140, height: 81 },
@@ -34,7 +36,7 @@ export const FONTS = [
 ];
 
 export const TEXT_TOOLBAR = {
-  fontSize: 50,
+  fontSize: 14,
   fontFamily: 'Arial',
   fontWeight: 'normal',
   fontAlign: 'left',
