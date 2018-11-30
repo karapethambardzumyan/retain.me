@@ -68,31 +68,53 @@ class Main {
     if(!isInnerAreaCreated) {
       this.canvas.add(new fabric.Line([this.offset.left, this.offset.top, this.offset.left + this.innerCanvas.width, this.offset.top], {
         stroke: 'black',
+        hoverCursor: 'default',
         selectable: false,
         type: 'innerArea'
       }));
 
       this.canvas.add(new fabric.Line([this.offset.left, this.offset.top + this.innerCanvas.height, this.offset.left + this.innerCanvas.width, this.offset.top + this.innerCanvas.height], {
         stroke: 'black',
+        hoverCursor: 'default',
         selectable: false,
         type: 'innerArea'
       }));
 
       this.canvas.add(new fabric.Line([this.offset.left, this.offset.top, this.offset.left, this.offset.top + this.innerCanvas.height], {
         stroke: 'black',
+        hoverCursor: 'default',
         selectable: false,
         type: 'innerArea'
       }));
 
       this.canvas.add(new fabric.Line([this.offset.left + this.innerCanvas.width, this.offset.top, this.offset.left + this.innerCanvas.width, this.offset.top + this.innerCanvas.height], {
         stroke: 'black',
+        hoverCursor: 'default',
         selectable: false,
         type: 'innerArea'
       }));
+
+      this.innerCanvasBG = new fabric.Rect({
+        left: this.offset.left,
+        top: this.offset.top,
+        fill: '#fff',
+        width: this.innerCanvas.width,
+        height: this.innerCanvas.height,
+        hoverCursor: 'default',
+        selectable: false,
+        type: 'innerCanvas'
+      });
+      this.canvas.add(this.innerCanvasBG);
     }
 
     for(let i in this.canvas.getObjects()) {
-      if(this.canvas.getObjects()[i].type !== 'innerArea') {
+      if(this.canvas.getObjects()[i].type !== 'innerArea' && this.canvas.getObjects()[i].type !== 'innerCanvas') {
+        this.canvas.moveTo(this.canvas.getObjects()[i], 0);
+      }
+    }
+
+    for(let i in this.canvas.getObjects()) {
+      if(this.canvas.getObjects()[i].type === 'innerCanvas') {
         this.canvas.moveTo(this.canvas.getObjects()[i], 0);
       }
     }

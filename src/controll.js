@@ -81,6 +81,8 @@ class Controll {
 
   download() {
     document.getElementById('download').onclick = e => {
+      main.innerCanvasBG.set({ opacity: 0 });
+
       const image = main.canvas.toDataURL({
         top: main.offset.top + 1,
         left: main.offset.left + 1,
@@ -89,6 +91,9 @@ class Controll {
       });
 
       e.target.href = image;
+
+      main.innerCanvasBG.set({ opacity: 1 });
+      main.canvas.renderAll();
     };
 
     return this;
@@ -97,6 +102,8 @@ class Controll {
   preview() {
     document.getElementById('preview').onclick = e => {
       e.preventDefault();
+
+      main.innerCanvasBG.set({ opacity: 0 });
 
       const base64 = main.canvas.toDataURL({
         top: main.offset.top + 1,
@@ -117,6 +124,9 @@ class Controll {
       if(e.target.nodeName !== 'IMG') {
         e.target.classList.add('hidden');
         e.target.innerHTML = '';
+
+        main.innerCanvasBG.set({ opacity: 1 });
+        main.canvas.renderAll();
       }
     };
 
