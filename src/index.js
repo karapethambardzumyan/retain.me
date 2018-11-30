@@ -32,7 +32,7 @@ main.init(canvas => {
     const start = e.target.selectionStart;
     const end = e.target.selectionEnd;
 
-    // console.log(styles, start, end);
+    console.log(styles, start, end);
     // text.updateToolbar(styles[start]);
 
     document.getElementById('font-template').removeAttribute('disabled');
