@@ -34,37 +34,47 @@ function updateToolbar(e) {
   document.getElementById('font-template').removeAttribute('disabled');
 };
 
-function resetHAlignment() {
-  main.canvas.remove(main.canvas.leftHAlignment);
-  main.canvas.remove(main.canvas.rightHAlignment);
+function clearLeftAlignment() {
+  main.canvas.remove(main.leftAlignment);
+  main.leftAlignment = null;
 };
 
-function getHAlignment(target) {
+function clearRightAlignment() {
+  main.canvas.remove(main.rightAlignment);
+  main.rightAlignment = null;
+};
+
+function drawLeftAlignment(target) {
   let { left, __lineWidths, width } = target;
   let textWidth = Math.max.apply(null, __lineWidths);
   let offsetLeft = left + textWidth;
-  let realLeft = 0;
-  let realRight = 0;
-  let alignment = target.textAlign;
 
-  main.canvas.remove(main.canvas.leftHAlignment);
-  main.canvas.leftHAlignment = new fabric.Line([offsetLeft, main.offset.top, offsetLeft, main.offset.top + main.innerCanvas.height], {
+  main.canvas.remove(main.leftAlignment);
+  main.leftAlignment = new fabric.Line([offsetLeft, main.offset.top, offsetLeft, main.offset.top + main.innerCanvas.height], {
     left: target.alignment.left,
     top: main.offset.top,
-    stroke: 'pink',
+    stroke: 'blue',
     selectable: false
   });
-  main.canvas.add(main.canvas.leftHAlignment);
 
-  // main.canvas.remove(main.canvas.rightHAlignment);
-  // main.canvas.rightHAlignment = new fabric.Line([offsetLeft, main.offset.top, offsetLeft, main.offset.top + main.innerCanvas.height], {
-  //   left: target.alignment.right,
-  //   top: main.offset.top,
-  //   stroke: 'pink',
-  //   selectable: true
-  // });
-  // main.canvas.add(main.canvas.rightHAlignment);
+  main.canvas.add(main.leftAlignment);
+  main.canvas.renderAll();
+};
 
+function drawRightAlignment(target) {
+  let { left, __lineWidths, width } = target;
+  let textWidth = Math.max.apply(null, __lineWidths);
+  let offsetLeft = left + textWidth;
+
+  main.canvas.remove(main.rightAlignment);
+  main.rightAlignment = new fabric.Line([offsetLeft, main.offset.top, offsetLeft, main.offset.top + main.innerCanvas.height], {
+    left: target.alignment.right,
+    top: main.offset.top,
+    stroke: 'blue',
+    selectable: false
+  });
+
+  main.canvas.add(main.rightAlignment);
   main.canvas.renderAll();
 };
 
@@ -297,24 +307,38 @@ main.init(canvas => {
       }
 
       text.closeToolbar();
-      text.updateHAligment(e.target);
+      text.updateLeftAligment(e.target);
+      text.updateRightAligment(e.target);
 
       const texts = main.canvas.getObjects().filter(object => object.type === 'textbox');
       let snaped = null;
       let target = e.target.alignment;
 
       for(let i in texts) {
-        if(!texts[i].isMoving) {
-          snaped = texts[i];
+        snaped = texts[i];
+        if(Math.abs(target.left - snaped.alignment.left) > 0 && Math.abs(target.left - snaped.alignment.left) < 10) {
+          e.target.left = snaped.alignment.left - target.offsetLeft;
 
-          if(Math.abs(target.left - snaped.alignment.left) > 0 && Math.abs(target.left - snaped.alignment.left) < 10) {
+          text.updateLeftAligment(snaped);
+          drawLeftAlignment(snaped);
+          break;
+        } else {
+          clearLeftAlignment();
+        }
+      }
 
-            getHAlignment(snaped);
-            e.target.left = snaped.left;
-            break;
-          } else {
-            resetHAlignment();
-          }
+      for(let i in texts) {
+        snaped = texts[i];
+
+        if(Math.abs(target.right - snaped.alignment.right) > 0 && Math.abs(target.right - snaped.alignment.right) < 10) {
+          e.target.left = snaped.alignment.right - target.offsetRight;
+
+          text.updateRightAligment(snaped);
+          drawRightAlignment(snaped);
+          break;
+        } else {
+          clearRightAlignment();
+          continue;
         }
       }
     }

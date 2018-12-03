@@ -72,26 +72,59 @@ class Text {
     document.getElementById('font-color-value').innerHTML = TEXT_TOOLBAR.fontColor;
   };
 
-  updateHAligment(target) {
+  updateLeftAligment(target) {
     let { left, __lineWidths, width } = target;
     let textWidth = Math.max.apply(null, __lineWidths);
     let offsetLeft = left + textWidth;
     let realLeft = 0;
     let realRight = 0;
+    let offset = 0;
+    const alignment = target.textAlign;
+
+    switch(alignment) {
+      case 'left':
+        realLeft = left + 1;
+        break;
+      case 'right':
+        realLeft = (left + (left + width) - (left + textWidth)) + 1;
+        offset = (left + width) - (left + textWidth);
+        break;
+      case 'center':
+        realLeft = (left + ((left + width) - (left + textWidth)) / 2) + 1;
+        offset = ((left + width) - (left + textWidth)) / 2;
+        break;
+      default:
+        break;
+    }
+
+    target.alignment.left = realLeft;
+    target.alignment.offsetLeft = offset;
+  };
+
+  updateRightAligment(target) {
+    let { left, __lineWidths, width } = target;
+    let textWidth = Math.max.apply(null, __lineWidths);
+    let offsetLeft = left + textWidth;
+    let realLeft = 0;
+    let realRight = 0;
+    let offset = 0;
     const alignment = target.textAlign;
 
     switch(alignment) {
       case 'left':
         realLeft = left + 1;
         realRight = realLeft + textWidth;
+        offset = textWidth;
         break;
       case 'right':
         realLeft = (left + (left + width) - (left + textWidth)) + 1;
         realRight = realLeft + textWidth;
+        offset = ((left + width) - (left + textWidth)) + textWidth;
         break;
       case 'center':
         realLeft = (left + ((left + width) - (left + textWidth)) / 2) + 1;
         realRight = realLeft + textWidth;
+        offset = (((left + width) - (left + textWidth)) / 2) + textWidth;
         break;
       default:
         break;
@@ -99,7 +132,9 @@ class Text {
 
     target.alignment.left = realLeft;
     target.alignment.right = realRight;
+    target.alignment.offsetRight = offset;
   };
+
 
   addAll() {
     fabric.util.enlivenObjects(main.config.texts, objects => {
@@ -127,7 +162,8 @@ class Text {
 
         main.canvas.renderAll();
 
-        this.updateHAligment(o);
+        this.updateLeftAligment(o);
+        this.updateRightAligment(o);
       });
     });
   };
@@ -163,7 +199,7 @@ class Text {
     });
 
     main.canvas.add(textObject);
-    this.updateHAligment(textObject);
+    this.updateLeftAligment(textObject);
     main.canvas.setActiveObject(textObject);
     textObject.center();
     main.config.texts.push(textObject);
