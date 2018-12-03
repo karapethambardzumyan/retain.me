@@ -44,6 +44,11 @@ function clearRightAlignment() {
   main.rightAlignment = null;
 };
 
+function clearHorizontalAlignment() {
+  main.canvas.remove(main.horizontalAlignment);
+  main.horizontalAlignment = null;
+};
+
 function drawLeftAlignment(target) {
   let { left, __lineWidths, width } = target;
   let textWidth = Math.max.apply(null, __lineWidths);
@@ -53,7 +58,7 @@ function drawLeftAlignment(target) {
   main.leftAlignment = new fabric.Line([offsetLeft, main.offset.top, offsetLeft, main.offset.top + main.innerCanvas.height], {
     left: target.alignment.left,
     top: main.offset.top,
-    stroke: 'blue',
+    stroke: 'rgb(190, 75, 90)',
     selectable: false
   });
 
@@ -70,11 +75,24 @@ function drawRightAlignment(target) {
   main.rightAlignment = new fabric.Line([offsetLeft, main.offset.top, offsetLeft, main.offset.top + main.innerCanvas.height], {
     left: target.alignment.right,
     top: main.offset.top,
-    stroke: 'blue',
+    stroke: 'rgb(190, 75, 90)',
     selectable: false
   });
 
   main.canvas.add(main.rightAlignment);
+  main.canvas.renderAll();
+};
+
+function drawHorizontalAlignment(height) {
+  main.canvas.remove(main.horizontalAlignment);
+  main.horizontalAlignment = new fabric.Line([main.offset.left, 0, main.offset.left + main.innerCanvas.width, 0], {
+    left: main.offset.left,
+    top: height,
+    stroke: 'rgb(190, 75, 90)',
+    selectable: false
+  });
+
+  main.canvas.add(main.horizontalAlignment);
   main.canvas.renderAll();
 };
 
@@ -161,6 +179,7 @@ main.init(canvas => {
       text.openToolbar(e.target);
       clearLeftAlignment();
       clearRightAlignment();
+      clearHorizontalAlignment();
     } else {
       text.closeToolbar();
     }
@@ -311,6 +330,7 @@ main.init(canvas => {
       text.closeToolbar();
       text.updateLeftAligment(e.target);
       text.updateRightAligment(e.target);
+      text.updateHorizontalAligment(e.target);
 
       const texts = main.canvas.getObjects().filter(object => object.type === 'textbox');
       let snaped = null;
@@ -340,6 +360,19 @@ main.init(canvas => {
           break;
         } else {
           clearRightAlignment();
+          continue;
+        }
+      }
+
+      for(let i in text.objectTops) {
+        if(Math.abs(e.target.top + e.target.__lineHeights[0] - text.objectTops[i]) > 0 && Math.abs(e.target.top + e.target.__lineHeights[0] - text.objectTops[i]) < 10) {
+          e.target.top = text.objectTops[i] - e.target.__lineHeights[0];
+
+          text.updateHorizontalAligment(e.target);
+          drawHorizontalAlignment(text.objectTops[i]);
+          break;
+        } else {
+          clearHorizontalAlignment();
           continue;
         }
       }

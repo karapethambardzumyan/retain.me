@@ -12,7 +12,7 @@ function insertAtCursor(input, textToInsert) {
 
 class Text {
   constructor() {
-
+    this.objectTops = null;
   };
 
   updateToolbar(styles) {
@@ -135,6 +135,25 @@ class Text {
     target.alignment.offsetRight = offset;
   };
 
+  updateHorizontalAligment(target) {
+    const objects = [];
+    this.objectTops = [];
+
+    for(let i in main.canvas.getObjects()) {
+      if(main.canvas.getObjects()[i].type === 'textbox') {
+        objects.push({
+          heights: main.canvas.getObjects()[i].__lineHeights,
+          top: main.canvas.getObjects()[i].top
+        });
+      }
+    }
+
+    for(let i in objects) {
+      for(let j in objects[i].heights) {
+        this.objectTops.push(objects[i].heights[j] * (Number(j) + 1) + objects[i].top);
+      }
+    }
+  };
 
   addAll() {
     fabric.util.enlivenObjects(main.config.texts, objects => {
@@ -164,6 +183,7 @@ class Text {
 
         this.updateLeftAligment(o);
         this.updateRightAligment(o);
+        this.updateHorizontalAligment(o);
       });
     });
   };
