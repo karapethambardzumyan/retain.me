@@ -17,7 +17,7 @@ class Text {
 
   updateToolbar(styles) {
     const activeObject = main.canvas.getActiveObject();
-    const position = activeObject && activeObject.textAlign ? activeObject.textAlign : TEXT_TOOLBAR.fontAlign;
+    const position = activeObject && main.canvas.getActiveObject().textAlign ? main.canvas.getActiveObject().textAlign : TEXT_TOOLBAR.fontAlign;
 
     if(styles.underline) {
       document.getElementById('font-underline').classList.add('active');
@@ -56,7 +56,7 @@ class Text {
 
   resetToolbar() {
     const activeObject = main.canvas.getActiveObject();
-    const position = activeObject && activeObject.textAlign ? activeObject.textAlign : TEXT_TOOLBAR.fontAlign;
+    const position = activeObject && main.canvas.getActiveObject().textAlign ? main.canvas.getActiveObject().textAlign : TEXT_TOOLBAR.fontAlign;
 
     document.getElementById('font-align-left').classList.remove('active');
     document.getElementById('font-align-center').classList.remove('active');
@@ -139,13 +139,20 @@ class Text {
     activeObject.setCoords();
 
     target.blur();
-    document.querySelector('textarea[data-fabric-hiddentextarea]').focus();
-    insertAtCursor(document.querySelector('textarea[data-fabric-hiddentextarea]'), template);
+    main.canvas.getActiveObject().hiddenTextarea.focus();
+    insertAtCursor(main.canvas.getActiveObject().hiddenTextarea, template);
 
     activeObject.setSelectionStart(activeObject.selectionStart + template.length);
     activeObject.setSelectionEnd(activeObject.selectionStart);
 
     main.canvas.renderAll();
+
+    const textarea = main.canvas.getActiveObject().hiddenTextarea;
+
+    if(textarea) {
+      textarea.focus();
+      textarea.value = main.canvas.getActiveObject().text;
+    }
   };
 
   setFamily(fontFamily) {
@@ -158,6 +165,13 @@ class Text {
     main.canvas.fire('object:modified', { target: main.canvas.getActiveObject() });
     main.canvas.renderAll();
     main.canvas.getActiveObject().setCoords();
+
+    const textarea = main.canvas.getActiveObject().hiddenTextarea;
+
+    if(textarea) {
+      textarea.focus();
+      textarea.value = main.canvas.getActiveObject().text;
+    }
   };
 
   setSize(fontSize) {
@@ -169,6 +183,13 @@ class Text {
     main.canvas.renderAll();
     main.canvas.getActiveObject().setCoords();
     main.canvas.fire('object:modified', { target: main.canvas.getActiveObject() });
+
+    const textarea = main.canvas.getActiveObject().hiddenTextarea;
+
+    if(textarea) {
+      textarea.focus();
+      textarea.value = main.canvas.getActiveObject().text;
+    }
   };
 
   setHeight(lineHeight) {
@@ -176,6 +197,13 @@ class Text {
     main.canvas.renderAll();
     main.canvas.getActiveObject().setCoords();
     main.canvas.fire('object:modified', { target: main.canvas.getActiveObject() });
+
+    const textarea = main.canvas.getActiveObject().hiddenTextarea;
+
+    if(textarea) {
+      textarea.focus();
+      textarea.value = main.canvas.getActiveObject().text;
+    }
   };
 
   setWeight(fontWeight) {
@@ -187,6 +215,13 @@ class Text {
     main.canvas.renderAll();
     main.canvas.getActiveObject().setCoords();
     main.canvas.fire('object:modified', { target: main.canvas.getActiveObject() });
+
+    const textarea = main.canvas.getActiveObject().hiddenTextarea;
+
+    if(textarea) {
+      textarea.focus();
+      textarea.value = main.canvas.getActiveObject().text;
+    }
   };
 
   setAlign(textAlign) {
@@ -194,6 +229,13 @@ class Text {
     main.canvas.getActiveObject().setCoords();
     main.canvas.renderAll();
     main.canvas.fire('object:modified', { target: main.canvas.getActiveObject() });
+
+    const textarea = main.canvas.getActiveObject().hiddenTextarea;
+
+    if(textarea) {
+      textarea.focus();
+      textarea.value = main.canvas.getActiveObject().text;
+    }
   };
 
   setColor(fill) {
@@ -205,6 +247,13 @@ class Text {
     main.canvas.renderAll();
     main.canvas.getActiveObject().setCoords();
     main.canvas.fire('object:modified', { target: main.canvas.getActiveObject() });
+
+    const textarea = main.canvas.getActiveObject().hiddenTextarea;
+
+    if(textarea) {
+      textarea.focus();
+      textarea.value = main.canvas.getActiveObject().text;
+    }
   };
 
   setUnderline(underline) {
@@ -216,14 +265,21 @@ class Text {
     main.canvas.renderAll();
     main.canvas.getActiveObject().setCoords();
     main.canvas.fire('object:modified', { target: main.canvas.getActiveObject() });
+
+    const textarea = main.canvas.getActiveObject().hiddenTextarea;
+
+    if(textarea) {
+      textarea.focus();
+      textarea.value = main.canvas.getActiveObject().text;
+    }
   };
 
   setUppercase() {
     const activeObject = main.canvas.getActiveObject();
 
     let selectionStart = activeObject.selectionStart === activeObject.selectionEnd ? 0 : activeObject.selectionStart;
-    let selectionEnd = activeObject.selectionStart === activeObject.selectionEnd ? activeObject.text.length : activeObject.selectionEnd;
-    let selectedChars = activeObject.text.substring(selectionStart, selectionEnd);
+    let selectionEnd = activeObject.selectionStart === activeObject.selectionEnd ? main.canvas.getActiveObject().text.length : activeObject.selectionEnd;
+    let selectedChars = main.canvas.getActiveObject().text.substring(selectionStart, selectionEnd);
 
     selectedChars = selectedChars.toUpperCase();
 
@@ -231,11 +287,11 @@ class Text {
     main.canvas.renderAll();
     activeObject.setCoords();
 
-    const textarea = document.querySelector('textarea[data-fabric-hiddentextarea]');
+    const textarea = main.canvas.getActiveObject().hiddenTextarea;
 
     if(textarea) {
       textarea.focus();
-      textarea.value = activeObject.text;
+      textarea.value = main.canvas.getActiveObject().text;
     }
   };
 
@@ -243,8 +299,8 @@ class Text {
     const activeObject = main.canvas.getActiveObject();
 
     let selectionStart = activeObject.selectionStart === activeObject.selectionEnd ? 0 : activeObject.selectionStart;
-    let selectionEnd = activeObject.selectionStart === activeObject.selectionEnd ? activeObject.text.length : activeObject.selectionEnd;
-    let selectedChars = activeObject.text.substring(selectionStart, selectionEnd);
+    let selectionEnd = activeObject.selectionStart === activeObject.selectionEnd ? main.canvas.getActiveObject().text.length : activeObject.selectionEnd;
+    let selectedChars = main.canvas.getActiveObject().text.substring(selectionStart, selectionEnd);
 
     selectedChars = selectedChars.split(' ');
     selectedChars = selectedChars.map(word => {
@@ -259,11 +315,11 @@ class Text {
     main.canvas.renderAll();
     activeObject.setCoords();
 
-    const textarea = document.querySelector('textarea[data-fabric-hiddentextarea]');
+    const textarea = main.canvas.getActiveObject().hiddenTextarea;
 
     if(textarea) {
       textarea.focus();
-      textarea.value = activeObject.text;
+      textarea.value = main.canvas.getActiveObject().text;
     }
   };
 };
