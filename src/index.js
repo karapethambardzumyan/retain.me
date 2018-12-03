@@ -58,7 +58,7 @@ function drawLeftAlignment(target) {
   main.leftAlignment = new fabric.Line([offsetLeft, main.offset.top, offsetLeft, main.offset.top + main.innerCanvas.height], {
     left: target.alignment.left,
     top: main.offset.top,
-    stroke: 'rgb(190, 75, 90)',
+    stroke: '#000',
     selectable: false
   });
 
@@ -75,7 +75,7 @@ function drawRightAlignment(target) {
   main.rightAlignment = new fabric.Line([offsetLeft, main.offset.top, offsetLeft, main.offset.top + main.innerCanvas.height], {
     left: target.alignment.right,
     top: main.offset.top,
-    stroke: 'rgb(190, 75, 90)',
+    stroke: '#000',
     selectable: false
   });
 
@@ -88,7 +88,7 @@ function drawHorizontalAlignment(height) {
   main.horizontalAlignment = new fabric.Line([main.offset.left, 0, main.offset.left + main.innerCanvas.width, 0], {
     left: main.offset.left,
     top: height,
-    stroke: 'rgb(190, 75, 90)',
+    stroke: '#000',
     selectable: false
   });
 
