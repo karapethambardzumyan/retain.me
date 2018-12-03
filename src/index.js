@@ -159,6 +159,8 @@ main.init(canvas => {
 
     if(e.target !== null && canvas.getActiveObject() &&  canvas.getActiveObject().get('type') === 'textbox') {
       text.openToolbar(e.target);
+      clearLeftAlignment();
+      clearRightAlignment();
     } else {
       text.closeToolbar();
     }
@@ -316,7 +318,7 @@ main.init(canvas => {
 
       for(let i in texts) {
         snaped = texts[i];
-        if(Math.abs(target.left - snaped.alignment.left) > 0 && Math.abs(target.left - snaped.alignment.left) < 10) {
+        if(Math.abs(target.left - snaped.alignment.left) > 0 && Math.abs(target.left - snaped.alignment.left) < 5) {
           e.target.left = snaped.alignment.left - target.offsetLeft;
 
           text.updateLeftAligment(snaped);
@@ -330,7 +332,7 @@ main.init(canvas => {
       for(let i in texts) {
         snaped = texts[i];
 
-        if(Math.abs(target.right - snaped.alignment.right) > 0 && Math.abs(target.right - snaped.alignment.right) < 10) {
+        if(Math.abs(target.right - snaped.alignment.right) > 0 && Math.abs(target.right - snaped.alignment.right) < 5) {
           e.target.left = snaped.alignment.right - target.offsetRight;
 
           text.updateRightAligment(snaped);
