@@ -72,6 +72,35 @@ class Text {
     document.getElementById('font-color-value').innerHTML = TEXT_TOOLBAR.fontColor;
   };
 
+  updateHAligment(target) {
+    let { left, __lineWidths, width } = target;
+    let textWidth = Math.max.apply(null, __lineWidths);
+    let offsetLeft = left + textWidth;
+    let realLeft = 0;
+    let realRight = 0;
+    const alignment = target.textAlign;
+
+    switch(alignment) {
+      case 'left':
+        realLeft = left + 1;
+        realRight = realLeft + textWidth;
+        break;
+      case 'right':
+        realLeft = (left + (left + width) - (left + textWidth)) + 1;
+        realRight = realLeft + textWidth;
+        break;
+      case 'center':
+        realLeft = (left + ((left + width) - (left + textWidth)) / 2) + 1;
+        realRight = realLeft + textWidth;
+        break;
+      default:
+        break;
+    }
+
+    target.alignment.left = realLeft;
+    target.alignment.right = realRight;
+  };
+
   addAll() {
     fabric.util.enlivenObjects(main.config.texts, objects => {
       objects.forEach(o => {
@@ -91,9 +120,14 @@ class Text {
           cornerStyle: 'circle',
           cornerSize: 11,
           borderColor: 'rgb(100,144,206)',
-          borderDashArray: [2, 3]
+          borderDashArray: [2, 3],
+          alignment: {}
         });
         o.followingStyles = {};
+
+        main.canvas.renderAll();
+
+        this.updateHAligment(o);
       });
     });
   };
@@ -114,7 +148,8 @@ class Text {
       cornerSize: 11,
       borderColor: 'rgb(100,144,206)',
       borderDashArray: [2, 3],
-      followingStyles: {}
+      followingStyles: {},
+      alignment: {}
     });
 
     textObject.setControlsVisibility({
@@ -128,6 +163,7 @@ class Text {
     });
 
     main.canvas.add(textObject);
+    this.updateHAligment(textObject);
     main.canvas.setActiveObject(textObject);
     textObject.center();
     main.config.texts.push(textObject);

@@ -34,49 +34,36 @@ function updateToolbar(e) {
   document.getElementById('font-template').removeAttribute('disabled');
 };
 
-function getHAlignment(e, alignment) {
-  let { left, __lineWidths, width } = e.target;
-  let textWidth = Math.max(...__lineWidths);
-  let offsetLeft = left + textWidth;
-  let realLeft = null;
-  let realRight = null;
+function resetHAlignment() {
+  main.canvas.remove(main.canvas.leftHAlignment);
+  main.canvas.remove(main.canvas.rightHAlignment);
+};
 
-  switch(alignment) {
-    case 'left':
-      realLeft = left + 1;
-      realRight = realLeft + textWidth;
-      break;
-    case 'right':
-      realLeft = (left + (left + width) - (left + textWidth)) + 1;
-      realRight = realLeft + textWidth;
-      break;
-    case 'center':
-      realLeft = (left + ((left + width) - (left + textWidth)) / 2) + 1;
-      realRight = realLeft + textWidth;
-      break;
-    default:
-      break;
-  }
+function getHAlignment(target) {
+  let { left, __lineWidths, width } = target;
+  let textWidth = Math.max.apply(null, __lineWidths);
+  let offsetLeft = left + textWidth;
+  let realLeft = 0;
+  let realRight = 0;
+  let alignment = target.textAlign;
 
   main.canvas.remove(main.canvas.leftHAlignment);
   main.canvas.leftHAlignment = new fabric.Line([offsetLeft, main.offset.top, offsetLeft, main.offset.top + main.innerCanvas.height], {
-    left: realLeft,
+    left: target.alignment.left,
     top: main.offset.top,
     stroke: 'pink',
     selectable: false
-  })
-
+  });
   main.canvas.add(main.canvas.leftHAlignment);
 
-  main.canvas.remove(main.canvas.rightHAlignment);
-  main.canvas.rightHAlignment = new fabric.Line([offsetLeft, main.offset.top, offsetLeft, main.offset.top + main.innerCanvas.height], {
-    left: realRight,
-    top: main.offset.top,
-    stroke: 'pink',
-    selectable: true
-  })
-
-  main.canvas.add(main.canvas.rightHAlignment);
+  // main.canvas.remove(main.canvas.rightHAlignment);
+  // main.canvas.rightHAlignment = new fabric.Line([offsetLeft, main.offset.top, offsetLeft, main.offset.top + main.innerCanvas.height], {
+  //   left: target.alignment.right,
+  //   top: main.offset.top,
+  //   stroke: 'pink',
+  //   selectable: true
+  // });
+  // main.canvas.add(main.canvas.rightHAlignment);
 
   main.canvas.renderAll();
 };
@@ -308,10 +295,29 @@ main.init(canvas => {
       if(main.offset.top + main.innerCanvas.height - activeObject.height * activeObject.scaleY - activeObject.top < 7) {
         activeObject.top = main.offset.top + main.innerCanvas.height - activeObject.height * activeObject.scaleY;
       }
-    }
 
-    text.closeToolbar();
-    getHAlignment(e, e.target.textAlign);
+      text.closeToolbar();
+      text.updateHAligment(e.target);
+
+      const texts = main.canvas.getObjects().filter(object => object.type === 'textbox');
+      let snaped = null;
+      let target = e.target.alignment;
+
+      for(let i in texts) {
+        if(!texts[i].isMoving) {
+          snaped = texts[i];
+
+          if(Math.abs(target.left - snaped.alignment.left) > 0 && Math.abs(target.left - snaped.alignment.left) < 10) {
+
+            getHAlignment(snaped);
+            e.target.left = snaped.left;
+            break;
+          } else {
+            resetHAlignment();
+          }
+        }
+      }
+    }
   });
 
   background.add(null, () => {
