@@ -34,6 +34,53 @@ function updateToolbar(e) {
   document.getElementById('font-template').removeAttribute('disabled');
 };
 
+function getHAlignment(e, alignment) {
+  let { left, __lineWidths, width } = e.target;
+  let textWidth = Math.max(...__lineWidths);
+  let offsetLeft = left + textWidth;
+  let realLeft = null;
+  let realRight = null;
+
+  switch(alignment) {
+    case 'left':
+      realLeft = left + 1;
+      realRight = realLeft + textWidth;
+      break;
+    case 'right':
+      realLeft = (left + (left + width) - (left + textWidth)) + 1;
+      realRight = realLeft + textWidth;
+      break;
+    case 'center':
+      realLeft = (left + ((left + width) - (left + textWidth)) / 2) + 1;
+      realRight = realLeft + textWidth;
+      break;
+    default:
+      break;
+  }
+
+  main.canvas.remove(main.canvas.leftHAlignment);
+  main.canvas.leftHAlignment = new fabric.Line([offsetLeft, main.offset.top, offsetLeft, main.offset.top + main.innerCanvas.height], {
+    left: realLeft,
+    top: main.offset.top,
+    stroke: 'pink',
+    selectable: false
+  })
+
+  main.canvas.add(main.canvas.leftHAlignment);
+
+  main.canvas.remove(main.canvas.rightHAlignment);
+  main.canvas.rightHAlignment = new fabric.Line([offsetLeft, main.offset.top, offsetLeft, main.offset.top + main.innerCanvas.height], {
+    left: realRight,
+    top: main.offset.top,
+    stroke: 'pink',
+    selectable: true
+  })
+
+  main.canvas.add(main.canvas.rightHAlignment);
+
+  main.canvas.renderAll();
+};
+
 main.init(canvas => {
   canvas.on('text:changed', e => {
     const target = e.target;
@@ -264,6 +311,7 @@ main.init(canvas => {
     }
 
     text.closeToolbar();
+    getHAlignment(e, e.target.textAlign);
   });
 
   background.add(null, () => {
