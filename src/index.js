@@ -3,17 +3,39 @@ import controll from './controll';
 import background from './background';
 import text from './text';
 
+function updateToolbar(e) {
+  const target = e.target;
+  let start = target.selectionStart - 1;
+  let end = target.selectionEnd - 1;
+  const _text = target._text;
+  const styles = target.getSelectionStyles(0, _text.length);
+
+  let prev = _text[start - 1];
+  prev = prev === '\n' ? '\\n' : prev;
+  let current = _text[start];
+  current = current === '\n' ? '\\n' : current;
+  let next = _text[start + 1];
+  next = next === '\n' ? '\\n' : next;
+
+  if(current === '\\n' || prev === undefined || start !== end) {
+    start = start + 1;
+  }
+
+  if(next === undefined) {
+    start = start - 1;
+  }
+
+  if(next === '\\n' && start !== end) {
+    start = start + 2;
+  }
+
+  text.updateToolbar(styles[start]);
+
+  document.getElementById('font-template').removeAttribute('disabled');
+};
+
 main.init(canvas => {
   canvas.on('text:changed', e => {
-    // this part should be remembered, solution
-    // const info = {
-    //   unwrappedTextLines: target._unwrappedTextLines,
-    //   lineWidths: target.__lineWidths,
-    //   lineHeights: target.__lineHeights,
-    //   textAlign: target.textAlign,
-    //   styleMap: target._styleMap,
-    //   textLines: target._textLines
-    // };
     const target = e.target;
     const start = target.selectionStart - 1;
     const text = target._text;
@@ -25,12 +47,6 @@ main.init(canvas => {
     current = current === '\n' ? '\\n' : current;
     let next = text[start + 1];
     next = next === '\n' ? '\\n' : next;
-
-    if(target.followingStyles) {
-      target.setSelectionStyles(target.followingStyles, start, start + 1);
-      target.followingStyles = {};
-      main.canvas.renderAll();
-    }
 
     if(prev === '\\n' && current === '\\n' && (next === '\\n' || next === undefined)) {
       console.log('just new line');
@@ -49,39 +65,18 @@ main.init(canvas => {
       target.setSelectionStyles(styles[start - 1], start + 1, start + 2);
       main.canvas.renderAll();
     }
+
+    if(current !== '\\n' && Object.keys(target.followingStyles).length !== 0) {
+      target.setSelectionStyles(target.followingStyles, start, start + 1);
+      target.followingStyles = {};
+      main.canvas.renderAll();
+    }
+
+    updateToolbar(e);
   });
 
   canvas.on('text:selection:changed', e => {
-    const target = e.target;
-    let start = target.selectionStart - 1;
-    let end = target.selectionEnd - 1;
-    const _text = target._text;
-    const styles = target.getSelectionStyles(0, _text.length);
-
-    let prev = _text[start - 1];
-    prev = prev === '\n' ? '\\n' : prev;
-    let current = _text[start];
-    current = current === '\n' ? '\\n' : current;
-    let next = _text[start + 1];
-    next = next === '\n' ? '\\n' : next;
-
-    if(current === '\\n' || prev === undefined || start !== end) {
-      start = start + 1;
-    }
-
-    if(next === undefined) {
-      start = start - 1;
-    }
-
-    if(next === '\\n' && start !== end) {
-      start = start + 2;
-    }
-
-    // console.log(prev, current, next, start, end);
-
-    text.updateToolbar(styles[start]);
-
-    document.getElementById('font-template').removeAttribute('disabled');
+    updateToolbar(e);
   });
 
   canvas.on('text:editing:entered', e => {

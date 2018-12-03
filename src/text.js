@@ -19,23 +19,25 @@ class Text {
     const activeObject = main.canvas.getActiveObject();
     const position = activeObject && main.canvas.getActiveObject().textAlign ? main.canvas.getActiveObject().textAlign : TEXT_TOOLBAR.fontAlign;
 
-    if(styles.underline) {
-      document.getElementById('font-underline').classList.add('active');
-    } else {
-      document.getElementById('font-underline').classList.remove('active');
+    if(styles) {
+      if(styles.underline) {
+        document.getElementById('font-underline').classList.add('active');
+      } else {
+        document.getElementById('font-underline').classList.remove('active');
+      }
+
+      document.getElementById('font-align-left').classList.remove('active');
+      document.getElementById('font-align-center').classList.remove('active');
+      document.getElementById('font-align-right').classList.remove('active');
+
+      document.getElementById('font-family').value = styles.fontFamily || TEXT_TOOLBAR.fontFamily;
+      document.getElementById('font-size').value = styles.fontSize / PT_TO_PX || TEXT_TOOLBAR.fontSize;
+      document.getElementById('font-weight').value = styles.fontWeight || TEXT_TOOLBAR.fontWeight;
+      document.getElementById(`font-align-${ position }`).classList.add('active');
+      document.getElementById('font-color').value = styles.fill || TEXT_TOOLBAR.fontColor;
+      document.getElementById('font-color-value').value = styles.fill || TEXT_TOOLBAR.fontColor;
+      document.getElementById('font-color-value').innerHTML = styles.fill || TEXT_TOOLBAR.fontColor;
     }
-
-    document.getElementById('font-align-left').classList.remove('active');
-    document.getElementById('font-align-center').classList.remove('active');
-    document.getElementById('font-align-right').classList.remove('active');
-
-    document.getElementById('font-family').value = styles.fontFamily || TEXT_TOOLBAR.fontFamily;
-    document.getElementById('font-size').value = styles.fontSize / PT_TO_PX || TEXT_TOOLBAR.fontSize;
-    document.getElementById('font-weight').value = styles.fontWeight || TEXT_TOOLBAR.fontWeight;
-    document.getElementById(`font-align-${ position }`).classList.add('active');
-    document.getElementById('font-color').value = styles.fill || TEXT_TOOLBAR.fontColor;
-    document.getElementById('font-color-value').value = styles.fill || TEXT_TOOLBAR.fontColor;
-    document.getElementById('font-color-value').innerHTML = styles.fill || TEXT_TOOLBAR.fontColor;
   }
 
   openToolbar(target) {
