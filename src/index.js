@@ -26,6 +26,12 @@ main.init(canvas => {
     let next = text[start + 1];
     next = next === '\n' ? '\\n' : next;
 
+    if(target.followingStyles) {
+      target.setSelectionStyles(target.followingStyles, start, start + 1);
+      target.followingStyles = {};
+      main.canvas.renderAll();
+    }
+
     if(prev === '\\n' && current === '\\n' && (next === '\\n' || next === undefined)) {
       console.log('just new line');
       target.setSelectionStyles(styles[start - 2], start - 1, start + 1);

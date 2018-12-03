@@ -91,6 +91,7 @@ class Text {
           borderColor: 'rgb(100,144,206)',
           borderDashArray: [2, 3]
         });
+        o.followingStyles = {};
       });
     });
   };
@@ -110,7 +111,8 @@ class Text {
       cornerStyle: 'circle',
       cornerSize: 11,
       borderColor: 'rgb(100,144,206)',
-      borderDashArray: [2, 3]
+      borderDashArray: [2, 3],
+      followingStyles: {}
     });
 
     textObject.setControlsVisibility({
@@ -157,7 +159,7 @@ class Text {
 
   setFamily(fontFamily) {
     if(main.canvas.getActiveObject().selectionStart === main.canvas.getActiveObject().selectionEnd) {
-      main.canvas.getActiveObject().setSelectionStyles({ fontFamily }, 0, main.canvas.getActiveObject().text.length);
+      main.canvas.getActiveObject().followingStyles.fontFamily = fontFamily;
     } else {
       main.canvas.getActiveObject().setSelectionStyles({ fontFamily });
     }
@@ -176,7 +178,7 @@ class Text {
 
   setSize(fontSize) {
     if(main.canvas.getActiveObject().selectionStart === main.canvas.getActiveObject().selectionEnd) {
-      main.canvas.getActiveObject().setSelectionStyles({ fontSize: fontSize * PT_TO_PX }, 0, main.canvas.getActiveObject().text.length);
+      main.canvas.getActiveObject().followingStyles.fontSize = fontSize * PT_TO_PX;
     } else {
       main.canvas.getActiveObject().setSelectionStyles({ fontSize: fontSize * PT_TO_PX });
     }
@@ -208,7 +210,7 @@ class Text {
 
   setWeight(fontWeight) {
     if(main.canvas.getActiveObject().selectionStart === main.canvas.getActiveObject().selectionEnd) {
-      main.canvas.getActiveObject().setSelectionStyles({ fontWeight }, 0, main.canvas.getActiveObject().text.length);
+      main.canvas.getActiveObject().followingStyles.fontWeight = fontWeight;
     } else {
       main.canvas.getActiveObject().setSelectionStyles({ fontWeight });
     }
@@ -240,7 +242,7 @@ class Text {
 
   setColor(fill) {
     if(main.canvas.getActiveObject().selectionStart === main.canvas.getActiveObject().selectionEnd) {
-      main.canvas.getActiveObject().setSelectionStyles({ fill }, 0, main.canvas.getActiveObject().text.length);
+      main.canvas.getActiveObject().followingStyles.fill = fill;
     } else {
       main.canvas.getActiveObject().setSelectionStyles({ fill });
     }
@@ -258,7 +260,7 @@ class Text {
 
   setUnderline(underline) {
     if(main.canvas.getActiveObject().selectionStart === main.canvas.getActiveObject().selectionEnd) {
-      main.canvas.getActiveObject().setSelectionStyles({ underline: !underline }, 0, main.canvas.getActiveObject().text.length);
+      main.canvas.getActiveObject().followingStyles.underline = !underline;
     } else {
       main.canvas.getActiveObject().setSelectionStyles({ underline: !underline });
     }
