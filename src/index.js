@@ -54,6 +54,11 @@ function clearHorizontalCenterAlignment() {
   main.horizontalCenterAlignment = null;
 };
 
+function clearVerticalCenterAlignment() {
+  main.canvas.remove(main.verticalCenterAlignment);
+  main.verticalCenterAlignment = null;
+};
+
 function drawLeftAlignment(target) {
   let { left, __lineWidths, width } = target;
   let textWidth = Math.max.apply(null, __lineWidths);
@@ -101,17 +106,30 @@ function drawHorizontalAlignment(height) {
   main.canvas.renderAll();
 };
 
-function drawHorizontalCenterAlignment(height) {
+function drawHorizontalCenterAlignment() {
   main.canvas.remove(main.horizontalCenterAlignment);
-  main.horizontalCenterAlignment = new fabric.Line([main.offset.left, 0, main.offset.left + main.innerCanvas.width, 0], {
+  main.horizontalCenterAlignment = new fabric.Line([main.offset.left, main.offset.top + main.innerCanvas.height / 2, main.offset.left + main.innerCanvas.width, main.offset.top + main.innerCanvas.height / 2], {
     left: main.offset.left,
-    top: height,
+    top: main.offset.top + main.innerCanvas.height / 2,
     stroke: '#000',
     selectable: false
   });
 
   main.canvas.add(main.horizontalCenterAlignment);
   main.canvas.renderAll();
+};
+
+function drawVerticalCenterAlignment(left) {
+  // main.canvas.remove(main.verticalCenterAlignment);
+  // main.verticalCenterAlignment = new fabric.Line([main.offset.left, 0, main.offset.left + main.innerCanvas.width, 0], {
+  //   left: main.offset.left,
+  //   top: top,
+  //   stroke: '#000',
+  //   selectable: false
+  // });
+  //
+  // main.canvas.add(main.verticalCenterAlignment);
+  // main.canvas.renderAll();
 };
 
 main.init(canvas => {
@@ -199,6 +217,7 @@ main.init(canvas => {
       clearRightAlignment();
       clearHorizontalAlignment();
       clearHorizontalCenterAlignment();
+      clearVerticalCenterAlignment();
     } else {
       text.closeToolbar();
     }
@@ -359,6 +378,15 @@ main.init(canvas => {
         top: main.offset.top + main.innerCanvas.height / 2
       };
 
+      if(Math.abs((e.target.top + e.target.height / 2) - center.top) > 0 && Math.abs((e.target.top + e.target.height / 2) - center.top) < 10) {
+        e.target.top = (center.top - e.target.height / 2) - 1;
+        drawHorizontalCenterAlignment();
+        clearHorizontalAlignment();
+        return;
+      } else {
+        clearHorizontalCenterAlignment();
+      }
+
       for(let i in texts) {
         snaped = texts[i];
         if(Math.abs(target.left - snaped.alignment.left) > 0 && Math.abs(target.left - snaped.alignment.left) < 5) {
@@ -400,12 +428,7 @@ main.init(canvas => {
         }
       }
 
-      if(Math.abs((e.target.top + e.target.height / 2) - center.top) > 0 && Math.abs((e.target.top + e.target.height / 2) - center.top) < 10) {
-        e.target.top = center.top - e.target.height / 2;
-        drawHorizontalCenterAlignment(center.top);
-      } else {
-        clearHorizontalCenterAlignment();
-      }
+
     }
   });
 
