@@ -119,20 +119,44 @@ function drawHorizontalCenterAlignment() {
   main.canvas.renderAll();
 };
 
-function drawVerticalCenterAlignment(left) {
-  // main.canvas.remove(main.verticalCenterAlignment);
-  // main.verticalCenterAlignment = new fabric.Line([main.offset.left, 0, main.offset.left + main.innerCanvas.width, 0], {
-  //   left: main.offset.left,
-  //   top: top,
-  //   stroke: '#000',
-  //   selectable: false
-  // });
-  //
-  // main.canvas.add(main.verticalCenterAlignment);
-  // main.canvas.renderAll();
+function drawVerticalCenterAlignment() {
+  main.canvas.remove(main.verticalCenterAlignment);
+  main.verticalCenterAlignment = new fabric.Line([main.offset.left + main.innerCanvas.width / 2, main.offset.top, main.offset.left + main.innerCanvas.width / 2, main.offset.top + main.innerCanvas.height], {
+    left: main.offset.left + main.innerCanvas.width / 2,
+    top: main.offset.top,
+    stroke: '#000',
+    selectable: false
+  });
+
+  main.canvas.add(main.verticalCenterAlignment);
+  main.canvas.renderAll();
 };
 
 main.init(canvas => {
+  window.onkeydown = e => {
+    if(main.canvas.getActiveObject() && main.canvas.getActiveObject().type === 'textbox') {
+      switch(e.keyCode) {
+        case 37:
+          main.canvas.getActiveObject().left = main.canvas.getActiveObject().left - 1;
+          break;
+        case 39:
+          main.canvas.getActiveObject().left = main.canvas.getActiveObject().left + 1;
+          break;
+        case 38:
+          main.canvas.getActiveObject().top = main.canvas.getActiveObject().top - 1;
+          break;
+        case 40:
+          main.canvas.getActiveObject().top = main.canvas.getActiveObject().top + 1;
+          break;
+        default:
+        break;
+      }
+
+      main.canvas.renderAll();
+      text.closeToolbar();
+    }
+  };
+
   canvas.on('text:changed', e => {
     const target = e.target;
     const start = target.selectionStart - 1;
@@ -378,15 +402,6 @@ main.init(canvas => {
         top: main.offset.top + main.innerCanvas.height / 2
       };
 
-      if(Math.abs((e.target.top + e.target.height / 2) - center.top) > 0 && Math.abs((e.target.top + e.target.height / 2) - center.top) < 10) {
-        e.target.top = (center.top - e.target.height / 2) - 1;
-        drawHorizontalCenterAlignment();
-        clearHorizontalAlignment();
-        return;
-      } else {
-        clearHorizontalCenterAlignment();
-      }
-
       for(let i in texts) {
         snaped = texts[i];
         if(Math.abs(target.left - snaped.alignment.left) > 0 && Math.abs(target.left - snaped.alignment.left) < 5) {
@@ -397,6 +412,7 @@ main.init(canvas => {
           break;
         } else {
           clearLeftAlignment();
+          continue;
         }
       }
 
@@ -428,7 +444,19 @@ main.init(canvas => {
         }
       }
 
+      if(Math.abs((e.target.left + e.target.width / 2) - center.left) > 0 && Math.abs((e.target.left + e.target.width / 2) - center.left) < 10) {
+        e.target.left = (center.left - e.target.width / 2) - 1;
+        drawVerticalCenterAlignment();
+      } else {
+        clearVerticalCenterAlignment();
+      }
 
+      if(Math.abs((e.target.top + e.target.height / 2) - center.top) > 0 && Math.abs((e.target.top + e.target.height / 2) - center.top) < 10) {
+        e.target.top = (center.top - e.target.height / 2) - 1;
+        drawHorizontalCenterAlignment();
+      } else {
+        clearHorizontalCenterAlignment();
+      }
     }
   });
 
