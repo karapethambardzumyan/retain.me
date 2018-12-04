@@ -49,6 +49,11 @@ function clearHorizontalAlignment() {
   main.horizontalAlignment = null;
 };
 
+function clearHorizontalCenterAlignment() {
+  main.canvas.remove(main.horizontalCenterAlignment);
+  main.horizontalCenterAlignment = null;
+};
+
 function drawLeftAlignment(target) {
   let { left, __lineWidths, width } = target;
   let textWidth = Math.max.apply(null, __lineWidths);
@@ -93,6 +98,19 @@ function drawHorizontalAlignment(height) {
   });
 
   main.canvas.add(main.horizontalAlignment);
+  main.canvas.renderAll();
+};
+
+function drawHorizontalCenterAlignment(height) {
+  main.canvas.remove(main.horizontalCenterAlignment);
+  main.horizontalCenterAlignment = new fabric.Line([main.offset.left, 0, main.offset.left + main.innerCanvas.width, 0], {
+    left: main.offset.left,
+    top: height,
+    stroke: '#000',
+    selectable: false
+  });
+
+  main.canvas.add(main.horizontalCenterAlignment);
   main.canvas.renderAll();
 };
 
@@ -180,6 +198,7 @@ main.init(canvas => {
       clearLeftAlignment();
       clearRightAlignment();
       clearHorizontalAlignment();
+      clearHorizontalCenterAlignment();
     } else {
       text.closeToolbar();
     }
@@ -335,6 +354,10 @@ main.init(canvas => {
       const texts = main.canvas.getObjects().filter(object => object.type === 'textbox');
       let snaped = null;
       let target = e.target.alignment;
+      const center = {
+        left: main.offset.left + main.innerCanvas.width / 2,
+        top: main.offset.top + main.innerCanvas.height / 2
+      };
 
       for(let i in texts) {
         snaped = texts[i];
@@ -375,6 +398,13 @@ main.init(canvas => {
           clearHorizontalAlignment();
           continue;
         }
+      }
+
+      if(Math.abs((e.target.top + e.target.height / 2) - center.top) > 0 && Math.abs((e.target.top + e.target.height / 2) - center.top) < 10) {
+        e.target.top = center.top - e.target.height / 2;
+        drawHorizontalCenterAlignment(center.top);
+      } else {
+        clearHorizontalCenterAlignment();
       }
     }
   });
