@@ -138,22 +138,25 @@ main.init(canvas => {
       switch(e.keyCode) {
         case 37:
           main.canvas.getActiveObject().left = main.canvas.getActiveObject().left - 1;
+          text.closeToolbar();
           break;
         case 39:
           main.canvas.getActiveObject().left = main.canvas.getActiveObject().left + 1;
+          text.closeToolbar();
           break;
         case 38:
           main.canvas.getActiveObject().top = main.canvas.getActiveObject().top - 1;
+          text.closeToolbar();
           break;
         case 40:
           main.canvas.getActiveObject().top = main.canvas.getActiveObject().top + 1;
+          text.closeToolbar();
           break;
         default:
         break;
       }
 
       main.canvas.renderAll();
-      text.closeToolbar();
     }
   };
 
