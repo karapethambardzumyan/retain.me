@@ -201,6 +201,7 @@ main.init(canvas => {
   });
 
   canvas.on('text:selection:changed', e => {
+    e.target.followingStyles = { ...e.target.getSelectionStyles()[0] };
     updateToolbar(e);
   });
 
