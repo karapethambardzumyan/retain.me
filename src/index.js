@@ -39,6 +39,11 @@ function clearLeftAlignment() {
   main.leftAlignment = null;
 };
 
+function clearCenterAlignment() {
+  main.canvas.remove(main.centerAlignment);
+  main.centerAlignment = null;
+};
+
 function clearRightAlignment() {
   main.canvas.remove(main.rightAlignment);
   main.rightAlignment = null;
@@ -73,6 +78,23 @@ function drawLeftAlignment(target) {
   });
 
   main.canvas.add(main.leftAlignment);
+  main.canvas.renderAll();
+};
+
+function drawCenterAlignment(target, qqq) {
+  let { left, __lineWidths, width } = target;
+  let textWidth = Math.max.apply(null, __lineWidths);
+  let offsetLeft = left + textWidth;
+
+  main.canvas.remove(main.centerAlignment);
+  main.centerAlignment = new fabric.Line([qqq, main.offset.top, qqq, main.offset.top + main.innerCanvas.height], {
+    left: qqq,
+    top: main.offset.top,
+    stroke: '#000',
+    selectable: false
+  });
+
+  main.canvas.add(main.centerAlignment);
   main.canvas.renderAll();
 };
 
@@ -242,6 +264,7 @@ main.init(canvas => {
     if(e.target !== null && canvas.getActiveObject() &&  canvas.getActiveObject().get('type') === 'textbox') {
       text.openToolbar(e.target);
       clearLeftAlignment();
+      clearCenterAlignment();
       clearRightAlignment();
       clearHorizontalAlignment();
       clearHorizontalCenterAlignment();
@@ -395,6 +418,7 @@ main.init(canvas => {
 
       text.closeToolbar();
       text.updateLeftAligment(e.target);
+      text.updateCenterAligment(e.target);
       text.updateRightAligment(e.target);
       text.updateHorizontalAligment(e.target);
 
@@ -416,6 +440,38 @@ main.init(canvas => {
           break;
         } else {
           clearLeftAlignment();
+          continue;
+        }
+      }
+
+      for(let i in texts) {
+        snaped = texts[i];
+
+        let snapedCenter = snaped.alignment.left + (snaped.alignment.right - snaped.alignment.left) / 2;
+        let targetCenter = target.left + (target.right - target.left) / 2;
+
+        let offset = 0;
+        switch(e.target.textAlign) {
+          case 'left':
+            offset = Math.max.apply(null, e.target.__lineWidths) / 2;
+            break;
+          case 'center':
+            offset = e.target.width / 2;
+            break;
+          case 'right':
+            offset = (e.target.left + e.target.width) - (e.target.left + Math.max.apply(null, e.target.__lineWidths)) + Math.max.apply(null, e.target.__lineWidths) / 2;
+            break;
+          default:
+            break;
+        }
+        if(Math.abs(snapedCenter - targetCenter) > 0 && Math.abs(snapedCenter - targetCenter) < 5) {
+          e.target.left = snapedCenter - offset
+
+          text.updateCenterAligment(snaped);
+          drawCenterAlignment(e.target, snapedCenter);
+          break;
+        } else {
+          clearCenterAlignment();
           continue;
         }
       }
