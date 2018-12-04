@@ -339,7 +339,7 @@ main.init(canvas => {
       for(let i in texts) {
         snaped = texts[i];
         if(Math.abs(target.left - snaped.alignment.left) > 0 && Math.abs(target.left - snaped.alignment.left) < 5) {
-          e.target.left = snaped.alignment.left - target.offsetLeft;
+          e.target.left = snaped.alignment.left - target.offsetLeft - 1;
 
           text.updateLeftAligment(snaped);
           drawLeftAlignment(snaped);
@@ -353,7 +353,7 @@ main.init(canvas => {
         snaped = texts[i];
 
         if(Math.abs(target.right - snaped.alignment.right) > 0 && Math.abs(target.right - snaped.alignment.right) < 5) {
-          e.target.left = snaped.alignment.right - target.offsetRight;
+          e.target.left = snaped.alignment.right - target.offsetRight - 1;
 
           text.updateRightAligment(snaped);
           drawRightAlignment(snaped);
