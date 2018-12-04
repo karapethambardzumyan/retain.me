@@ -64,6 +64,15 @@ function clearVerticalCenterAlignment() {
   main.verticalCenterAlignment = null;
 };
 
+function clearAllAlignment() {
+  clearLeftAlignment();
+  clearCenterAlignment();
+  clearRightAlignment();
+  clearHorizontalAlignment();
+  clearHorizontalCenterAlignment();
+  clearVerticalCenterAlignment();
+};
+
 function drawLeftAlignment(target) {
   let { left, __lineWidths, width } = target;
   let textWidth = Math.max.apply(null, __lineWidths);
@@ -263,12 +272,7 @@ main.init(canvas => {
 
     if(e.target !== null && canvas.getActiveObject() &&  canvas.getActiveObject().get('type') === 'textbox') {
       text.openToolbar(e.target);
-      clearLeftAlignment();
-      clearCenterAlignment();
-      clearRightAlignment();
-      clearHorizontalAlignment();
-      clearHorizontalCenterAlignment();
-      clearVerticalCenterAlignment();
+      clearAllAlignment();
     } else {
       text.closeToolbar();
     }
@@ -417,6 +421,7 @@ main.init(canvas => {
       }
 
       text.closeToolbar();
+
       text.updateLeftAligment(e.target);
       text.updateCenterAligment(e.target);
       text.updateRightAligment(e.target);
@@ -449,7 +454,7 @@ main.init(canvas => {
         drawVerticalCenterAlignment();
         return;
       } else {
-        clearVerticalCenterAlignment();
+        clearAllAlignment();
       }
 
       if(Math.abs((e.target.top + e.target.height / 2) - center.top) > 0 && Math.abs((e.target.top + e.target.height / 2) - center.top) < 5) {
@@ -457,7 +462,7 @@ main.init(canvas => {
         drawHorizontalCenterAlignment();
         return;
       } else {
-        clearHorizontalCenterAlignment();
+        clearAllAlignment();
       }
 
       for(let i in texts) {
@@ -467,9 +472,9 @@ main.init(canvas => {
 
           text.updateLeftAligment(snaped);
           drawLeftAlignment(snaped);
-          break;
+          return;
         } else {
-          clearLeftAlignment();
+          clearAllAlignment();
           continue;
         }
       }
@@ -499,9 +504,9 @@ main.init(canvas => {
 
           text.updateCenterAligment(snaped);
           drawCenterAlignment(e.target, snapedCenter);
-          break;
+          return;
         } else {
-          clearCenterAlignment();
+          clearAllAlignment();
           continue;
         }
       }
@@ -514,9 +519,9 @@ main.init(canvas => {
 
           text.updateRightAligment(snaped);
           drawRightAlignment(snaped);
-          break;
+          return;
         } else {
-          clearRightAlignment();
+          clearAllAlignment();
           continue;
         }
       }
@@ -527,9 +532,9 @@ main.init(canvas => {
 
           text.updateHorizontalAligment(e.target);
           drawHorizontalAlignment(text.objectTops[i]);
-          break;
+          return;
         } else {
-          clearHorizontalAlignment();
+          clearAllAlignment();
           continue;
         }
       }

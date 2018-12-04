@@ -215,6 +215,7 @@ class Text {
         main.canvas.renderAll();
 
         this.updateLeftAligment(o);
+        this.updateCenterAligment(o);
         this.updateRightAligment(o);
         this.updateHorizontalAligment(o);
       });
@@ -252,12 +253,16 @@ class Text {
     });
 
     main.canvas.add(textObject);
-    this.updateLeftAligment(textObject);
     main.canvas.setActiveObject(textObject);
     textObject.center();
     main.config.texts.push(textObject);
 
     this.openToolbar(textObject);
+
+    this.updateLeftAligment(textObject);
+    this.updateCenterAligment(textObject);
+    this.updateRightAligment(textObject);
+    this.updateHorizontalAligment(textObject);
   };
 
   addTemplate(template, target) {
