@@ -447,8 +447,22 @@ main.init(canvas => {
         }
       }
 
-      if(Math.abs((e.target.left + e.target.width / 2) - center.left) > 0 && Math.abs((e.target.left + e.target.width / 2) - center.left) < 10) {
-        e.target.left = (center.left - e.target.width / 2) - 1;
+      let offset = 0;
+      switch(e.target.textAlign) {
+        case 'left':
+          offset = Math.max.apply(null, e.target.__lineWidths) / 2;
+          break;
+        case 'center':
+          offset = e.target.width / 2;
+          break;
+        case 'right':
+          offset = (e.target.left + e.target.width) - (e.target.left + Math.max.apply(null, e.target.__lineWidths)) + Math.max.apply(null, e.target.__lineWidths) / 2;
+          break;
+        default:
+          break;
+      }
+      if(Math.abs(e.target.left + offset - center.left) > 0 && Math.abs(e.target.left + offset - center.left) < 10) {
+        e.target.left = center.left - offset;
         drawVerticalCenterAlignment();
       } else {
         clearVerticalCenterAlignment();
