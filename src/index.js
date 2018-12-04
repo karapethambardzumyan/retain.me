@@ -430,6 +430,36 @@ main.init(canvas => {
         top: main.offset.top + main.innerCanvas.height / 2
       };
 
+      let offset = 0;
+      switch(e.target.textAlign) {
+        case 'left':
+          offset = Math.max.apply(null, e.target.__lineWidths) / 2;
+          break;
+        case 'center':
+          offset = e.target.width / 2;
+          break;
+        case 'right':
+          offset = (e.target.left + e.target.width) - (e.target.left + Math.max.apply(null, e.target.__lineWidths)) + Math.max.apply(null, e.target.__lineWidths) / 2;
+          break;
+        default:
+          break;
+      }
+      if(Math.abs(e.target.left + offset - center.left) > 0 && Math.abs(e.target.left + offset - center.left) < 5) {
+        e.target.left = center.left - offset;
+        drawVerticalCenterAlignment();
+        return;
+      } else {
+        clearVerticalCenterAlignment();
+      }
+
+      if(Math.abs((e.target.top + e.target.height / 2) - center.top) > 0 && Math.abs((e.target.top + e.target.height / 2) - center.top) < 5) {
+        e.target.top = (center.top - e.target.height / 2) - 1;
+        drawHorizontalCenterAlignment();
+        return;
+      } else {
+        clearHorizontalCenterAlignment();
+      }
+
       for(let i in texts) {
         snaped = texts[i];
         if(Math.abs(target.left - snaped.alignment.left) > 0 && Math.abs(target.left - snaped.alignment.left) < 5) {
@@ -492,7 +522,7 @@ main.init(canvas => {
       }
 
       for(let i in text.objectTops) {
-        if(Math.abs(e.target.top + e.target.__lineHeights[0] - text.objectTops[i]) > 0 && Math.abs(e.target.top + e.target.__lineHeights[0] - text.objectTops[i]) < 10) {
+        if(Math.abs(e.target.top + e.target.__lineHeights[0] - text.objectTops[i]) > 0 && Math.abs(e.target.top + e.target.__lineHeights[0] - text.objectTops[i]) < 5) {
           e.target.top = text.objectTops[i] - e.target.__lineHeights[0];
 
           text.updateHorizontalAligment(e.target);
@@ -502,34 +532,6 @@ main.init(canvas => {
           clearHorizontalAlignment();
           continue;
         }
-      }
-
-      let offset = 0;
-      switch(e.target.textAlign) {
-        case 'left':
-          offset = Math.max.apply(null, e.target.__lineWidths) / 2;
-          break;
-        case 'center':
-          offset = e.target.width / 2;
-          break;
-        case 'right':
-          offset = (e.target.left + e.target.width) - (e.target.left + Math.max.apply(null, e.target.__lineWidths)) + Math.max.apply(null, e.target.__lineWidths) / 2;
-          break;
-        default:
-          break;
-      }
-      if(Math.abs(e.target.left + offset - center.left) > 0 && Math.abs(e.target.left + offset - center.left) < 10) {
-        e.target.left = center.left - offset;
-        drawVerticalCenterAlignment();
-      } else {
-        clearVerticalCenterAlignment();
-      }
-
-      if(Math.abs((e.target.top + e.target.height / 2) - center.top) > 0 && Math.abs((e.target.top + e.target.height / 2) - center.top) < 10) {
-        e.target.top = (center.top - e.target.height / 2) - 1;
-        drawHorizontalCenterAlignment();
-      } else {
-        clearHorizontalCenterAlignment();
       }
     }
   });
