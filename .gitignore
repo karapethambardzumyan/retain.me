@@ -1,4 +1,4 @@
 node_modules
 npm-debug.log
-public/canvas/bundle.js
-public/canvas/bundle.js.map
+public/bundle.js
+public/bundle.js.map
