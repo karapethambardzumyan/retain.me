@@ -2,7 +2,7 @@ import main from './main';
 import background from './background';
 import text from './text';
 
-import { CONFIG, SIZES, MM_TO_PX } from './constants';
+import { CONFIG, MM_TO_PX } from './constants';
 
 class Controll {
   constructor() {
@@ -172,8 +172,8 @@ class Controll {
 
       main.saveConfig({ size });
 
-      main.canvas.setWidth(SIZES[size].width * 1.2 * MM_TO_PX);
-      main.canvas.setHeight(SIZES[size].height * 1.2 * MM_TO_PX);
+      main.canvas.setWidth(main.size.width * 1.2 * MM_TO_PX);
+      main.canvas.setHeight(main.size.height * 1.2 * MM_TO_PX);
 
       main.drawInnerArea(true);
     };
@@ -248,7 +248,16 @@ class Controll {
   };
 
   setFontFamily() {
-    document.getElementById('font-family').onchange = e => {
+    const fontFamilyElement = document.getElementById('font-family');
+
+    for(let i in main.fonts) {
+      const font = document.createElement('option');
+      font.value = main.fonts[i];
+      font.innerHTML = main.fonts[i];
+      fontFamilyElement.appendChild(font);
+    }
+
+    fontFamilyElement.onchange = e => {
       e.preventDefault();
 
       text.setFamily(e.target.value);

@@ -173,7 +173,6 @@ main.init(() => {
       'Ranga-Regular',
       'ShadowsIntoLight'
     ];
-
     const customTemplates = [
       { text: 'Order - Currency', value: '<~o:Currency~>' },
       { text: 'Order - Total Price', value: '<~o:TotalPrice~>' },
@@ -222,11 +221,12 @@ main.init(() => {
       { text: 'OrderOffer - Offer Min Spend', value: '<~oo:OfferMinSpend~>' },
       { text: 'OrderOffer - Offer Expiry Date', value: '<~oo:OfferExpiryDate~>' }
     ];
+    const customSize = { width: 136, height: 150 };
 
-    // import external fonts and customization objects into the app
     return {
       fonts: customFonts,
-      templates: customTemplates
+      templates: customTemplates,
+      size: customSize
     };
   }, canvas => {
     window.onkeydown = e => {

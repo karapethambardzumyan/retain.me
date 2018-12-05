@@ -1,7 +1,7 @@
 import FontFaceObserver from 'fontfaceobserver';
 import { fabric } from 'fabric';
 
-import { CONFIG, SIZES, MM_TO_PX } from './constants';
+import { CONFIG, MM_TO_PX } from './constants';
 
 class Main {
   constructor() {
@@ -12,6 +12,7 @@ class Main {
   init(initialCb, cb) {
     this.fonts = initialCb().fonts;
     this.templates = initialCb().templates;
+    this.size = initialCb().size;
 
     const fonts = [];
 
@@ -21,12 +22,12 @@ class Main {
 
     Promise.all(fonts).then(res => {
       this.canvas = new fabric.Canvas('canvas', { preserveObjectStacking: true });
-      this.canvas.setWidth((SIZES[this.config.size].width * MM_TO_PX) + (10 * MM_TO_PX));
-      this.canvas.setHeight((SIZES[this.config.size].height * MM_TO_PX) + (10 * MM_TO_PX));
+      this.canvas.setWidth((this.size.width * MM_TO_PX) + (10 * MM_TO_PX));
+      this.canvas.setHeight((this.size.height * MM_TO_PX) + (10 * MM_TO_PX));
       this.canvas.selection = false;
       this.innerCanvas = {
-        width: SIZES[this.config.size].width * MM_TO_PX,
-        height: SIZES[this.config.size].height * MM_TO_PX
+        width: this.size.width * MM_TO_PX,
+        height: this.size.height * MM_TO_PX
       };
       this.outerCanvas = {
         width: this.canvas.width,
@@ -38,8 +39,8 @@ class Main {
       };
 
       document.getElementById('canvas-wrapper').style.background = 'rgb(190, 75, 90)';
-      document.getElementById('canvas-wrapper').style.width = `${ (SIZES[this.config.size].width * MM_TO_PX) + (10 * MM_TO_PX) }px`;
-      document.getElementById('canvas-wrapper').style.height = `${ (SIZES[this.config.size].height * MM_TO_PX) + (10 * MM_TO_PX) }px`;
+      document.getElementById('canvas-wrapper').style.width = `${ (this.size.width * MM_TO_PX) + (10 * MM_TO_PX) }px`;
+      document.getElementById('canvas-wrapper').style.height = `${ (this.size.height * MM_TO_PX) + (10 * MM_TO_PX) }px`;
       document.getElementById('size').selectedIndex = this.config.size;
 
       this.drawInnerArea();
