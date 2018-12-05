@@ -49,7 +49,6 @@ class Main {
       document.getElementById('canvas-wrapper').style.background = 'rgb(190, 75, 90)';
       document.getElementById('canvas-wrapper').style.width = `${ (this.size.width * MM_TO_PX) + (10 * MM_TO_PX) }px`;
       document.getElementById('canvas-wrapper').style.height = `${ (this.size.height * MM_TO_PX) + (10 * MM_TO_PX) }px`;
-      document.getElementById('size').selectedIndex = this.config.size;
 
       this.drawInnerArea();
 

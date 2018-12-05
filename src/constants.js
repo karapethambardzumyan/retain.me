@@ -14,7 +14,6 @@ export const CONFIG = {
       y: null
     }
   },
-  size: 0,
   texts: []
 };
 

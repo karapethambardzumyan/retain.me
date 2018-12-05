@@ -87,6 +87,7 @@ class Controll {
       e.preventDefault();
 
       localStorage.setItem('config', JSON.stringify(main.config));
+      document.getElementById('config').value = JSON.stringify(main.config);
 
       alert('Canvas is saved');
     };
@@ -161,21 +162,6 @@ class Controll {
         main.innerCanvasBG.set({ opacity: 1 });
         main.canvas.renderAll();
       }
-    };
-
-    return this;
-  };
-
-  size() {
-    document.getElementById('size').onchange = e => {
-      const size = parseInt(e.target.value);
-
-      main.saveConfig({ size });
-
-      main.canvas.setWidth(main.size.width * 1.2 * MM_TO_PX);
-      main.canvas.setHeight(main.size.height * 1.2 * MM_TO_PX);
-
-      main.drawInnerArea(true);
     };
 
     return this;

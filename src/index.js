@@ -614,7 +614,6 @@ main.init(() => {
 
     text.addAll();
 
-    // enable or disable any functionality adding or removing one of following methods
     controll
       .blurAll()
       .upload()
@@ -624,7 +623,6 @@ main.init(() => {
       .preview()
       .download()
       .preview()
-      .size()
       .addText()
       .setFontFamily()
       .setFontSize()
