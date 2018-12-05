@@ -3,10 +3,6 @@ html, body {
   height: 100%;
 }
 
-#canvas {
-  /* background: rgb(190, 75, 90); */
-}
-
 .hidden {
   display: none;
 }
