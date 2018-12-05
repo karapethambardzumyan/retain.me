@@ -9,10 +9,12 @@ class Main {
   };
 
   init(initialCb, cb) {
-    this.fonts = initialCb().fonts;
-    this.templates = initialCb().templates;
-    this.size = initialCb().size;
-    this.config = initialCb().config;
+    const cbResult = initialCb();
+
+    this.fonts = cbResult.fonts;
+    this.templates = cbResult.templates;
+    this.size = cbResult.size;
+    this.config = cbResult.config;
 
     if(this.config.trim()) {
       this.config = JSON.parse(this.config);
