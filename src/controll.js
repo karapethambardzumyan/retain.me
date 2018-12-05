@@ -2,7 +2,7 @@ import main from './main';
 import background from './background';
 import text from './text';
 
-import { TEMPLATES, CONFIG, SIZES, MM_TO_PX } from './constants';
+import { CONFIG, SIZES, MM_TO_PX } from './constants';
 
 class Controll {
   constructor() {
@@ -316,10 +316,10 @@ class Controll {
   addFontTemplate() {
     const templateElement = document.getElementById('font-template');
 
-    for(let i in TEMPLATES) {
+    for(let i in main.templates) {
       const template = document.createElement('option');
-      template.value = TEMPLATES[i].value;
-      template.innerHTML = TEMPLATES[i].text;
+      template.value = main.templates[i].value;
+      template.innerHTML = main.templates[i].text;
       templateElement.appendChild(template);
     }
 

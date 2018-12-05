@@ -1,7 +1,7 @@
 import FontFaceObserver from 'fontfaceobserver';
 import { fabric } from 'fabric';
 
-import { FONTS, CONFIG, SIZES, MM_TO_PX } from './constants';
+import { CONFIG, SIZES, MM_TO_PX } from './constants';
 
 class Main {
   constructor() {
@@ -9,11 +9,14 @@ class Main {
     this.canvas = null;
   };
 
-  init(cb) {
+  init(initialCb, cb) {
+    this.fonts = initialCb().fonts;
+    this.templates = initialCb().templates;
+
     const fonts = [];
 
-    for(let i in FONTS) {
-      fonts.push(new FontFaceObserver(FONTS[i]).load());
+    for(let i in this.fonts) {
+      fonts.push(new FontFaceObserver(this.fonts[i]).load());
     }
 
     Promise.all(fonts).then(res => {
