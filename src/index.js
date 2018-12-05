@@ -222,11 +222,13 @@ main.init(() => {
       { text: 'OrderOffer - Offer Expiry Date', value: '<~oo:OfferExpiryDate~>' }
     ];
     const customSize = { width: 136, height: 150 };
+    const customConfig = ``;
 
     return {
       fonts: customFonts,
       templates: customTemplates,
-      size: customSize
+      size: customSize,
+      config: customConfig
     };
   }, canvas => {
     window.onkeydown = e => {

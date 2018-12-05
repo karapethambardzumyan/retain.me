@@ -5,7 +5,6 @@ import { CONFIG, MM_TO_PX } from './constants';
 
 class Main {
   constructor() {
-    this.config = this.initialConfig();
     this.canvas = null;
   };
 
@@ -13,6 +12,15 @@ class Main {
     this.fonts = initialCb().fonts;
     this.templates = initialCb().templates;
     this.size = initialCb().size;
+    this.config = initialCb().config;
+
+    if(this.config.trim()) {
+      this.config = JSON.parse(this.config);
+    } else {
+      this.config = this.initialConfig();
+    }
+
+    localStorage.setItem('config', JSON.stringify(this.config));
 
     const fonts = [];
 
