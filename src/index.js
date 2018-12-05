@@ -165,7 +165,7 @@ function drawVerticalCenterAlignment() {
 
 main.init(() => {
     let fonts = document.getElementById('fonts').value;
-    const customFonts = fonts.slice(1, fonts.length - 1).split(',').map(font => font.trim().slice(1, font.trim().length - 1));
+    const customFonts = fonts.split(',');
 
     let customizations = document.getElementById('customizations').value;
     const customTemplates = [];
