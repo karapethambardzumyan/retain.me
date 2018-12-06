@@ -29,9 +29,9 @@ class Background {
 
         if(main.innerCanvas.width < img.width || main.innerCanvas.height < img.height) {
           if(canvasRatio > imgRatio) {
-            img.scaleToHeight(main.canvas.height * 0.8);
+            img.scaleToHeight(main.innerCanvas.height);
           } else {
-            img.scaleToWidth(main.canvas.width * 0.8);
+            img.scaleToWidth(main.innerCanvas.width);
           }
         }
 
@@ -71,9 +71,9 @@ class Background {
         });
 
         if(canvasRatio > imgRatio) {
-          img.scaleToHeight(main.canvas.height * 0.8);
+          img.scaleToHeight(main.innerCanvas.height);
         } else {
-          img.scaleToWidth(main.canvas.width * 0.8);
+          img.scaleToWidth(main.innerCanvas.width);
         }
 
         img.set({

@@ -33,6 +33,8 @@ class Controll {
           background.add(base64, () => {
             text.closeToolbar();
             main.drawInnerArea();
+
+            e.target.value = '';
           });
         };
 
