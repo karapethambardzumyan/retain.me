@@ -86,7 +86,6 @@ class Controll {
     document.getElementById('save').onclick = e => {
       e.preventDefault();
 
-      localStorage.setItem('config', JSON.stringify(main.config));
       document.getElementById('config').value = JSON.stringify(main.config);
       document.getElementById('canvasForm').submit();
     };
@@ -101,8 +100,6 @@ class Controll {
       text.closeToolbar();
       main.resetConfig();
       main.canvas.clear();
-
-      localStorage.setItem('config', JSON.stringify(main.config));
 
       main.drawInnerArea();
 

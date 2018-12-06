@@ -22,8 +22,6 @@ class Main {
       this.config = this.initialConfig();
     }
 
-    localStorage.setItem('config', JSON.stringify(this.config));
-
     const fonts = [];
 
     for(let i in this.fonts) {
@@ -135,11 +133,7 @@ class Main {
   };
 
   initialConfig() {
-    if(localStorage.getItem('config') === null) {
-      localStorage.setItem('config', JSON.stringify(CONFIG));
-    }
-
-    return JSON.parse(localStorage.getItem('config'));
+    return CONFIG;
   };
 
   saveConfig(config) {
