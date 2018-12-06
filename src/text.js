@@ -34,7 +34,7 @@ class Text {
       document.getElementById('font-size').value = styles.fontSize / PT_TO_PX || TEXT_TOOLBAR.fontSize;
       document.getElementById('font-weight').value = styles.fontWeight || TEXT_TOOLBAR.fontWeight;
       document.getElementById(`font-align-${ position }`).classList.add('active');
-      document.getElementById('font-color').value = styles.fill || TEXT_TOOLBAR.fontColor;
+      document.getElementById('font-color-preview').style.background = styles.fill || TEXT_TOOLBAR.fontColor;
       document.getElementById('font-color-value').value = styles.fill || TEXT_TOOLBAR.fontColor;
       document.getElementById('font-color-value').innerHTML = styles.fill || TEXT_TOOLBAR.fontColor;
     }
@@ -68,7 +68,7 @@ class Text {
     document.getElementById('font-size').value = TEXT_TOOLBAR.fontSize;
     document.getElementById('font-weight').value = TEXT_TOOLBAR.fontWeight;
     document.getElementById(`font-align-${ position }`).classList.add('active');
-    document.getElementById('font-color').value = TEXT_TOOLBAR.fontColor;
+    document.getElementById('font-color-preview').style.background = TEXT_TOOLBAR.fontColor;
     document.getElementById('font-color-value').innerHTML = TEXT_TOOLBAR.fontColor;
   };
 
@@ -388,6 +388,8 @@ class Text {
       textarea.focus();
       textarea.value = main.canvas.getActiveObject().text;
     }
+
+    document.getElementById('font-color').value = '';
   };
 
   setUnderline(underline) {
