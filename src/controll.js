@@ -22,23 +22,35 @@ class Controll {
   };
 
   upload() {
+    const exts = ['jpg', 'jpeg', 'png'];
+
+    function getFile(filePath) {
+      return filePath.substr(filePath.lastIndexOf('\\') + 1).split('.')[0];
+    }
+
     document.getElementById('upload').onchange = e => {
-      if(main.canvas.getObjects().length >= 4) {
-        let file = e.target.files[0];
-        let reader = new FileReader();
+      const ext = e.target.value.split('.')[e.target.value.split('.').length - 1];
 
-        reader.onload = f => {
-          let base64 = f.target.result;
+      if(exts.indexOf(ext) !== -1) {
+        if(main.canvas.getObjects().length >= 4) {
+          let file = e.target.files[0];
+          let reader = new FileReader();
 
-          background.add(base64, () => {
-            text.closeToolbar();
-            main.drawInnerArea();
+          reader.onload = f => {
+            let base64 = f.target.result;
 
-            e.target.value = '';
-          });
-        };
+            background.add(base64, () => {
+              text.closeToolbar();
+              main.drawInnerArea();
 
-        reader.readAsDataURL(file);
+              e.target.value = '';
+            });
+          };
+
+          reader.readAsDataURL(file);
+        }
+      } else {
+        alert('Uploaded file must be in one of these extensions jpg, jpeg, png');
       }
     };
 
