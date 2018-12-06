@@ -88,8 +88,7 @@ class Controll {
 
       localStorage.setItem('config', JSON.stringify(main.config));
       document.getElementById('config').value = JSON.stringify(main.config);
-
-      alert('Canvas is saved');
+      document.getElementById('canvasForm').submit();
     };
 
     return this;
