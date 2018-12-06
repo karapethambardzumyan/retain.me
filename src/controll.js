@@ -261,7 +261,7 @@ class Controll {
     };
 
     document.getElementById('font-color-value').onkeyup = e => {
-      document.getElementById('font-color').value = e.target.value;
+      document.getElementById('font-color-value').value = e.target.value;
       document.getElementById('font-color-preview').style.background = e.target.value;
 
       text.setColor(e.target.value);
