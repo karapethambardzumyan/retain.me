@@ -123,6 +123,8 @@
   background: #000;
   border-radius: 5px;
   z-index: -1;
+  border: 1px solid black;
+  box-sizing: border-box;
 }
 
 .font-value {
