@@ -34,7 +34,7 @@ class Main {
       this.canvas.setHeight(this.size.height * MM_TO_PX);
       this.canvas.selection = false;
 
-      document.getElementById('canvas-wrapper').style.border = '10px solid rgb(190, 75, 90)';
+      document.getElementById('canvas-wrapper').style.border = '18.897637795px solid rgb(190, 75, 90)';
       document.getElementById('canvas-wrapper').style.width = `${ this.size.width * MM_TO_PX }px`;
       document.getElementById('canvas-wrapper').style.height = `${ this.size.height * MM_TO_PX }px`;
 

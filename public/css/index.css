@@ -31,6 +31,7 @@ html, body {
   right: 0;
   bottom: 0;
   margin: auto;
+  box-sizing: initial !important;
 }
 
 .toolbar {
