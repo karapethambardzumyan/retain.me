@@ -567,9 +567,7 @@ main.init(() => {
       }
     });
 
-    background.add(null, () => {
-      main.drawInnerArea();
-    });
+    background.add(null);
 
     text.addAll();
 

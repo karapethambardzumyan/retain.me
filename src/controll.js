@@ -32,23 +32,19 @@ class Controll {
       const ext = e.target.value.split('.')[e.target.value.split('.').length - 1];
 
       if(exts.indexOf(ext) !== -1) {
-        if(main.canvas.getObjects().length >= 4) {
-          let file = e.target.files[0];
-          let reader = new FileReader();
+        let file = e.target.files[0];
+        let reader = new FileReader();
 
-          reader.onload = f => {
-            let base64 = f.target.result;
+        reader.onload = f => {
+          let base64 = f.target.result;
 
-            background.add(base64, () => {
-              text.closeToolbar();
-              main.drawInnerArea();
+          background.add(base64, () => {
+            text.closeToolbar();
+            e.target.value = '';
+          });
+        };
 
-              e.target.value = '';
-            });
-          };
-
-          reader.readAsDataURL(file);
-        }
+        reader.readAsDataURL(file);
       } else {
         alert('Uploaded file must be in one of these extensions jpg, jpeg, png');
       }
@@ -114,8 +110,6 @@ class Controll {
       text.closeToolbar();
       main.resetConfig();
       main.canvas.clear();
-
-      main.drawInnerArea();
 
       alert('Canvas is reseted');
     };

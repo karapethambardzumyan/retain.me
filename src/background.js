@@ -53,7 +53,16 @@ class Background {
           }
         });
 
-        return cb();
+        const objects = main.canvas.getObjects();
+        for(let i in objects) {
+          if(objects[i].type === 'image') {
+            main.canvas.moveTo(objects[i], 0);
+          }
+        }
+
+        if(typeof cb === 'function') {
+          return cb();
+        }
       });
     }
 
@@ -86,7 +95,16 @@ class Background {
         main.canvas.add(img);
         main.canvas.setActiveObject(img);
 
-        return cb();
+        const objects = main.canvas.getObjects();
+        for(let i in objects) {
+          if(objects[i].type === 'image') {
+            main.canvas.moveTo(objects[i], 0);
+          }
+        }
+
+        if(typeof cb === 'function') {
+          return cb();
+        }
       });
     }
   };
