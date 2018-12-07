@@ -33,18 +33,6 @@ class Main {
       this.canvas.setWidth(this.size.width * MM_TO_PX);
       this.canvas.setHeight(this.size.height * MM_TO_PX);
       this.canvas.selection = false;
-      this.innerCanvas = {
-        width: this.size.width * MM_TO_PX,
-        height: this.size.height * MM_TO_PX
-      };
-      this.outerCanvas = {
-        width: this.canvas.width,
-        height: this.canvas.height
-      };
-      this.offset = {
-        left: (this.outerCanvas.width - this.innerCanvas.width) / 2,
-        top: (this.outerCanvas.height - this.innerCanvas.height) / 2
-      };
 
       document.getElementById('canvas-wrapper').style.border = '10px solid rgb(190, 75, 90)';
       document.getElementById('canvas-wrapper').style.width = `${ this.size.width * MM_TO_PX }px`;

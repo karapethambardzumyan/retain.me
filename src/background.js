@@ -16,7 +16,7 @@ class Background {
 
     if(base64) {
       fabric.Image.fromURL(base64, img => {
-        const canvasRatio = main.innerCanvas.width / main.innerCanvas.height;
+        const canvasRatio = main.canvas.width / main.canvas.height;
         const imgRatio = img.width / img.height;
 
         img.setControlsVisibility({
@@ -27,11 +27,11 @@ class Background {
           mtr: false
         });
 
-        if(main.innerCanvas.width < img.width || main.innerCanvas.height < img.height) {
+        if(main.canvas.width < img.width || main.canvas.height < img.height) {
           if(canvasRatio > imgRatio) {
-            img.scaleToHeight(main.innerCanvas.height);
+            img.scaleToHeight(main.canvas.height);
           } else {
-            img.scaleToWidth(main.innerCanvas.width);
+            img.scaleToWidth(main.canvas.width);
           }
         }
 
@@ -80,9 +80,9 @@ class Background {
         });
 
         if(canvasRatio > imgRatio) {
-          img.scaleToHeight(main.innerCanvas.height);
+          img.scaleToHeight(main.canvas.height);
         } else {
-          img.scaleToWidth(main.innerCanvas.width);
+          img.scaleToWidth(main.canvas.width);
         }
 
         img.set({

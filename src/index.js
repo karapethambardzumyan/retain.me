@@ -79,9 +79,9 @@ function drawLeftAlignment(target) {
   let offsetLeft = left + textWidth;
 
   main.canvas.remove(main.leftAlignment);
-  main.leftAlignment = new fabric.Line([offsetLeft, main.offset.top, offsetLeft, main.offset.top + main.innerCanvas.height], {
+  main.leftAlignment = new fabric.Line([offsetLeft, 0, offsetLeft, main.canvas.height], {
     left: target.alignment.left,
-    top: main.offset.top,
+    top: 0,
     stroke: '#000',
     selectable: false
   });
@@ -90,15 +90,15 @@ function drawLeftAlignment(target) {
   main.canvas.renderAll();
 };
 
-function drawCenterAlignment(target, qqq) {
+function drawCenterAlignment(target, leftPos) {
   let { left, __lineWidths, width } = target;
   let textWidth = Math.max.apply(null, __lineWidths);
   let offsetLeft = left + textWidth;
 
   main.canvas.remove(main.centerAlignment);
-  main.centerAlignment = new fabric.Line([qqq, main.offset.top, qqq, main.offset.top + main.innerCanvas.height], {
-    left: qqq,
-    top: main.offset.top,
+  main.centerAlignment = new fabric.Line([leftPos, 0, leftPos, main.canvas.height], {
+    left: leftPos,
+    top: 0,
     stroke: '#000',
     selectable: false
   });
@@ -113,9 +113,9 @@ function drawRightAlignment(target) {
   let offsetLeft = left + textWidth;
 
   main.canvas.remove(main.rightAlignment);
-  main.rightAlignment = new fabric.Line([offsetLeft, main.offset.top, offsetLeft, main.offset.top + main.innerCanvas.height], {
+  main.rightAlignment = new fabric.Line([offsetLeft, 0, offsetLeft, main.canvas.height], {
     left: target.alignment.right,
-    top: main.offset.top,
+    top: 0,
     stroke: '#000',
     selectable: false
   });
@@ -126,8 +126,8 @@ function drawRightAlignment(target) {
 
 function drawHorizontalAlignment(height) {
   main.canvas.remove(main.horizontalAlignment);
-  main.horizontalAlignment = new fabric.Line([main.offset.left, 0, main.offset.left + main.innerCanvas.width, 0], {
-    left: main.offset.left,
+  main.horizontalAlignment = new fabric.Line([0, 0, main.canvas.width, 0], {
+    left: 0,
     top: height,
     stroke: '#000',
     selectable: false
@@ -139,9 +139,9 @@ function drawHorizontalAlignment(height) {
 
 function drawHorizontalCenterAlignment() {
   main.canvas.remove(main.horizontalCenterAlignment);
-  main.horizontalCenterAlignment = new fabric.Line([main.offset.left, main.offset.top + main.innerCanvas.height / 2, main.offset.left + main.innerCanvas.width, main.offset.top + main.innerCanvas.height / 2], {
-    left: main.offset.left,
-    top: main.offset.top + main.innerCanvas.height / 2,
+  main.horizontalCenterAlignment = new fabric.Line([0, main.canvas.height / 2, main.canvas.width, main.canvas.height / 2], {
+    left: 0,
+    top: main.canvas.height / 2,
     stroke: '#000',
     selectable: false
   });
@@ -152,9 +152,9 @@ function drawHorizontalCenterAlignment() {
 
 function drawVerticalCenterAlignment() {
   main.canvas.remove(main.verticalCenterAlignment);
-  main.verticalCenterAlignment = new fabric.Line([main.offset.left + main.innerCanvas.width / 2, main.offset.top, main.offset.left + main.innerCanvas.width / 2, main.offset.top + main.innerCanvas.height], {
-    left: main.offset.left + main.innerCanvas.width / 2,
-    top: main.offset.top,
+  main.verticalCenterAlignment = new fabric.Line([main.canvas.width / 2, 0, main.canvas.width / 2, main.canvas.height], {
+    left: main.canvas.width / 2,
+    top: 0,
     stroke: '#000',
     selectable: false
   });
@@ -320,10 +320,10 @@ main.init(() => {
         let w = e.target.getScaledWidth();
         let h = e.target.getScaledHeight();
         let snap = {
-           top: main.offset.top,
-           left: main.offset.left,
-           bottom: main.offset.top + main.innerCanvas.height,
-           right: main.offset.left + main.innerCanvas.width
+           top: 0,
+           left: 0,
+           bottom: main.canvas.height,
+           right: main.canvas.width
         };
         let dist = {
           top: Math.abs(snap.top - e.target.top),
@@ -395,17 +395,17 @@ main.init(() => {
       }
 
       if(e.target !== null && canvas.getActiveObject() && canvas.getActiveObject().get('type') === 'textbox') {
-        if(e.target.left < main.offset.left) {
-          e.target.width = main.canvas.getActiveObject().left + main.canvas.getActiveObject().width - main.offset.left;
-          e.target.left = main.offset.left;
+        if(e.target.left < 0) {
+          e.target.width = main.canvas.getActiveObject().left + main.canvas.getActiveObject().width;
+          e.target.left = 0;
         }
 
-        if(e.target.left + e.target.width > main.offset.left + main.innerCanvas.width) {
-          e.target.width = main.innerCanvas.width - main.canvas.getActiveObject().left + main.offset.left;
+        if(e.target.left + e.target.width > main.canvas.width) {
+          e.target.width = main.canvas.width - main.canvas.getActiveObject().left;
         }
 
-        if(e.target.top + e.target.height > main.innerCanvas.height + main.offset.top) {
-          e.target.top = main.innerCanvas.height + main.offset.top - e.target.height;
+        if(e.target.top + e.target.height > main.canvas.height) {
+          e.target.top = main.canvas.height - e.target.height;
         }
       }
 
@@ -416,34 +416,34 @@ main.init(() => {
       if(e.target !== null && canvas.getActiveObject() && canvas.getActiveObject().get('type') === 'image') {
         const activeObject = main.canvas.getActiveObject();
 
-        if(activeObject.left - main.offset.left < 7 && activeObject.left > main.offset.left) {
-          activeObject.left = main.offset.left;
+        if(activeObject.left < 7 && activeObject.left > 0) {
+          activeObject.left = 0;
         }
-        if(activeObject.top - main.offset.top < 7 && activeObject.top > main.offset.top) {
-          activeObject.top = main.offset.top;
+        if(activeObject.top < 7 && activeObject.top > 0) {
+          activeObject.top = 0;
         }
-        if(main.offset.left + main.innerCanvas.width - activeObject.width * activeObject.scaleX - activeObject.left < 7 && activeObject.left < main.offset.left + main.innerCanvas.width - activeObject.width * activeObject.scaleX) {
-          activeObject.left = main.offset.left + main.innerCanvas.width - activeObject.width * activeObject.scaleX;
+        if(main.canvas.width - activeObject.width * activeObject.scaleX - activeObject.left < 7 && activeObject.left < main.canvas.width - activeObject.width * activeObject.scaleX) {
+          activeObject.left = main.canvas.width - activeObject.width * activeObject.scaleX;
         }
-        if(main.offset.top + main.innerCanvas.height - activeObject.height * activeObject.scaleY - activeObject.top < 7 && activeObject.top < main.offset.top + main.innerCanvas.height - activeObject.height * activeObject.scaleY) {
-          activeObject.top = main.offset.top + main.innerCanvas.height - activeObject.height * activeObject.scaleY;
+        if(main.canvas.height - activeObject.height * activeObject.scaleY - activeObject.top < 7 && activeObject.top < main.canvas.height - activeObject.height * activeObject.scaleY) {
+          activeObject.top = main.canvas.height - activeObject.height * activeObject.scaleY;
         }
       }
 
       if(e.target !== null && canvas.getActiveObject() && canvas.getActiveObject().get('type') === 'textbox') {
         const activeObject = main.canvas.getActiveObject();
 
-        if(activeObject.left - main.offset.left < 7) {
-          activeObject.left = main.offset.left;
+        if(activeObject.left < 7) {
+          activeObject.left = 0;
         }
-        if(activeObject.top - main.offset.top < 7) {
-          activeObject.top = main.offset.top;
+        if(activeObject.top < 7) {
+          activeObject.top = 0;
         }
-        if(main.offset.left + main.innerCanvas.width - activeObject.width * activeObject.scaleX - activeObject.left < 7) {
-          activeObject.left = main.offset.left + main.innerCanvas.width - activeObject.width * activeObject.scaleX;
+        if(main.canvas.width - activeObject.width * activeObject.scaleX - activeObject.left < 7) {
+          activeObject.left =  main.canvas.width - activeObject.width * activeObject.scaleX;
         }
-        if(main.offset.top + main.innerCanvas.height - activeObject.height * activeObject.scaleY - activeObject.top < 7) {
-          activeObject.top = main.offset.top + main.innerCanvas.height - activeObject.height * activeObject.scaleY;
+        if(main.canvas.height - activeObject.height * activeObject.scaleY - activeObject.top < 7) {
+          activeObject.top = main.canvas.height - activeObject.height * activeObject.scaleY;
         }
 
         text.closeToolbar();
@@ -457,8 +457,8 @@ main.init(() => {
         let snaped = null;
         let target = e.target.alignment;
         const center = {
-          left: main.offset.left + main.innerCanvas.width / 2,
-          top: main.offset.top + main.innerCanvas.height / 2
+          left: main.canvas.width / 2,
+          top: main.canvas.height / 2
         };
 
         let offset = 0;
