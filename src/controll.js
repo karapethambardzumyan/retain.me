@@ -1,3 +1,4 @@
+import JSONPrune from 'json_prune';
 import main from './main';
 import background from './background';
 import text from './text';
@@ -96,7 +97,7 @@ class Controll {
     document.getElementById('save').onclick = e => {
       e.preventDefault();
 
-      document.getElementById('config').value = JSON.stringify(main.config);
+      document.getElementById('config').value = JSONPrune.prune(main.config);
       document.getElementById('canvasForm').submit();
     };
 

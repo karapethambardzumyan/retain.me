@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "fabric": "^2.4.3",
-    "fontfaceobserver": "^2.0.13"
+    "fontfaceobserver": "^2.0.13",
+    "json_prune": "^1.0.0"
   }
 }
