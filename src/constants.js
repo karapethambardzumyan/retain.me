@@ -25,3 +25,5 @@ export const TEXT_TOOLBAR = {
   fontColor: '#000000',
   text: 'Enter your text'
 };
+
+export const MIN_BACKGROUND_SIZE = 2097152;

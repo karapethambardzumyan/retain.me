@@ -3,7 +3,7 @@ import main from './main';
 import background from './background';
 import text from './text';
 
-import { CONFIG, MM_TO_PX } from './constants';
+import { CONFIG, MIN_BACKGROUND_SIZE } from './constants';
 
 class Controll {
   constructor() {
@@ -25,14 +25,15 @@ class Controll {
   upload() {
     const exts = ['jpg', 'jpeg', 'png'];
 
-    function getFile(filePath) {
-      return filePath.substr(filePath.lastIndexOf('\\') + 1).split('.')[0];
-    }
-
     document.getElementById('upload').onchange = e => {
-      const ext = e.target.value.split('.')[e.target.value.split('.').length - 1];
+      const ext = (e.target.value.split('.')[e.target.value.split('.').length - 1]).toLowerCase();
+      const size = e.target.files[0].size;
 
-      if(exts.indexOf(ext) !== -1) {
+      console.log();
+
+      if(size < MIN_BACKGROUND_SIZE) {
+        alert('Uploaded file must be at least 2 mb');
+      } else if(exts.indexOf(ext) !== -1) {
         let file = e.target.files[0];
         let reader = new FileReader();
 
