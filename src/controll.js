@@ -29,8 +29,6 @@ class Controll {
       const ext = (e.target.value.split('.')[e.target.value.split('.').length - 1]).toLowerCase();
       const size = e.target.files[0].size;
 
-      console.log();
-
       if(size < MIN_BACKGROUND_SIZE) {
         alert('Uploaded file must be at least 2 mb');
       } else if(exts.indexOf(ext) !== -1) {
