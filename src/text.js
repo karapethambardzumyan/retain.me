@@ -224,7 +224,7 @@ class Text {
 
   add(text) {
     let textObject = new fabric.Textbox(text, {
-      fontSize: TEXT_TOOLBAR.fontSize,
+      fontSize: TEXT_TOOLBAR.fontSize * PT_TO_PX,
       fontFamily: TEXT_TOOLBAR.fontFamily,
       fontWeight: TEXT_TOOLBAR.fontWeight,
       alignText: TEXT_TOOLBAR.fontAlign,
