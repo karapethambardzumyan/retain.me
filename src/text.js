@@ -267,8 +267,17 @@ class Text {
 
   addTemplate(template, target) {
     const activeObject = main.canvas.getActiveObject();
+    const stylesToBeApplied = activeObject.styles[0] ? activeObject.styles[0][0] : {};
 
-    activeObject.insertChars(template, null, activeObject.selectionStart, activeObject.selectionEnd);
+    console.log(activeObject.selectionStart, activeObject.selectionEnd, activeObject.text.length);
+    if(activeObject.selectionStart === 0 && activeObject.selectionEnd === activeObject.text.length) {
+      activeObject.insertChars(template, null, activeObject.selectionStart, activeObject.selectionEnd);
+      activeObject.setSelectionStyles(stylesToBeApplied, 0, activeObject.text.length);
+      console.log(12);
+    } else {
+      activeObject.insertChars(template, null, activeObject.selectionStart, activeObject.selectionEnd);
+    }
+
     main.canvas.renderAll();
     activeObject.setCoords();
 
