@@ -1,53 +1,8 @@
+import './fabric';
 import main from './main';
 import controll from './controll';
 import background from './background';
 import text from './text';
-
-fabric.IText.prototype.isRTL = false;
-
-// fabric.IText.prototype.fromGraphemeToStringSelection = function(start, end, _text) {
-//   var smallerTextStart = _text.slice(0, start),
-//       graphemeStart = smallerTextStart.join('').length;
-//
-//   if (start === end) {
-//     return { selectionStart: _text.length - graphemeStart, selectionEnd: _text.length - graphemeStart };
-//   }
-//
-//   var smallerTextEnd = _text.slice(start, end),
-//       graphemeEnd = smallerTextEnd.join('').length;
-//
-//   return { selectionStart: graphemeStart, selectionEnd: graphemeStart + graphemeEnd };
-// };
-
-fabric.IText.prototype._getCursorBoundariesOffsets = function(position) {
-  if (this.cursorOffsetCache && 'top' in this.cursorOffsetCache) {
-    return this.cursorOffsetCache;
-  }
-  var lineLeftOffset,
-      lineIndex,
-      charIndex,
-      topOffset = 0,
-      leftOffset = 0,
-      boundaries,
-      cursorPosition = this.get2DCursorLocation(position);
-  charIndex = cursorPosition.charIndex;
-  lineIndex = cursorPosition.lineIndex;
-  for (var i = 0; i < lineIndex; i++) {
-    topOffset += this.getHeightOfLine(i);
-  }
-  lineLeftOffset = this._getLineLeftOffset(lineIndex);
-  var bound = this.__charBounds[lineIndex][charIndex];
-  bound && (leftOffset = this.__lineWidths[lineIndex] - bound.left);
-  if (this.charSpacing !== 0 && charIndex === this._textLines[lineIndex].length) {
-    leftOffset -= this._getWidthOfCharSpacing();
-  }
-  boundaries = {
-    top: topOffset,
-    left: lineLeftOffset + (leftOffset > 0 ? leftOffset : 0),
-  };
-  this.cursorOffsetCache = boundaries;
-  return this.cursorOffsetCache;
-};
 
 function updateToolbar(e) {
   const target = e.target;
