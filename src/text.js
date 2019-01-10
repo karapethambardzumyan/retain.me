@@ -37,6 +37,7 @@ class Text {
       document.getElementById('font-color-preview').style.background = styles.fill || TEXT_TOOLBAR.fontColor;
       document.getElementById('font-color-value').value = styles.fill || TEXT_TOOLBAR.fontColor;
       document.getElementById('font-color-value').innerHTML = styles.fill || TEXT_TOOLBAR.fontColor;
+      document.getElementById('font-color').value = styles.fill || TEXT_TOOLBAR.fontColor;
     }
   }
 
@@ -268,7 +269,7 @@ class Text {
   addTemplate(template, target) {
     const activeObject = main.canvas.getActiveObject();
     const stylesToBeApplied = activeObject.styles[0] ? activeObject.styles[0][0] : {};
-    
+
     if(activeObject.selectionStart === 0 && activeObject.selectionEnd === activeObject.text.length) {
       activeObject.insertChars(template, null, activeObject.selectionStart, activeObject.selectionEnd);
       activeObject.setSelectionStyles(stylesToBeApplied, 0, activeObject.text.length);
@@ -395,8 +396,6 @@ class Text {
       textarea.focus();
       textarea.value = main.canvas.getActiveObject().text;
     }
-
-    document.getElementById('font-color').value = '';
   };
 
   setUnderline(underline) {
