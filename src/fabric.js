@@ -2,19 +2,19 @@ import { fabric } from 'fabric';
 
 fabric.IText.prototype.isRTL = false;
 
-// fabric.IText.prototype.moveCursorLeft = function(e) {
-//   if (this._text.length - this.selectionStart === 0 && this._text.length - this.selectionEnd === 0) {
-//     return;
-//   }
-//   this._moveCursorLeftOrRight('Right', e);
-// },
-//
-// fabric.IText.prototype.moveCursorRight = function(e) {
-//   if (this._text.length - this.selectionStart >= this._text.length && this._text.length - this.selectionEnd >= this._text.length) {
-//     return;
-//   }
-//   this._moveCursorLeftOrRight('Left', e);
-// },
+fabric.IText.prototype.moveCursorLeft = function(e) {
+  if (this._text.length - this.selectionStart === 0 && this._text.length - this.selectionEnd === 0) {
+    return;
+  }
+  this._moveCursorLeftOrRight('Right', e);
+};
+
+fabric.IText.prototype.moveCursorRight = function(e) {
+  if (this._text.length - this.selectionStart >= this._text.length && this._text.length - this.selectionEnd >= this._text.length) {
+    return;
+  }
+  this._moveCursorLeftOrRight('Left', e);
+};
 
 fabric.IText.prototype._getCursorBoundariesOffsets = function(position) {
   if (this.cursorOffsetCache && 'top' in this.cursorOffsetCache) {
@@ -27,7 +27,6 @@ fabric.IText.prototype._getCursorBoundariesOffsets = function(position) {
       leftOffset = 0,
       boundaries,
       cursorPosition = this.get2DCursorLocation(position);
-  // charIndex = this._text.length - cursorPosition.charIndex;
   charIndex = cursorPosition.charIndex;
   lineIndex = cursorPosition.lineIndex;
   for (var i = 0; i < lineIndex; i++) {
