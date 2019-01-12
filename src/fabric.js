@@ -17,24 +17,24 @@ fabric.IText.prototype.onKeyDown = function(e) {
     value.splice(this.selectionStart, this.selectionStart === this.selectionEnd ? 1 : Math.abs(this.selectionStart - this.selectionEnd));
     value = value.join('');
 
-    this.selectionEnd = this.selectionStart;
     this.hiddenTextarea.value = value;
     this.text = this.hiddenTextarea.value;
+    this.hiddenTextarea.selectionStart = this.hiddenTextarea.selectionEnd = this.selectionEnd = this.selectionStart;
   }
   if(e.keyCode === 46) {
     e.preventDefault();
 
-    if(this.selectionStart === 0) {
+    if(this.selectionStart === this.selectionEnd && this.selectionStart === 0) {
       return;
     }
 
     let value = this.hiddenTextarea.value.split('');
-    value.splice(this.selectionStart - 1, this.selectionStart === this.selectionEnd ? 1 : Math.abs(this.selectionStart - this.selectionEnd));
+    value.splice(this.selectionStart === this.selectionEnd ? this.selectionStart - 1 : this.selectionStart, this.selectionStart === this.selectionEnd ? 1 : Math.abs(this.selectionStart - this.selectionEnd));
     value = value.join('');
 
-    this.selectionEnd = this.selectionStart = this.selectionStart - 1;
     this.hiddenTextarea.value = value;
     this.text = this.hiddenTextarea.value;
+    this.hiddenTextarea.selectionStart = this.hiddenTextarea.selectionEnd = this.selectionStart = this.selectionEnd = this.selectionStart === this.selectionEnd ? this.selectionStart - 1 : this.selectionStart;
   }
   if(e.keyCode in this.keysMap) {
     this[this.keysMap[e.keyCode]](e);
@@ -81,21 +81,23 @@ fabric.IText.prototype.updateFromTextArea = function() {
   this.hiddenTextarea.selectionStart = this.hiddenTextarea.selectionStart - 1;
   this.hiddenTextarea.selectionEnd = this.hiddenTextarea.selectionEnd - 1;
 
-  // const lastChar = getDifference(this.text, this.hiddenTextarea.value);
-  // const index = this.hiddenTextarea.value.indexOf(lastChar);
-  //
-  // if(isNumber(this.hiddenTextarea.value[index]) && isNumber(this.hiddenTextarea.value[index + 1])) {
-  //   let str = this.hiddenTextarea.value;
-  //   // let newCharIndex = str.slice(index + 1);
-  //   // console.log(newCharIndex);
-  //
-  //   str = str.split('');
-  //   str.splice(index, 1);
-  //   str.splice(index + 1, 0, lastChar);
-  //   this.hiddenTextarea.value = str.join('');
-  //   this.hiddenTextarea.selectionStart = index + 1;
-  //   this.hiddenTextarea.selectionEnd = index + 1;
-  // }
+  let lastChar = getDifference(this.text, this.hiddenTextarea.value);
+  let text = this.hiddenTextarea.value;
+  let index = text.indexOf(lastChar);
+
+  // section with numbers direction is wrong, should be refactored
+  if(isNumber(lastChar) && isNumber(text[index + 1])) {
+    let closestNanIndex = text.match(/[^0-9]/);
+    closestNanIndex = closestNanIndex && closestNanIndex.index - 1;
+    text = text.split('');
+    text.splice(index, 1);
+    text.splice(closestNanIndex, 0, lastChar);
+    text = text.join('');
+
+    this.hiddenTextarea.value = text;
+    this.hiddenTextarea.selectionStart = index;
+    this.hiddenTextarea.selectionEnd = index;
+  }
 
   this.cursorOffsetCache = { };
   this.text = this.hiddenTextarea.value;
@@ -112,26 +114,26 @@ fabric.IText.prototype.updateFromTextArea = function() {
   this.updateTextareaPosition();
 };
 
-// function getDifference(a, b) {
-//     let i = 0;
-//     let j = 0;
-//     let result = '';
-//
-//     while (j < b.length) {
-//       if(a[i] != b[j] || i == a.length) {
-//           result += b[j];
-//       } else {
-//         i++;
-//       }
-//
-//       j++;
-//     }
-//
-//     return result;
-// };
-//
-// function isNumber(str) {
-//   str = parseInt(str);
-//
-//   return (typeof str === 'number' && !isNaN(str));
-// };
+function getDifference(a, b) {
+    let i = 0;
+    let j = 0;
+    let result = '';
+
+    while (j < b.length) {
+      if(a[i] != b[j] || i == a.length) {
+          result += b[j];
+      } else {
+        i++;
+      }
+
+      j++;
+    }
+
+    return result;
+};
+
+function isNumber(str) {
+  str = parseInt(str);
+
+  return (typeof str === 'number' && !isNaN(str));
+};
