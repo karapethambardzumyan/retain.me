@@ -198,7 +198,7 @@ fabric.IText.prototype._renderChars = function(method, ctx, line, left, top, lin
   let leftOffset = 0;
 
   top -= lineHeight * this._fontSizeFraction / this.lineHeight;
-  
+
   ctx.save();
   for(let i = 0; i < line.length; i++) {
     charBox = this.__charBounds[lineIndex][i];
