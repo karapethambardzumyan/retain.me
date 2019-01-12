@@ -130,3 +130,55 @@ fabric.IText.prototype.renderCursor = function(boundaries, ctx) {
     cursorWidth,
     charHeight);
 };
+
+fabric.IText.prototype._renderChars = function(method, ctx, line, left, top, lineIndex) {
+  // set proper line offset
+  var lineHeight = this.getHeightOfLine(lineIndex),
+      isJustify = this.textAlign.indexOf('justify') !== -1,
+      actualStyle,
+      nextStyle,
+      charsToRender = '',
+      charBox,
+      boxWidth = 0,
+      timeToRender;
+      top -= lineHeight * this._fontSizeFraction / this.lineHeight;
+
+  console.log('_renderChars method is started');
+  ctx.save();
+
+  for (var i = 0, len = line.length - 1; i <= len; i++) {
+    timeToRender = i === len || this.charSpacing;
+    charsToRender += line[len - i];
+
+    charBox = this.__charBounds[lineIndex][len - i];
+    if (boxWidth === 0) {
+      left += charBox.kernedWidth - charBox.width;
+      boxWidth += charBox.width;
+    }
+    else {
+      boxWidth += charBox.kernedWidth;
+    }
+    if (!timeToRender) {
+      if (this._reSpaceAndTab.test(line[i])) {
+        timeToRender = true;
+      }
+    } //?? isn't clear enough what it does
+
+    if (!timeToRender) {
+      actualStyle = actualStyle || this.getCompleteStyleDeclaration(lineIndex, len - i);
+      nextStyle = this.getCompleteStyleDeclaration(lineIndex, (len - i) - 1);
+      timeToRender = this._hasStyleChanged(actualStyle, nextStyle);
+    }
+    if (timeToRender) {
+      this._renderChar(method, ctx, lineIndex, len - i, charsToRender, left, top, lineHeight);
+      charsToRender = '';
+      actualStyle = nextStyle;
+      left += boxWidth;
+      boxWidth = 0;
+    }
+
+  }
+
+  ctx.restore();
+  console.log('_renderChars method is completed');
+};
