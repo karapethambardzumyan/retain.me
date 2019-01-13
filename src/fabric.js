@@ -2,7 +2,7 @@ import { fabric } from 'fabric';
 
 fabric.IText.prototype.isRTL = true;
 
-fabric.IText.prototype.onKeyDown = function(e) {
+fabric.IText.prototype.onKeyDown = function(e) { //?? there may be a need to implement ctrl+z functionallity
   if(!this.isEditing || this.inCompositionMode) {
     return;
   }
@@ -25,8 +25,8 @@ fabric.IText.prototype.onKeyDown = function(e) {
     this.text = this.hiddenTextarea.value;
     this.hiddenTextarea.selectionStart = this.hiddenTextarea.selectionEnd = this.selectionEnd = this.selectionStart;
 
-    const cursorPosition = this.get2DCursorLocation(this.selectionStart);
-    this._deleteStyleDeclaration(cursorPosition.lineIndex, cursorPosition.charIndex);
+    // const cursorPosition = this.get2DCursorLocation(this.selectionStart);
+    // this._deleteStyleDeclaration(cursorPosition.lineIndex, cursorPosition.charIndex); //?? I think styles should be managed manually when any char is deleted
   }
   if(e.keyCode === 46) {
     e.preventDefault();
