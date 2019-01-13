@@ -21,7 +21,9 @@ fabric.IText.prototype.onKeyDown = function(e) { //?? there may be a need to imp
     value.splice(this.selectionStart, this.selectionStart === this.selectionEnd ? 1 : Math.abs(this.selectionStart - this.selectionEnd));
     value = value.join('');
 
-    this.removeStyleFromTo(0, 1);//??
+    let start = this.selectionStart;
+    let end = this.selectionStart === this.selectionEnd ? this.selectionStart + 1 : this.selectionEnd;
+    this.removeStyleFromTo(start, end);
 
     this.hiddenTextarea.value = value;
     this.text = this.hiddenTextarea.value;
@@ -40,7 +42,9 @@ fabric.IText.prototype.onKeyDown = function(e) { //?? there may be a need to imp
     value.splice(this.selectionStart === this.selectionEnd ? this.selectionStart - 1 : this.selectionStart, this.selectionStart === this.selectionEnd ? 1 : Math.abs(this.selectionStart - this.selectionEnd));
     value = value.join('');
 
-    this.removeStyleFromTo(0, 1);//??
+    let start = this.selectionStart === this.selectionEnd ? this.selectionStart - 1 : this.selectionStart;
+    let end = this.selectionEnd;
+    this.removeStyleFromTo(start, end);
 
     this.hiddenTextarea.value = value;
     this.text = this.hiddenTextarea.value;
@@ -124,6 +128,7 @@ fabric.IText.prototype.updateFromTextArea = function() {
   this.updateTextareaPosition();
 };
 
+// helpers
 function getDifference(a, b) {
   let i = 0;
   let j = 0;
