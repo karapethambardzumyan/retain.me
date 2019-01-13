@@ -21,12 +21,13 @@ fabric.IText.prototype.onKeyDown = function(e) { //?? there may be a need to imp
     value.splice(this.selectionStart, this.selectionStart === this.selectionEnd ? 1 : Math.abs(this.selectionStart - this.selectionEnd));
     value = value.join('');
 
+    this.removeStyleFromTo(0, 1);//??
+
     this.hiddenTextarea.value = value;
     this.text = this.hiddenTextarea.value;
     this.hiddenTextarea.selectionStart = this.hiddenTextarea.selectionEnd = this.selectionEnd = this.selectionStart;
 
-    // const cursorPosition = this.get2DCursorLocation(this.selectionStart);
-    // this._deleteStyleDeclaration(cursorPosition.lineIndex, cursorPosition.charIndex); //?? I think styles should be managed manually when any char is deleted
+
   }
   if(e.keyCode === 46) {
     e.preventDefault();
@@ -38,6 +39,8 @@ fabric.IText.prototype.onKeyDown = function(e) { //?? there may be a need to imp
     let value = this.hiddenTextarea.value.split('');
     value.splice(this.selectionStart === this.selectionEnd ? this.selectionStart - 1 : this.selectionStart, this.selectionStart === this.selectionEnd ? 1 : Math.abs(this.selectionStart - this.selectionEnd));
     value = value.join('');
+
+    this.removeStyleFromTo(0, 1);//??
 
     this.hiddenTextarea.value = value;
     this.text = this.hiddenTextarea.value;
@@ -93,18 +96,18 @@ fabric.IText.prototype.updateFromTextArea = function() {
   let index = text.indexOf(lastChar);
 
   // section with numbers direction is wrong, should be refactored
-  if(isNumber(lastChar) && isNumber(text[index + 1])) {
-    let closestNanIndex = text.match(/[^0-9]/);
-    closestNanIndex = closestNanIndex && closestNanIndex.index - 1;
-    text = text.split('');
-    text.splice(index, 1);
-    text.splice(closestNanIndex, 0, lastChar);
-    text = text.join('');
-
-    this.hiddenTextarea.value = text;
-    this.hiddenTextarea.selectionStart = index;
-    this.hiddenTextarea.selectionEnd = index;
-  }
+  // if(isNumber(lastChar) && isNumber(text[index + 1])) {
+  //   let closestNanIndex = text.match(/[^0-9]/);
+  //   closestNanIndex = closestNanIndex && closestNanIndex.index - 1;
+  //   text = text.split('');
+  //   text.splice(index, 1);
+  //   text.splice(closestNanIndex, 0, lastChar);
+  //   text = text.join('');
+  //
+  //   this.hiddenTextarea.value = text;
+  //   this.hiddenTextarea.selectionStart = index;
+  //   this.hiddenTextarea.selectionEnd = index;
+  // }
 
   this.cursorOffsetCache = { };
   this.text = this.hiddenTextarea.value;
