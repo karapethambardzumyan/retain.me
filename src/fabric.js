@@ -215,7 +215,6 @@ fabric.IText.prototype.insertCharStyleObject = function(lineIndex, charIndex, qu
     return;
   }
   var newStyle = currentLineStyles[charIndex ? charIndex + 1 : 1];
-  console.log(newStyle);
   while (newStyle && quantity--) {
     this.styles[lineIndex][charIndex + quantity] = fabric.util.object.clone(newStyle);
   }
