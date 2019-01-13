@@ -6,6 +6,10 @@ fabric.IText.prototype.onKeyDown = function(e) {
   if(!this.isEditing || this.inCompositionMode) {
     return;
   }
+  // section with going new line is wrong, should be implemented
+  if(e.keyCode === 13) {
+
+  }
   if(e.keyCode === 8) {
     e.preventDefault();
 
@@ -20,6 +24,9 @@ fabric.IText.prototype.onKeyDown = function(e) {
     this.hiddenTextarea.value = value;
     this.text = this.hiddenTextarea.value;
     this.hiddenTextarea.selectionStart = this.hiddenTextarea.selectionEnd = this.selectionEnd = this.selectionStart;
+
+    const cursorPosition = this.get2DCursorLocation(this.selectionStart);
+    this._deleteStyleDeclaration(cursorPosition.lineIndex, cursorPosition.charIndex);
   }
   if(e.keyCode === 46) {
     e.preventDefault();
@@ -115,21 +122,21 @@ fabric.IText.prototype.updateFromTextArea = function() {
 };
 
 function getDifference(a, b) {
-    let i = 0;
-    let j = 0;
-    let result = '';
+  let i = 0;
+  let j = 0;
+  let result = '';
 
-    while (j < b.length) {
-      if(a[i] != b[j] || i == a.length) {
-          result += b[j];
-      } else {
-        i++;
-      }
-
-      j++;
+  while (j < b.length) {
+    if(a[i] != b[j] || i == a.length) {
+      result += b[j];
+    } else {
+      i++;
     }
 
-    return result;
+    j++;
+  }
+
+  return result;
 };
 
 function isNumber(str) {
