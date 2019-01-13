@@ -6,7 +6,7 @@ fabric.IText.prototype.onKeyDown = function(e) { //?? there may be a need to imp
   if(!this.isEditing || this.inCompositionMode) {
     return;
   }
-  // section with going new line is wrong, should be implemented
+  //?? section with going new line is wrong, should be implemented
   if(e.keyCode === 13) {
 
   }
@@ -124,7 +124,7 @@ fabric.IText.prototype.updateFromTextArea = function() {
   let text = this.hiddenTextarea.value;
   let index = text.indexOf(lastChar);
 
-  // section with numbers direction is wrong, should be refactored
+  //?? section with numbers direction is wrong, should be refactored
   if(isNumber(lastChar) && isNumber(text[index + 1])) {
     let closestNanIndex = text.match(/[^0-9]/);
     closestNanIndex = closestNanIndex && closestNanIndex.index - 1;
