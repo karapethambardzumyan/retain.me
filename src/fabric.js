@@ -111,7 +111,6 @@ fabric.IText.prototype.onKeyDown = function(e) {
             insertionIndex = insertionIndex ? insertionIndex.index : text.length - charIndex;
             insertionIndex = charIndex + (insertionIndex - 1);
 
-        console.log(insertionIndex);
         text.splice(insertionIndex, 1);
 
         this._textLines[lineIndex] = text;
