@@ -7,11 +7,12 @@ fabric.IText.prototype.updateFromTextArea = function() {
     return;
   }
 
+  this.cursorOffsetCache = { };
+
   this.hiddenTextarea.selectionStart = this.hiddenTextarea.selectionStart - 1;
   this.hiddenTextarea.selectionEnd = this.hiddenTextarea.selectionEnd - 1;
-
-  this.cursorOffsetCache = { };
   this.text = this.hiddenTextarea.value;
+
   if (this._shouldClearDimensionCache()) {
     this.initDimensions();
     this.setCoords();
@@ -41,7 +42,7 @@ fabric.IText.prototype.onInput = function(e) {
     let text = this._textLines[lineIndex];
     let newChar = e.data;
 
-    if(isNumber(newChar) && isNumber(text[charIndex])) {
+    if(isNumber(newChar) && isNumber(text[charIndex - 1])) {
       let insertionIndex = text.slice(charIndex, text.length).join('').match(/[^0-9]/);
           insertionIndex = insertionIndex ? insertionIndex.index : text.length;
           insertionIndex += text.slice(0, charIndex).length;
@@ -54,8 +55,6 @@ fabric.IText.prototype.onInput = function(e) {
       e.target.selectionStart = index;
       e.target.selectionEnd = index;
     }
-  } else {
-    console.log('Enter');
   }
 
   // decisions about style changes.
