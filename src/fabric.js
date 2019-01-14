@@ -2,122 +2,45 @@ import { fabric } from 'fabric';
 
 fabric.IText.prototype.isRTL = true;
 
-fabric.IText.prototype.updateFromTextArea = function() {
-  if (!this.hiddenTextarea) {
-    return;
-  }
-
-  this.cursorOffsetCache = { };
-
-  this.hiddenTextarea.selectionStart = this.hiddenTextarea.selectionStart - 1;
-  this.hiddenTextarea.selectionEnd = this.hiddenTextarea.selectionEnd - 1;
-  this.text = this.hiddenTextarea.value;
-
-  if (this._shouldClearDimensionCache()) {
-    this.initDimensions();
-    this.setCoords();
-  }
-  var newSelection = this.fromStringToGraphemeSelection(
-    this.hiddenTextarea.selectionStart, this.hiddenTextarea.selectionEnd, this.hiddenTextarea.value);
-  this.selectionEnd = this.selectionStart = newSelection.selectionEnd;
-  if (!this.inCompositionMode) {
-    this.selectionStart = newSelection.selectionStart;
-  }
-  this.updateTextareaPosition();
-}
-
 fabric.IText.prototype.onInput = function(e) {
-  var fromPaste = this.fromPaste;
-  this.fromPaste = false;
   e && e.stopPropagation();
-  if (!this.isEditing) {
+  if(!this.isEditing) {
     return;
   }
 
-  if(e.data !== null && this.selectionStart === this.selectionEnd) {
-    let index = e.target.selectionStart;
-    let position = this.get2DCursorLocation(index);
-    let lineIndex = position.lineIndex;
-    let charIndex = position.charIndex;
-    let text = this._textLines[lineIndex];
-    let newChar = e.data;
+  let selectionStart = e.target.selectionStart - 1;
+  let selectionEnd = e.target.selectionEnd - 1;
+  let value = e.target.value.split('');
+  let lineIndex = this.get2DCursorLocation().lineIndex;
+  let charIndex = this.get2DCursorLocation().charIndex;
+  let lineText = this._textLines[lineIndex];
+  let char = value[selectionStart];
 
-    if(isNumber(newChar) && isNumber(text[charIndex - 1])) {
-      let insertionIndex = text.slice(charIndex, text.length).join('').match(/[^0-9]/);
-          insertionIndex = insertionIndex ? insertionIndex.index : text.length;
-          insertionIndex += text.slice(0, charIndex).length;
+  e.target.selectionStart = selectionStart;
+  e.target.selectionEnd = selectionEnd;
 
-      text.splice(insertionIndex, 0, newChar);
+  if(isNumber(value[selectionStart]) && isNumber(value[selectionStart + 1])) {
+    let firstPartOfText = lineText.slice(0, charIndex);
+    let secondPartOfText = lineText.slice(charIndex, lineText.length);
+    let insertionIndex = secondPartOfText.join('').match(/[^0-9]/);
+    insertionIndex = insertionIndex ? firstPartOfText.length + insertionIndex.index : lineText.length;
 
-      this.canvas.requestRenderAll();
-      this._textLines[lineIndex] = text;
-      e.target.value = this._textLines.map(text => text.join('')).join('\n');
-      e.target.selectionStart = index;
-      e.target.selectionEnd = index;
-      this.removeStyleFromTo(insertionIndex, insertionIndex + newChar.length);
-    }
+    for(var i = 0, textLines = this._textLines; i <= textLines.length; i++) {
+      if(i < lineIndex) {
+        insertionIndex += textLines[i].length + 1;
+      }
+    };
+
+    value.splice(selectionStart, 1);
+    value.splice(insertionIndex, 0, char);
+    e.target.value = value.join('');
+    e.target.selectionStart = selectionStart;
+    e.target.selectionEnd = selectionEnd;
   }
 
-  // decisions about style changes.
-  var nextText = this._splitTextIntoLines(this.hiddenTextarea.value).graphemeText,
-      charCount = this._text.length,
-      nextCharCount = nextText.length,
-      removedText, insertedText,
-      charDiff = nextCharCount - charCount;
-  if (this.hiddenTextarea.value === '') {
-    this.styles = { };
-    this.updateFromTextArea();
-    this.fire('changed');
-    if (this.canvas) {
-      this.canvas.fire('text:changed', { target: this });
-      this.canvas.requestRenderAll();
-    }
-    return;
-  }
-
-  var textareaSelection = this.fromStringToGraphemeSelection(
-    this.hiddenTextarea.selectionStart,
-    this.hiddenTextarea.selectionEnd,
-    this.hiddenTextarea.value
-  );
-  var backDelete = this.selectionStart > textareaSelection.selectionStart;
-
-  if (this.selectionStart !== this.selectionEnd) {
-    removedText = this._text.slice(this.selectionStart, this.selectionEnd);
-    charDiff += this.selectionEnd - this.selectionStart;
-  }
-  else if (nextCharCount < charCount) {
-    if (backDelete) {
-      removedText = this._text.slice(this.selectionEnd + charDiff, this.selectionEnd);
-    }
-    else {
-      removedText = this._text.slice(this.selectionStart, this.selectionStart - charDiff);
-    }
-  }
-  insertedText = nextText.slice(textareaSelection.selectionEnd - charDiff, textareaSelection.selectionEnd);
-  if (removedText && removedText.length) {
-    if (this.selectionStart !== this.selectionEnd) {
-      this.removeStyleFromTo(this.selectionStart, this.selectionEnd);
-    }
-    else if (backDelete) {
-      // detect differencies between forwardDelete and backDelete
-      this.removeStyleFromTo(this.selectionEnd - removedText.length, this.selectionEnd);
-    }
-    else {
-      this.removeStyleFromTo(this.selectionEnd, this.selectionEnd + removedText.length);
-    }
-  }
-  if (insertedText.length) {
-    if (fromPaste && insertedText.join('') === fabric.copiedText) {
-      this.insertNewStyleBlock(insertedText, this.selectionStart, fabric.copiedTextStyle);
-    }
-    else {
-      this.insertNewStyleBlock(insertedText, this.selectionStart);
-    }
-  }
   this.updateFromTextArea();
   this.fire('changed');
-  if (this.canvas) {
+  if(this.canvas) {
     this.canvas.fire('text:changed', { target: this });
     this.canvas.requestRenderAll();
   }
