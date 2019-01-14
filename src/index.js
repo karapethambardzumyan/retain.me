@@ -219,41 +219,41 @@ main.init(() => {
     };
 
     canvas.on('text:changed', e => {
-      // const target = e.target;
-      // const start = target.selectionStart - 1;
-      // const text = target._text;
-      // const styles = target.getSelectionStyles(0, text.length);
-      //
-      // let prev = text[start - 1];
-      // prev = prev === '\n' ? '\\n' : prev;
-      // let current = text[start];
-      // current = current === '\n' ? '\\n' : current;
-      // let next = text[start + 1];
-      // next = next === '\n' ? '\\n' : next;
-      //
-      // if(prev === '\\n' && current === '\\n' && (next === '\\n' || next === undefined)) {
-      //   console.log('just new line');
-      //   target.setSelectionStyles(styles[start - 2], start - 1, start + 1);
-      //   main.canvas.renderAll();
-      // }
-      //
-      // if((prev === '\\n' || prev === undefined) && current === '\\n' && next !== '\\n' && next !== undefined) {
-      //   console.log('left side');
-      //   target.setSelectionStyles(styles[start + 1], start, start + 1);
-      //   main.canvas.renderAll();
-      // }
-      //
-      // if(prev !== '\\n' && current === '\\n' && (next === '\\n' || next === undefined)) {
-      //   console.log('right side');
-      //   target.setSelectionStyles(styles[start - 1], start + 1, start + 2);
-      //   main.canvas.renderAll();
-      // }
-      //
-      // if(current !== '\\n' && Object.keys(target.followingStyles).length !== 0) {
-      //   target.setSelectionStyles(target.followingStyles, start, start + 1);
-      //   target.followingStyles = {};
-      //   main.canvas.renderAll();
-      // }
+      const target = e.target;
+      const start = target.selectionStart - 1;
+      const text = target._text;
+      const styles = target.getSelectionStyles(0, text.length);
+
+      let prev = text[start - 1];
+      prev = prev === '\n' ? '\\n' : prev;
+      let current = text[start];
+      current = current === '\n' ? '\\n' : current;
+      let next = text[start + 1];
+      next = next === '\n' ? '\\n' : next;
+
+      if(prev === '\\n' && current === '\\n' && (next === '\\n' || next === undefined)) {
+        console.log('just new line');
+        target.setSelectionStyles(styles[start - 2], start - 1, start + 1);
+        main.canvas.renderAll();
+      }
+
+      if((prev === '\\n' || prev === undefined) && current === '\\n' && next !== '\\n' && next !== undefined) {
+        console.log('left side');
+        target.setSelectionStyles(styles[start + 1], start, start + 1);
+        main.canvas.renderAll();
+      }
+
+      if(prev !== '\\n' && current === '\\n' && (next === '\\n' || next === undefined)) {
+        console.log('right side');
+        target.setSelectionStyles(styles[start - 1], start + 1, start + 2);
+        main.canvas.renderAll();
+      }
+
+      if(current !== '\\n' && Object.keys(target.followingStyles).length !== 0) {
+        target.setSelectionStyles(target.followingStyles, start, start + 1);
+        target.followingStyles = {};
+        main.canvas.renderAll();
+      }
 
       updateToolbar(e);
     });
