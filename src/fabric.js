@@ -2,6 +2,29 @@ import { fabric } from 'fabric';
 
 fabric.IText.prototype.isRTL = true;
 
+fabric.IText.prototype.updateFromTextArea = function() {
+  if (!this.hiddenTextarea) {
+    return;
+  }
+  
+  this.hiddenTextarea.selectionStart = this.hiddenTextarea.selectionStart - 1;
+  this.hiddenTextarea.selectionEnd = this.hiddenTextarea.selectionEnd - 1;
+
+  this.cursorOffsetCache = { };
+  this.text = this.hiddenTextarea.value;
+  if (this._shouldClearDimensionCache()) {
+    this.initDimensions();
+    this.setCoords();
+  }
+  var newSelection = this.fromStringToGraphemeSelection(
+    this.hiddenTextarea.selectionStart, this.hiddenTextarea.selectionEnd, this.hiddenTextarea.value);
+  this.selectionEnd = this.selectionStart = newSelection.selectionEnd;
+  if (!this.inCompositionMode) {
+    this.selectionStart = newSelection.selectionStart;
+  }
+  this.updateTextareaPosition();
+}
+
 fabric.IText.prototype.onInput = function(e) {
   var fromPaste = this.fromPaste;
   this.fromPaste = false;
@@ -9,9 +32,6 @@ fabric.IText.prototype.onInput = function(e) {
   if (!this.isEditing) {
     return;
   }
-
-  this.hiddenTextarea.selectionStart = this.hiddenTextarea.selectionStart - 1;
-  this.hiddenTextarea.selectionEnd = this.hiddenTextarea.selectionEnd - 1;
 
   if(e.data !== null && this.selectionStart === this.selectionEnd) {
     let index = e.target.selectionStart;
@@ -145,6 +165,7 @@ fabric.IText.prototype.onKeyDown = function(e) {
     let start = this.selectionStart;
     let end = this.selectionStart === this.selectionEnd ? this.selectionStart + 1 : this.selectionEnd;
     this.removeStyleFromTo(start, end);
+    console.log('applied');
 
     this.hiddenTextarea.value = value;
     this.text = this.hiddenTextarea.value;
@@ -188,6 +209,7 @@ fabric.IText.prototype.onKeyDown = function(e) {
     let start = this.selectionStart === this.selectionEnd ? this.selectionStart - 1 : this.selectionStart;
     let end = this.selectionEnd;
     this.removeStyleFromTo(start, end);
+    console.log('applied');
 
     this.hiddenTextarea.value = value;
     this.text = this.hiddenTextarea.value;
@@ -202,6 +224,7 @@ fabric.IText.prototype.onKeyDown = function(e) {
   else {
     return;
   }
+
   e.stopImmediatePropagation();
   e.preventDefault();
   if(e.keyCode >= 33 && e.keyCode <= 40) {
