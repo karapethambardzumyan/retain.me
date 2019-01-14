@@ -54,6 +54,7 @@ fabric.IText.prototype.onInput = function(e) {
       e.target.value = this._textLines.map(text => text.join('')).join('\n');
       e.target.selectionStart = index;
       e.target.selectionEnd = index;
+      this.removeStyleFromTo(insertionIndex, insertionIndex + newChar.length);
     }
   }
 
@@ -187,7 +188,7 @@ fabric.IText.prototype.onKeyDown = function(e) {
       value = e.target.value.split('');
       value.splice(this.selectionStart === this.selectionEnd ? this.selectionStart - 1 : this.selectionStart, this.selectionStart === this.selectionEnd ? 1 : Math.abs(this.selectionStart - this.selectionEnd));
       value = value.join('');
-    } else {
+    } else {1
       let position = this.get2DCursorLocation(e.target.selectionStart);
       let lineIndex = position.lineIndex;
       let charIndex = position.charIndex - 1; //?? -1
