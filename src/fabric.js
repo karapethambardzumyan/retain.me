@@ -2,6 +2,86 @@ import { fabric } from 'fabric';
 
 fabric.IText.prototype.isRTL = true;
 
+fabric.IText.prototype.onInput = function(e) {
+  var fromPaste = this.fromPaste;
+  this.fromPaste = false;
+  e && e.stopPropagation();
+  if (!this.isEditing) {
+    return;
+  }
+
+  this.hiddenTextarea.selectionStart = this.hiddenTextarea.selectionStart - 1;
+  this.hiddenTextarea.selectionEnd = this.hiddenTextarea.selectionEnd - 1;
+
+  // numbers section
+  //
+  // numbers section
+
+  // decisions about style changes.
+  var nextText = this._splitTextIntoLines(this.hiddenTextarea.value).graphemeText,
+      charCount = this._text.length,
+      nextCharCount = nextText.length,
+      removedText, insertedText,
+      charDiff = nextCharCount - charCount;
+  if (this.hiddenTextarea.value === '') {
+    this.styles = { };
+    this.updateFromTextArea();
+    this.fire('changed');
+    if (this.canvas) {
+      this.canvas.fire('text:changed', { target: this });
+      this.canvas.requestRenderAll();
+    }
+    return;
+  }
+
+  var textareaSelection = this.fromStringToGraphemeSelection(
+    this.hiddenTextarea.selectionStart,
+    this.hiddenTextarea.selectionEnd,
+    this.hiddenTextarea.value
+  );
+  var backDelete = this.selectionStart > textareaSelection.selectionStart;
+
+  if (this.selectionStart !== this.selectionEnd) {
+    removedText = this._text.slice(this.selectionStart, this.selectionEnd);
+    charDiff += this.selectionEnd - this.selectionStart;
+  }
+  else if (nextCharCount < charCount) {
+    if (backDelete) {
+      removedText = this._text.slice(this.selectionEnd + charDiff, this.selectionEnd);
+    }
+    else {
+      removedText = this._text.slice(this.selectionStart, this.selectionStart - charDiff);
+    }
+  }
+  insertedText = nextText.slice(textareaSelection.selectionEnd - charDiff, textareaSelection.selectionEnd);
+  if (removedText && removedText.length) {
+    if (this.selectionStart !== this.selectionEnd) {
+      this.removeStyleFromTo(this.selectionStart, this.selectionEnd);
+    }
+    else if (backDelete) {
+      // detect differencies between forwardDelete and backDelete
+      this.removeStyleFromTo(this.selectionEnd - removedText.length, this.selectionEnd);
+    }
+    else {
+      this.removeStyleFromTo(this.selectionEnd, this.selectionEnd + removedText.length);
+    }
+  }
+  if (insertedText.length) {
+    if (fromPaste && insertedText.join('') === fabric.copiedText) {
+      this.insertNewStyleBlock(insertedText, this.selectionStart, fabric.copiedTextStyle);
+    }
+    else {
+      this.insertNewStyleBlock(insertedText, this.selectionStart);
+    }
+  }
+  this.updateFromTextArea();
+  this.fire('changed');
+  if (this.canvas) {
+    this.canvas.fire('text:changed', { target: this });
+    this.canvas.requestRenderAll();
+  }
+};
+
 fabric.IText.prototype.onKeyDown = function(e) { //?? there may be a need to implement ctrl+z functionallity
   if(!this.isEditing || this.inCompositionMode) {
     return;
@@ -112,47 +192,6 @@ fabric.IText.prototype._renderChar = function(method, ctx, lineIndex, charIndex,
   decl && ctx.restore();
 };
 
-fabric.IText.prototype.updateFromTextArea = function() {
-  if(!this.hiddenTextarea) {
-    return;
-  }
-
-  this.hiddenTextarea.selectionStart = this.hiddenTextarea.selectionStart - 1;
-  this.hiddenTextarea.selectionEnd = this.hiddenTextarea.selectionEnd - 1;
-
-  let lastChar = getDifference(this.text, this.hiddenTextarea.value);
-  let text = this.hiddenTextarea.value;
-  let index = text.indexOf(lastChar);
-
-  //?? section with numbers direction is wrong, should be refactored
-  if(isNumber(lastChar) && isNumber(text[index + 1])) {
-    let closestNanIndex = text.match(/[^0-9]/);
-    closestNanIndex = closestNanIndex && closestNanIndex.index - 1;
-    text = text.split('');
-    text.splice(index, 1);
-    text.splice(closestNanIndex, 0, lastChar);
-    text = text.join('');
-
-    this.hiddenTextarea.value = text;
-    this.hiddenTextarea.selectionStart = index;
-    this.hiddenTextarea.selectionEnd = index;
-  }
-
-  this.cursorOffsetCache = { };
-  this.text = this.hiddenTextarea.value;
-
-  if(this._shouldClearDimensionCache()) {
-    this.initDimensions();
-    this.setCoords();
-  }
-  var newSelection = this.fromStringToGraphemeSelection(this.hiddenTextarea.selectionStart, this.hiddenTextarea.selectionEnd, this.hiddenTextarea.value);
-  this.selectionEnd = this.selectionStart = newSelection.selectionEnd;
-  if(!this.inCompositionMode) {
-    this.selectionStart = newSelection.selectionStart;
-  }
-  this.updateTextareaPosition();
-};
-
 fabric.IText.prototype.renderCursor = function(boundaries, ctx) {
   var cursorLocation = this.get2DCursorLocation(),
       lineIndex = cursorLocation.lineIndex,
@@ -218,25 +257,6 @@ fabric.IText.prototype.insertCharStyleObject = function(lineIndex, charIndex, qu
   while (newStyle && quantity--) {
     this.styles[lineIndex][charIndex + quantity] = fabric.util.object.clone(newStyle);
   }
-};
-
-// helpers
-function getDifference(a, b) {
-  let i = 0;
-  let j = 0;
-  let result = '';
-
-  while (j < b.length) {
-    if(a[i] != b[j] || i == a.length) {
-      result += b[j];
-    } else {
-      i++;
-    }
-
-    j++;
-  }
-
-  return result;
 };
 
 function isNumber(str) {
