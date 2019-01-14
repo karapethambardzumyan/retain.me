@@ -23,9 +23,11 @@ fabric.IText.prototype.onInput = function(e) {
     let newChar = e.data;
 
     if(isNumber(newChar) && isNumber(text[charIndex])) {
-      // manipulations with numbers
-      text.push(newChar);
-      // manipulations with numbers
+      let insertionIndex = text.slice(charIndex, text.length).join('').match(/[^0-9]/);
+          insertionIndex = insertionIndex ? insertionIndex.index : text.length;
+          insertionIndex += text.slice(0, charIndex).length;
+          console.log(insertionIndex);
+      text.splice(insertionIndex, 0, newChar);
 
       this._textLines[lineIndex] = text;
       e.target.value = this._textLines.map(text => text.join('')).join('\n');
