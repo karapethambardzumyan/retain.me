@@ -19,6 +19,43 @@ fabric.IText.prototype.onInput = function(e) {
   e.target.selectionStart = selectionStart;
   e.target.selectionEnd = selectionEnd;
 
+  if(e.inputType === 'insertLineBreak') {
+    let lineIndex = this.get2DCursorLocation().lineIndex;
+    let charIndex = this.get2DCursorLocation().charIndex;
+    let textLines = this._textLines;
+    let lineText = this._textLines[lineIndex];
+    let firstPartOfText;
+    let secondPartOfText;
+    let newValue = '';
+
+    if(charIndex === lineText.length) {
+      console.log(textLines);
+      textLines.splice(lineIndex, 0, []);
+      console.log(textLines);
+
+      value = textLines.map(line => line.join('')).join('\n');
+      e.target.value = value;
+      e.target.selectionStart = selectionStart + 1;
+      e.target.selectionEnd = selectionEnd + 1;
+    } else if(charIndex === 0) {
+      textLines.splice(lineIndex + 1, 0, []);
+
+      value = textLines.map(line => line.join('')).join('\n');
+      e.target.value = value;
+      e.target.selectionStart = selectionStart + lineText.length + 1;
+      e.target.selectionEnd = selectionEnd + lineText.length + 1;
+    }
+
+    this.updateFromTextArea();
+    this.fire('changed');
+    if(this.canvas) {
+      this.canvas.fire('text:changed', { target: this });
+      this.canvas.requestRenderAll();
+    }
+
+    return;
+  }
+
   if(isNumber(value[selectionStart]) && isNumber(value[selectionStart + 1])) {
     let firstPartOfText = lineText.slice(0, charIndex);
     let secondPartOfText = lineText.slice(charIndex, lineText.length);
