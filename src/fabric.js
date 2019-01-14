@@ -13,7 +13,7 @@ fabric.IText.prototype.onInput = function(e) {
   this.hiddenTextarea.selectionStart = this.hiddenTextarea.selectionStart - 1;
   this.hiddenTextarea.selectionEnd = this.hiddenTextarea.selectionEnd - 1;
 
-  if(e.data !== null && this.hiddenTextarea.selectionStart === this.hiddenTextarea.selectionEnd) {
+  if(e.data !== null && this.selectionStart === this.selectionEnd) {
     let index = e.target.selectionStart;
     let position = this.get2DCursorLocation(index);
     let lineIndex = position.lineIndex;
@@ -28,6 +28,7 @@ fabric.IText.prototype.onInput = function(e) {
 
       text.splice(insertionIndex, 0, newChar);
 
+      this.canvas.requestRenderAll();
       this._textLines[lineIndex] = text;
       e.target.value = this._textLines.map(text => text.join('')).join('\n');
       e.target.selectionStart = index;
@@ -128,7 +129,7 @@ fabric.IText.prototype.onKeyDown = function(e) {
       if(isNumber(text[charIndex])) {
         let insertionIndex = text.slice(charIndex, text.length).join('').match(/[^0-9]/);
             insertionIndex = insertionIndex ? insertionIndex.index : text.length;
-            insertionIndex = insertionIndex - 1;
+            insertionIndex = text.slice(0, charIndex).length + (insertionIndex - 1);
 
         text.splice(insertionIndex, 1);
 
@@ -186,7 +187,7 @@ fabric.IText.prototype.onKeyDown = function(e) {
   else {
     this.canvas && this.canvas.requestRenderAll();
   }
-},
+};
 
 fabric.IText.prototype._renderChars = function(method, ctx, line, left, top, lineIndex) {
   let lineHeight = this.getHeightOfLine(lineIndex);
