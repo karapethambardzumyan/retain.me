@@ -151,15 +151,39 @@ fabric.IText.prototype.onKeyDown = function(e) {
     this.hiddenTextarea.selectionStart = this.hiddenTextarea.selectionEnd = this.selectionEnd = this.selectionStart;
   }
   if(e.keyCode === 46) {
+    let value;
+
     e.preventDefault();
 
     if(this.selectionStart === this.selectionEnd && this.selectionStart === 0) {
       return;
     }
 
-    let value = this.hiddenTextarea.value.split('');
-    value.splice(this.selectionStart === this.selectionEnd ? this.selectionStart - 1 : this.selectionStart, this.selectionStart === this.selectionEnd ? 1 : Math.abs(this.selectionStart - this.selectionEnd));
-    value = value.join('');
+    if(this.selectionStart !== this.selectionEnd) {
+      value = e.target.value.split('');
+      value.splice(this.selectionStart === this.selectionEnd ? this.selectionStart - 1 : this.selectionStart, this.selectionStart === this.selectionEnd ? 1 : Math.abs(this.selectionStart - this.selectionEnd));
+      value = value.join('');
+    } else {
+      let position = this.get2DCursorLocation(e.target.selectionStart);
+      let lineIndex = position.lineIndex;
+      let charIndex = position.charIndex - 1; //?? -1
+      let text = this._textLines[lineIndex];
+
+      if(false) { //?? isNumber(text[charIndex])
+        let insertionIndex = text.slice(charIndex, text.length).join('').match(/[^0-9]/);
+            insertionIndex = insertionIndex ? insertionIndex.index : text.length;
+            insertionIndex = text.slice(0, charIndex).length + (insertionIndex - 1);
+
+        text.splice(insertionIndex, 1);
+
+        this._textLines[lineIndex] = text;
+        value = this._textLines.map(text => text.join('')).join('\n');
+      } else {
+        value = e.target.value.split('');
+        value.splice(this.selectionStart === this.selectionEnd ? this.selectionStart - 1 : this.selectionStart, this.selectionStart === this.selectionEnd ? 1 : Math.abs(this.selectionStart - this.selectionEnd));
+        value = value.join('');
+      }
+    }
 
     let start = this.selectionStart === this.selectionEnd ? this.selectionStart - 1 : this.selectionStart;
     let end = this.selectionEnd;
