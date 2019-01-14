@@ -313,6 +313,24 @@ class Controll {
 
     return this;
   };
+
+  switchRTL() {
+    document.getElementById('rtl').onclick = e => {
+      e.preventDefault();
+
+      const target = main.canvas.getActiveObject();
+
+      if(!target.isRTL) {
+        target.enableRTL();
+        e.target.classList.add('active');
+      } else {
+        target.disableRTL();
+        e.target.classList.remove('active');
+      }
+    };
+
+    return this;
+  };
 };
 
 const controll = new Controll();

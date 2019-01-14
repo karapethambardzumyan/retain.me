@@ -135,3 +135,10 @@
   font-size: 13px;
   outline: none;
 }
+
+.active {
+  background: #58afdf;
+  color: #fff;
+  border: 2px solid #58afdf;
+  outline: none;
+}

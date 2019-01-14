@@ -1,6 +1,14 @@
 import { fabric } from 'fabric';
 
-fabric.IText.prototype.isRTL = true;
+fabric.IText.prototype.isRTL = false;
+
+fabric.IText.prototype.enableRTL = function() {
+  this.isRTL = true;
+};
+
+fabric.IText.prototype.disableRTL = function() {
+  this.isRTL = false;
+};
 
 fabric.IText.prototype.onInput = function(e) {
   if(this.isRTL) {
@@ -82,6 +90,8 @@ fabric.IText.prototype.onInput = function(e) {
       this.canvas.fire('text:changed', { target: this });
       this.canvas.requestRenderAll();
     }
+  } else {
+    // fabric's method's core code
   }
 };
 
@@ -199,6 +209,8 @@ fabric.IText.prototype.onKeyDown = function(e) {
     else {
       this.canvas && this.canvas.requestRenderAll();
     }
+  } else {
+    // fabric's method's core code
   }
 };
 
@@ -218,6 +230,8 @@ fabric.IText.prototype._renderChars = function(method, ctx, line, left, top, lin
       this._renderChar(method, ctx, lineIndex, i, line[i], leftOffset, top, lineHeight);
     }
     ctx.restore();
+  } else {
+    // fabric's method's core code
   }
 };
 
@@ -245,6 +259,8 @@ fabric.IText.prototype._renderChar = function(method, ctx, lineIndex, charIndex,
     shouldFill && ctx.fillText(_char, left, top);
     shouldStroke && ctx.strokeText(_char, left, top);
     decl && ctx.restore();
+  } else {
+    // fabric's method's core code
   }
 };
 
@@ -272,6 +288,8 @@ fabric.IText.prototype.renderCursor = function(boundaries, ctx) {
       topOffset + boundaries.top + dy,
       cursorWidth,
       charHeight);
+  } else {
+    // fabric's method's core code
   }
 };
 
@@ -316,6 +334,8 @@ fabric.IText.prototype.insertCharStyleObject = function(lineIndex, charIndex, qu
     while (newStyle && quantity--) {
       this.styles[lineIndex][charIndex + quantity] = fabric.util.object.clone(newStyle);
     }
+  } else {
+    // fabric's method's core code
   }
 };
 

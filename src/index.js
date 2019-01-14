@@ -591,5 +591,6 @@ main.init(() => {
       .setFontUnderline()
       .setFontUppercase()
       .setFontCamelCase()
-      .addFontTemplate();
+      .addFontTemplate()
+      .switchRTL();
 });
