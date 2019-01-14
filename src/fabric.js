@@ -13,8 +13,7 @@ fabric.IText.prototype.onInput = function(e) {
   this.hiddenTextarea.selectionStart = this.hiddenTextarea.selectionStart - 1;
   this.hiddenTextarea.selectionEnd = this.hiddenTextarea.selectionEnd - 1;
 
-  // numbers section
-  if(e.data !== null) {
+  if(e.data !== null && this.hiddenTextarea.selectionStart === this.hiddenTextarea.selectionEnd) {
     let index = e.target.selectionStart;
     let position = this.get2DCursorLocation(index);
     let lineIndex = position.lineIndex;
@@ -26,7 +25,7 @@ fabric.IText.prototype.onInput = function(e) {
       let insertionIndex = text.slice(charIndex, text.length).join('').match(/[^0-9]/);
           insertionIndex = insertionIndex ? insertionIndex.index : text.length;
           insertionIndex += text.slice(0, charIndex).length;
-          console.log(insertionIndex);
+
       text.splice(insertionIndex, 0, newChar);
 
       this._textLines[lineIndex] = text;
@@ -37,7 +36,6 @@ fabric.IText.prototype.onInput = function(e) {
   } else {
     console.log('Enter');
   }
-  // numbers section
 
   // decisions about style changes.
   var nextText = this._splitTextIntoLines(this.hiddenTextarea.value).graphemeText,
@@ -104,24 +102,44 @@ fabric.IText.prototype.onInput = function(e) {
   }
 };
 
-fabric.IText.prototype.onKeyDown = function(e) { //?? there may be a need to implement ctrl+z functionallity
+fabric.IText.prototype.onKeyDown = function(e) {
   if(!this.isEditing || this.inCompositionMode) {
     return;
   }
-  //?? section with going new line is wrong, should be implemented
-  if(e.keyCode === 13) {
-
-  }
   if(e.keyCode === 8) {
+    let value;
+
     e.preventDefault();
 
     if(this.selectionStart === this.text.length) {
       return;
     }
 
-    let value = this.hiddenTextarea.value.split('');
-    value.splice(this.selectionStart, this.selectionStart === this.selectionEnd ? 1 : Math.abs(this.selectionStart - this.selectionEnd));
-    value = value.join('');
+    if(this.selectionStart !== this.selectionEnd) {
+      value = e.target.value.split('');
+      value.splice(this.selectionStart, this.selectionEnd - this.selectionStart);
+      value = value.join('');
+    } else {
+      let position = this.get2DCursorLocation(e.target.selectionStart);
+      let lineIndex = position.lineIndex;
+      let charIndex = position.charIndex;
+      let text = this._textLines[lineIndex];
+
+      if(isNumber(text[charIndex])) {
+        let insertionIndex = text.slice(charIndex, text.length).join('').match(/[^0-9]/);
+            insertionIndex = insertionIndex ? insertionIndex.index : text.length;
+            insertionIndex = insertionIndex - 1;
+
+        text.splice(insertionIndex, 1);
+
+        this._textLines[lineIndex] = text;
+        value = this._textLines.map(text => text.join('')).join('\n');
+      } else {
+        value = this.hiddenTextarea.value.split('');
+        value.splice(this.selectionStart, this.selectionStart === this.selectionEnd ? 1 : Math.abs(this.selectionStart - this.selectionEnd));
+        value = value.join('');
+      }
+    }
 
     let start = this.selectionStart;
     let end = this.selectionStart === this.selectionEnd ? this.selectionStart + 1 : this.selectionEnd;
@@ -130,8 +148,6 @@ fabric.IText.prototype.onKeyDown = function(e) { //?? there may be a need to imp
     this.hiddenTextarea.value = value;
     this.text = this.hiddenTextarea.value;
     this.hiddenTextarea.selectionStart = this.hiddenTextarea.selectionEnd = this.selectionEnd = this.selectionStart;
-
-
   }
   if(e.keyCode === 46) {
     e.preventDefault();
