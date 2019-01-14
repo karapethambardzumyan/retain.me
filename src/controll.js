@@ -322,10 +322,10 @@ class Controll {
 
       if(!target.isRTL) {
         target.enableRTL();
-        e.target.classList.add('active');
+        e.target.classList.add('rtl-enabled');
       } else {
         target.disableRTL();
-        e.target.classList.remove('active');
+        e.target.classList.remove('rtl-enabled');
       }
     };
 
