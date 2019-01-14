@@ -14,7 +14,27 @@ fabric.IText.prototype.onInput = function(e) {
   this.hiddenTextarea.selectionEnd = this.hiddenTextarea.selectionEnd - 1;
 
   // numbers section
-  //
+  if(e.data !== null) {
+    let index = e.target.selectionStart;
+    let position = this.get2DCursorLocation(index);
+    let lineIndex = position.lineIndex;
+    let charIndex = position.charIndex;
+    let text = this._textLines[lineIndex];
+    let newChar = e.data;
+
+    if(isNumber(newChar) && isNumber(text[charIndex])) {
+      // manipulations with numbers
+      text.push(newChar);
+      // manipulations with numbers
+
+      this._textLines[lineIndex] = text;
+      e.target.value = this._textLines.map(text => text.join('')).join('\n');
+      e.target.selectionStart = index;
+      e.target.selectionEnd = index;
+    }
+  } else {
+    console.log('Enter');
+  }
   // numbers section
 
   // decisions about style changes.
