@@ -6,7 +6,7 @@ fabric.IText.prototype.updateFromTextArea = function() {
   if (!this.hiddenTextarea) {
     return;
   }
-  
+
   this.hiddenTextarea.selectionStart = this.hiddenTextarea.selectionStart - 1;
   this.hiddenTextarea.selectionEnd = this.hiddenTextarea.selectionEnd - 1;
 
@@ -165,7 +165,6 @@ fabric.IText.prototype.onKeyDown = function(e) {
     let start = this.selectionStart;
     let end = this.selectionStart === this.selectionEnd ? this.selectionStart + 1 : this.selectionEnd;
     this.removeStyleFromTo(start, end);
-    console.log('applied');
 
     this.hiddenTextarea.value = value;
     this.text = this.hiddenTextarea.value;
@@ -209,7 +208,6 @@ fabric.IText.prototype.onKeyDown = function(e) {
     let start = this.selectionStart === this.selectionEnd ? this.selectionStart - 1 : this.selectionStart;
     let end = this.selectionEnd;
     this.removeStyleFromTo(start, end);
-    console.log('applied');
 
     this.hiddenTextarea.value = value;
     this.text = this.hiddenTextarea.value;
