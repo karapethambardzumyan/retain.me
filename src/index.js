@@ -273,6 +273,8 @@ main.init(() => {
 
     canvas.on('object:selected', e => {
       if(e.target.get('type') === 'textbox') {
+        document.querySelector('#rtl').classList.remove('rtl-enabled');
+        e.target.isRTL && document.querySelector('#rtl').classList.add('rtl-enabled');
         text.openToolbar(e.target);
       }
     });

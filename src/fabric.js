@@ -38,9 +38,7 @@ fabric.IText.prototype.onInput = function(e) {
       let newValue = '';
 
       if(charIndex === lineText.length) {
-        console.log(textLines);
         textLines.splice(lineIndex, 0, []);
-        console.log(textLines);
 
         value = textLines.map(line => line.join('')).join('\n');
         e.target.value = value;
