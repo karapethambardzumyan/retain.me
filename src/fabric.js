@@ -147,23 +147,28 @@ fabric.IText.prototype.onKeyDown = function(e) {
 
       if(isNumber(text[charIndex])) {
         let insertionIndex = text.slice(charIndex, text.length).join('').match(/[^0-9]/);
-            insertionIndex = insertionIndex ? insertionIndex.index : text.length;
-            insertionIndex = text.slice(0, charIndex).length + (insertionIndex - 1);
+            insertionIndex = insertionIndex ? insertionIndex.index : text.length - charIndex;
+            insertionIndex = charIndex + (insertionIndex - 1);
 
+        console.log(insertionIndex);
         text.splice(insertionIndex, 1);
 
         this._textLines[lineIndex] = text;
         value = this._textLines.map(text => text.join('')).join('\n');
+
+        let start = insertionIndex;
+        let end = insertionIndex + 1;
+        this.removeStyleFromTo(start, end);
       } else {
         value = this.hiddenTextarea.value.split('');
         value.splice(this.selectionStart, this.selectionStart === this.selectionEnd ? 1 : Math.abs(this.selectionStart - this.selectionEnd));
         value = value.join('');
+
+        let start = this.selectionStart;
+        let end = this.selectionStart === this.selectionEnd ? this.selectionStart + 1 : this.selectionEnd;
+        this.removeStyleFromTo(start, end);
       }
     }
-
-    let start = this.selectionStart;
-    let end = this.selectionStart === this.selectionEnd ? this.selectionStart + 1 : this.selectionEnd;
-    this.removeStyleFromTo(start, end);
 
     this.hiddenTextarea.value = value;
     this.text = this.hiddenTextarea.value;
