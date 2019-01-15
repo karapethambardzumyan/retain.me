@@ -147,7 +147,7 @@ fabric.IText.prototype.onKeyDown = function(e) {
 
           let start = insertionIndex;
           let end = insertionIndex + 1;
-          // this.removeStyleFromTo(start, end);
+          // this.removeStyleFromTo(start, end); //??
         } else {
           value = this.hiddenTextarea.value.split('');
           value.splice(this.selectionStart, this.selectionStart === this.selectionEnd ? 1 : Math.abs(this.selectionStart - this.selectionEnd));
@@ -155,7 +155,7 @@ fabric.IText.prototype.onKeyDown = function(e) {
 
           let start = this.selectionStart;
           let end = this.selectionStart === this.selectionEnd ? this.selectionStart + 1 : this.selectionEnd;
-          // this.removeStyleFromTo(start, end);
+          // this.removeStyleFromTo(start, end);//??
         }
       }
 
