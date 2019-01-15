@@ -87,10 +87,10 @@ fabric.IText.prototype.onInput = function(e) {
         this.canvas.fire('text:changed', { target: this });
         this.canvas.requestRenderAll();
       }
-    } else {
+    } else if(e.data) {
       console.log('simple text');
 
-
+      this.insertNewStyleBlock(e.data, e.target.selectionStart); //??
 
       if(this.canvas) {
         this.canvas.fire('text:changed', { target: this });
