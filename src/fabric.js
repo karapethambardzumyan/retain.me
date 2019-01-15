@@ -81,6 +81,10 @@ fabric.IText.prototype.onInput = function(e) {
       e.target.selectionStart = selectionStart;
       e.target.selectionEnd = selectionEnd;
 
+      this.insertNewStyleBlock(char, insertionIndex);
+      let style = this._getStyleDeclaration(lineIndex, charIndex);
+      style && this._setStyleDeclaration(lineIndex, this.get2DCursorLocation(insertionIndex).charIndex, style);
+
       this.updateFromTextArea();
       this.fire('changed');
       if(this.canvas) {
@@ -90,7 +94,7 @@ fabric.IText.prototype.onInput = function(e) {
     } else if(e.data) {
       console.log('simple text');
 
-      this.insertNewStyleBlock(e.data, e.target.selectionStart); //??
+      this.insertNewStyleBlock(e.data, e.target.selectionStart);
 
       if(this.canvas) {
         this.canvas.fire('text:changed', { target: this });
@@ -143,7 +147,7 @@ fabric.IText.prototype.onKeyDown = function(e) {
 
           let start = insertionIndex;
           let end = insertionIndex + 1;
-          this.removeStyleFromTo(start, end);
+          // this.removeStyleFromTo(start, end);
         } else {
           value = this.hiddenTextarea.value.split('');
           value.splice(this.selectionStart, this.selectionStart === this.selectionEnd ? 1 : Math.abs(this.selectionStart - this.selectionEnd));
@@ -151,7 +155,7 @@ fabric.IText.prototype.onKeyDown = function(e) {
 
           let start = this.selectionStart;
           let end = this.selectionStart === this.selectionEnd ? this.selectionStart + 1 : this.selectionEnd;
-          this.removeStyleFromTo(start, end);
+          // this.removeStyleFromTo(start, end);
         }
       }
 
