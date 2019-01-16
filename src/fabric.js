@@ -67,8 +67,6 @@ fabric.IText.prototype.onInput = function(e) {
         e.target.selectionStart = e.target.selectionStart + 1;
       }
 
-      console.log(this.styles);
-
       this.updateFromTextArea();
       this.fire('changed');
       if(this.canvas) {
@@ -99,7 +97,7 @@ fabric.IText.prototype.onInput = function(e) {
 
       this.insertNewStyleBlock(char, insertionIndex);
       let style = this._getStyleDeclaration(lineIndex, charIndex);
-      style && this._setStyleDeclaration(lineIndex, this.get2DCursorLocation(insertionIndex).charIndex, style);
+      style && this.setSelectionStyles(style, insertionIndex, insertionIndex + 1);
 
       this.updateFromTextArea();
       this.fire('changed');
@@ -136,7 +134,7 @@ fabric.IText.prototype._renderChars = function(method, ctx, line, left, top, lin
     ctx.save();
     for(let i = 0; i < line.length; i++) {
       charBox = this.__charBounds[lineIndex][i];
-      leftOffset = left + charBox.width + charBox.left- charBox.kernedWidth;
+      leftOffset = left + charBox.width + charBox.left - charBox.kernedWidth;
 
       this._renderChar(method, ctx, lineIndex, i, line[i], leftOffset, top, lineHeight);
     }

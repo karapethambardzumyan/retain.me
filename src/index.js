@@ -259,6 +259,8 @@ main.init(() => {
         }
       }
 
+      console.log(e.target.styles);
+
       updateToolbar(e);
     });
 
