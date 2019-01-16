@@ -5,34 +5,36 @@ import background from './background';
 import text from './text';
 
 function updateToolbar(e) {
-  const target = e.target;
-  let start = target.selectionStart - 1;
-  let end = target.selectionEnd - 1;
-  const _text = target._text;
-  const styles = target.getSelectionStyles(0, _text.length);
+  if(!e.target.isRTL) {
+    const target = e.target;
+    let start = target.selectionStart - 1;
+    let end = target.selectionEnd - 1;
+    const _text = target._text;
+    const styles = target.getSelectionStyles(0, _text.length);
 
-  let prev = _text[start - 1];
-  prev = prev === '\n' ? '\\n' : prev;
-  let current = _text[start];
-  current = current === '\n' ? '\\n' : current;
-  let next = _text[start + 1];
-  next = next === '\n' ? '\\n' : next;
+    let prev = _text[start - 1];
+    prev = prev === '\n' ? '\\n' : prev;
+    let current = _text[start];
+    current = current === '\n' ? '\\n' : current;
+    let next = _text[start + 1];
+    next = next === '\n' ? '\\n' : next;
 
-  if(current === '\\n' || prev === undefined || start !== end) {
-    start = start + 1;
+    if(current === '\\n' || prev === undefined || start !== end) {
+      start = start + 1;
+    }
+
+    if(next === undefined) {
+      start = start - 1;
+    }
+
+    if(next === '\\n' && start !== end) {
+      start = start + 2;
+    }
+
+    text.updateToolbar(styles[start]);
+
+    document.getElementById('font-template').removeAttribute('disabled');
   }
-
-  if(next === undefined) {
-    start = start - 1;
-  }
-
-  if(next === '\\n' && start !== end) {
-    start = start + 2;
-  }
-
-  text.updateToolbar(styles[start]);
-
-  document.getElementById('font-template').removeAttribute('disabled');
 };
 
 function clearLeftAlignment() {
