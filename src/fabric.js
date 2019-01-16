@@ -29,6 +29,8 @@ fabric.IText.prototype.onInput = function(e) {
     e.target.selectionEnd = selectionEnd;
 
     if(e.inputType === 'insertLineBreak') {
+       //?? at first should be implemented a functionality for adding and updating styles while line breaking
+       //   that's important for styles to have styles for each existing line even though without any style for not being swaped
       let lineIndex = this.get2DCursorLocation().lineIndex;
       let charIndex = this.get2DCursorLocation().charIndex;
       let textLines = this._textLines;
@@ -53,10 +55,10 @@ fabric.IText.prototype.onInput = function(e) {
         e.target.selectionEnd = selectionEnd + lineText.length + 1;
 
         // apply style when left side line breaking is fired
-        let position = this.get2DCursorLocation(e.target.selectionStart);
-        this._styleMap[position.lineIndex] = { line: position.lineIndex, offset: 0 };
-        this.styles[position.lineIndex] = {};
-        this._setStyleDeclaration(position.lineIndex, position.charIndex, this.styles[lineIndex] ? this.styles[lineIndex][0] : {});
+        // let position = this.get2DCursorLocation(e.target.selectionStart);
+        // this._styleMap[position.lineIndex] = { line: position.lineIndex, offset: 0 };
+        // this.styles[position.lineIndex] = {};
+        // this._setStyleDeclaration(position.lineIndex, position.charIndex, this.styles[lineIndex] ? this.styles[lineIndex][0] : {});
         // apply style when left side line breaking is fired
       }
 
