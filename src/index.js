@@ -32,9 +32,9 @@ function updateToolbar(e) {
     }
 
     text.updateToolbar(styles[start]);
-
-    document.getElementById('font-template').removeAttribute('disabled');
   }
+
+  document.getElementById('font-template').removeAttribute('disabled');
 };
 
 function clearLeftAlignment() {
