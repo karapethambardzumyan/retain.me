@@ -117,6 +117,7 @@ fabric.IText.prototype.onInput = function(e) {
         this.canvas.requestRenderAll();
       }
     } else if(e.data) {
+      console.log('simple text');
       this.insertNewStyleBlock(e.data, e.target.selectionStart);
 
       if(this.canvas) {
