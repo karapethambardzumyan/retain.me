@@ -85,7 +85,8 @@ fabric.IText.prototype.onInput = function(e) {
       let lineText = this._textLines[lineIndex];
 
       if(charIndex !== 0 && charIndex === lineText.length) {
-
+        this.insertNewStyleBlock('\n', e.target.selectionStart);
+        e.target.selectionStart = e.target.selectionStart + 1;
       } else if(charIndex === 0) {
         textLines.splice(lineIndex + 1, 0, []);
 
@@ -101,7 +102,8 @@ fabric.IText.prototype.onInput = function(e) {
         this.lb = 'left';
         this.lastLineStyle = Object.assign({}, this.styles[pos.lineIndex - 1] ? this.styles[pos.lineIndex - 1][0] : {});
       } else {
-
+        this.insertNewStyleBlock('\n', e.target.selectionStart);
+        e.target.selectionStart = e.target.selectionStart + 1;
       }
 
       this.updateFromTextArea();
