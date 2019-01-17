@@ -86,7 +86,8 @@ fabric.IText.prototype.onInput = function(e) {
 
       if(charIndex !== 0 && charIndex === lineText.length) {
         let pos = this.get2DCursorLocation(e.target.selectionStart);
-        this.shiftLineStyles(-1,1);
+        console.log(this.styles);
+        this.insertNewStyleBlock('\n', e.target.selectionStart + 1);
         console.log(this.styles);
         textLines.splice(lineIndex, 0, []);
 
