@@ -85,8 +85,15 @@ fabric.IText.prototype.onInput = function(e) {
       let lineText = this._textLines[lineIndex];
 
       if(charIndex !== 0 && charIndex === lineText.length) {
-        this.insertNewStyleBlock('\n', e.target.selectionStart);
-        e.target.selectionStart = e.target.selectionStart + 1;
+        let pos = this.get2DCursorLocation(e.target.selectionStart);
+        this.shiftLineStyles(-1,1);
+        console.log(this.styles);
+        textLines.splice(lineIndex, 0, []);
+
+        value = textLines.map(line => line.join('')).join('\n');
+        e.target.value = value;
+        e.target.selectionStart = selectionStart + 1;
+        e.target.selectionEnd = selectionEnd + 1;
       } else if(charIndex === 0) {
         textLines.splice(lineIndex + 1, 0, []);
 
@@ -96,7 +103,6 @@ fabric.IText.prototype.onInput = function(e) {
         e.target.selectionEnd = selectionEnd + lineText.length + 1;
 
         let pos = this.get2DCursorLocation(e.target.selectionStart);
-
         this.shiftLineStyles(pos.lineIndex - 1, 1);
 
         this.lb = 'left';
