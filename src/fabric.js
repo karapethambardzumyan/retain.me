@@ -31,7 +31,13 @@ fabric.IText.prototype.onKeyDown = function(e) {
 
       this.removeStyleFromTo(start, start + 1);
     } else {
-      //??
+      value.splice(start, end - start);
+
+      e.target.value = value.join('');
+      e.target.selectionStart = start;
+      e.target.selectionEnd = start;
+
+      this.removeStyleFromTo(start, end);
     }
 
     this.updateFromTextArea();
