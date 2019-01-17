@@ -10,6 +10,56 @@ fabric.IText.prototype.disableRTL = function() {
   this.isRTL = false;
 };
 
+fabric.IText.prototype.onKeyDown = function(e) {
+  if (!this.isEditing || this.inCompositionMode) {
+    return;
+  }
+
+  if(e.keyCode === 8) {
+    e.preventDefault();
+
+    let start = e.target.selectionStart;
+    let end = e.target.selectionEnd;
+    let value = e.target.value.split('');
+
+    if(start === end) {
+      value.splice(start, 1);
+
+      e.target.value = value.join('');
+      e.target.selectionStart = start;
+      e.target.selectionEnd = end;
+
+      this.removeStyleFromTo(start, start + 1);
+    } else {
+      //??
+    }
+
+    this.updateFromTextArea();
+    return;
+  }
+
+  if (e.keyCode in this.keysMap) {
+    this[this.keysMap[e.keyCode]](e);
+  }
+  else if ((e.keyCode in this.ctrlKeysMapDown) && (e.ctrlKey || e.metaKey)) {
+    this[this.ctrlKeysMapDown[e.keyCode]](e);
+  }
+  else {
+    return;
+  }
+
+  e.stopImmediatePropagation();
+  e.preventDefault();
+  if (e.keyCode >= 33 && e.keyCode <= 40) {
+    // if i press an arrow key just update selection
+    this.clearContextTop();
+    this.renderCursorOrSelection();
+  }
+  else {
+    this.canvas && this.canvas.requestRenderAll();
+  }
+};
+
 fabric.IText.prototype.onInput = function(e) {
   if(this.isRTL) {
     e && e.stopPropagation();
@@ -117,7 +167,6 @@ fabric.IText.prototype.onInput = function(e) {
         this.canvas.requestRenderAll();
       }
     } else if(e.data) {
-      console.log('simple text');
       this.insertNewStyleBlock(e.data, e.target.selectionStart);
 
       if(this.canvas) {
