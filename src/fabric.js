@@ -188,6 +188,10 @@ fabric.IText.prototype.onInput = function(e) {
         this.lb = null;
       }
 
+      if(this.selectionStart !== this.selectionEnd) {
+        this.removeStyleFromTo(this.selectionStart, this.selectionEnd);
+      }
+
       if(this.canvas) {
         this.canvas.fire('text:changed', { target: this });
         this.canvas.requestRenderAll();
