@@ -85,17 +85,31 @@ fabric.IText.prototype.onInput = function(e) {
       let lineText = this._textLines[lineIndex];
 
       if(charIndex !== 0 && charIndex === lineText.length) {
-        let pos = this.get2DCursorLocation(e.target.selectionStart);
-        console.log(this.styles);
-        this.insertNewStyleBlock('\n', e.target.selectionStart + 1);
-        console.log(this.styles);
+        console.log('right');
         textLines.splice(lineIndex, 0, []);
 
         value = textLines.map(line => line.join('')).join('\n');
         e.target.value = value;
         e.target.selectionStart = selectionStart + 1;
         e.target.selectionEnd = selectionEnd + 1;
+
+        const newStyles = {};
+        for(let i = lineIndex; i < Object.keys(this._textLines).length; i++) {
+          if(this.styles[i]) {
+            newStyles[i+1] = this.styles[i];
+          }
+        }
+        const prevStyles = {};
+        for(let i = 0; i < lineIndex; i++) {
+          prevStyles[i] = this.styles[i];
+        }
+        console.log(prevStyles,newStyles);
+        this.styles = {
+          ...prevStyles,
+          ...newStyles
+        };
       } else if(charIndex === 0) {
+        console.log('left');
         textLines.splice(lineIndex + 1, 0, []);
 
         value = textLines.map(line => line.join('')).join('\n');
@@ -109,6 +123,7 @@ fabric.IText.prototype.onInput = function(e) {
         this.lb = 'left';
         this.lastLineStyle = Object.assign({}, this.styles[pos.lineIndex - 1] ? this.styles[pos.lineIndex - 1][0] : {});
       } else {
+        console.log('center');
         this.insertNewStyleBlock('\n', e.target.selectionStart);
         e.target.selectionStart = e.target.selectionStart + 1;
       }
