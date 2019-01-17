@@ -32,6 +32,14 @@ function updateToolbar(e) {
     }
 
     text.updateToolbar(styles[start]);
+  } else {
+    const target = e.target;
+    let start = target.selectionStart + 1;
+    let end = target.selectionEnd + 1;
+    const _text = target._text;
+    const styles = target.getSelectionStyles(0, _text.length);
+
+    text.updateToolbar(styles[start]);
   }
 
   document.getElementById('font-template').removeAttribute('disabled');
