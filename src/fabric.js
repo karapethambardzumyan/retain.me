@@ -38,6 +38,13 @@ fabric.IText.prototype.onKeyDown = function(e) {
     return;
   }
 
+  if(e.keyCode === 46) {
+    e.preventDefault();
+
+    this.updateFromTextArea();
+    return;
+  }
+
   if (e.keyCode in this.keysMap) {
     this[this.keysMap[e.keyCode]](e);
   }
@@ -93,17 +100,18 @@ fabric.IText.prototype.onInput = function(e) {
         e.target.selectionStart = selectionStart + 1;
         e.target.selectionEnd = selectionEnd + 1;
 
+        let pos = this.get2DCursorLocation(e.target.selectionStart);
+        const prevStyles = {};
         const newStyles = {};
         for(let i = lineIndex; i < Object.keys(this._textLines).length; i++) {
           if(this.styles[i]) {
             newStyles[i+1] = this.styles[i];
           }
         }
-        const prevStyles = {};
         for(let i = 0; i < lineIndex; i++) {
           prevStyles[i] = this.styles[i];
         }
-        console.log(prevStyles,newStyles);
+
         this.styles = {
           ...prevStyles,
           ...newStyles
