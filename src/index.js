@@ -269,10 +269,11 @@ main.init(() => {
         if(e.target.lb === 'left') {
           let pos = e.target.get2DCursorLocation(e.target.selectionStart);
           e.target.styles[pos.lineIndex] = { [pos.charIndex]: e.target.lastLineStyle };
-          e.target.lb = null;
+          e.target.lb = 'left-first-time';
           e.target.lastLineStyle = null;
         }
       }
+      console.log(e.target.styles);
 
       updateToolbar(e);
     });

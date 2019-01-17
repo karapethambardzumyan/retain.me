@@ -106,7 +106,6 @@ fabric.IText.prototype.onInput = function(e) {
         e.target.selectionStart = selectionStart + 1;
         e.target.selectionEnd = selectionEnd + 1;
 
-        let pos = this.get2DCursorLocation(e.target.selectionStart);
         const prevStyles = {};
         const newStyles = {};
         for(let i = lineIndex; i < Object.keys(this._textLines).length; i++) {
@@ -183,6 +182,12 @@ fabric.IText.prototype.onInput = function(e) {
     } else if(e.data) {
       this.insertNewStyleBlock(e.data, e.target.selectionStart);
 
+      let pos = this.get2DCursorLocation(e.target.selectionStart);
+      if(this.lb === 'left-first-time') {
+        delete this.styles[pos.lineIndex][1];//?? not a good solution
+        this.lb = null;
+      }
+
       if(this.canvas) {
         this.canvas.fire('text:changed', { target: this });
         this.canvas.requestRenderAll();
@@ -229,7 +234,7 @@ fabric.IText.prototype._renderChar = function(method, ctx, lineIndex, charIndex,
     }
     decl && ctx.save();
 
-    this._applyCharStyles(method, ctx, lineIndex, charIndex, fullDecl);
+    this._applyCharStyles(method, ctx, lineIndex, charIndex - 1, fullDecl);
 
     if (decl && decl.textBackgroundColor) {
       this._removeShadow(ctx);
