@@ -44,6 +44,17 @@ fabric.IText.prototype.onInput = function(e) {
         e.target.value = value;
         e.target.selectionStart = selectionStart + 1;
         e.target.selectionEnd = selectionEnd + 1;
+
+        let index = this.get2DCursorLocation(e.target.selectionStart).lineIndex;
+        let stylesArr = Object.values(this.styles);
+        let leftPart = stylesArr.slice(0, index - 1);
+        let rightPart = stylesArr.slice(index - 1, stylesArr.length);
+        let centerPart = [{ 0: rightPart[0][Math.max.apply(null, Object.keys(rightPart[0]).map(item => parseInt(item)))] }];
+
+        let styles = leftPart.concat(centerPart, rightPart);
+            styles = Object.assign({}, styles);
+
+        this.styles = styles;
       } else if(charIndex === 0) {
         textLines.splice(lineIndex + 1, 0, []);
 
