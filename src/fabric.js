@@ -83,28 +83,9 @@ fabric.IText.prototype.onInput = function(e) {
       let charIndex = this.get2DCursorLocation().charIndex;
       let textLines = this._textLines;
       let lineText = this._textLines[lineIndex];
-      let firstPartOfText;
-      let secondPartOfText;
-      let newValue = '';
 
       if(charIndex !== 0 && charIndex === lineText.length) {
-        textLines.splice(lineIndex, 0, []);
 
-        value = textLines.map(line => line.join('')).join('\n');
-        e.target.value = value;
-        e.target.selectionStart = selectionStart + 1;
-        e.target.selectionEnd = selectionEnd + 1;
-
-        let index = this.get2DCursorLocation(e.target.selectionStart).lineIndex;
-        let stylesArr = Object.values(this.styles);
-        let leftPart = stylesArr.slice(0, index - 1);
-        let rightPart = stylesArr.slice(index - 1, stylesArr.length);
-        let centerPart = [{ 0: rightPart[0] ? rightPart[0][Math.max.apply(null, Object.keys(rightPart[0]).map(item => parseInt(item)))] : {} }];
-
-        let styles = leftPart.concat(centerPart, rightPart);
-            styles = Object.assign({}, styles);
-
-        this.styles = styles;
       } else if(charIndex === 0) {
         textLines.splice(lineIndex + 1, 0, []);
 
@@ -113,19 +94,14 @@ fabric.IText.prototype.onInput = function(e) {
         e.target.selectionStart = selectionStart + lineText.length + 1;
         e.target.selectionEnd = selectionEnd + lineText.length + 1;
 
-        let index = this.get2DCursorLocation(e.target.selectionStart).lineIndex;
-        let stylesArr = Object.values(this.styles);
-        let leftPart = stylesArr.slice(0, index);
-        let centerPart = { 0: leftPart[leftPart.length - 1] ? leftPart[leftPart.length - 1][0] : {} };
-        let rightPart = stylesArr.slice(index, stylesArr.length);
+        let pos = this.get2DCursorLocation(e.target.selectionStart);
 
-        let styles = leftPart.concat(centerPart, rightPart);
-            styles = Object.assign({}, styles);
+        this.shiftLineStyles(pos.lineIndex - 1, 1);
 
-        this.styles = styles;
+        this.lb = 'left';
+        this.lastLineStyle = Object.assign({}, this.styles[pos.lineIndex - 1] ? this.styles[pos.lineIndex - 1][0] : {});
       } else {
-        this.insertNewStyleBlock('\n', e.target.selectionStart);
-        e.target.selectionStart = e.target.selectionStart + 1;
+
       }
 
       this.updateFromTextArea();

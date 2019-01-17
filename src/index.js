@@ -257,6 +257,13 @@ main.init(() => {
           target.followingStyles = {};
           main.canvas.renderAll();
         }
+      } else {
+        if(e.target.lb === 'left') {
+          let pos = e.target.get2DCursorLocation(e.target.selectionStart);
+          e.target.styles[pos.lineIndex] = { [pos.charIndex]: e.target.lastLineStyle };//??e.target.styles[pos.lineIndex - 1][0]
+          e.target.lb = null;
+          e.target.lastLineStyle = null;
+        }
       }
 
       updateToolbar(e);
