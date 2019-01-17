@@ -249,33 +249,6 @@ fabric.IText.prototype._renderChar = function(method, ctx, lineIndex, charIndex,
   }
 };
 
-fabric.IText.prototype.renderCursor = function(boundaries, ctx) {
-  if(this.isRTL) {
-    var cursorLocation = this.get2DCursorLocation(),
-        lineIndex = cursorLocation.lineIndex,
-        charIndex = cursorLocation.charIndex > 0 ? cursorLocation.charIndex - 1 : 0,
-        charHeight = this.getValueOfPropertyAt(lineIndex, charIndex, 'fontSize'),
-        multiplier = this.scaleX * this.canvas.getZoom(),
-        cursorWidth = this.cursorWidth / multiplier,
-        topOffset = boundaries.topOffset,
-        dy = this.getValueOfPropertyAt(lineIndex, charIndex, 'deltaY');
-
-    topOffset += (1 - this._fontSizeFraction) * this.getHeightOfLine(lineIndex) / this.lineHeight - charHeight * (1 - this._fontSizeFraction);
-
-    if (this.inCompositionMode) {
-      this.renderSelection(boundaries, ctx);
-    }
-
-    ctx.fillStyle = this.getValueOfPropertyAt(lineIndex, charIndex + 1, 'fill');
-    ctx.globalAlpha = this.__isMousedown ? 1 : this._currentCursorOpacity;
-    ctx.fillRect(
-      boundaries.left + boundaries.leftOffset - cursorWidth / 2,
-      topOffset + boundaries.top + dy,
-      cursorWidth,
-      charHeight);
-  }
-};
-
 fabric.IText.prototype.insertCharStyleObject = function(lineIndex, charIndex, quantity, copiedStyle) {
   if(this.isRTL) {
     if (!this.styles) {
@@ -318,6 +291,32 @@ fabric.IText.prototype.insertCharStyleObject = function(lineIndex, charIndex, qu
       this.styles[lineIndex][charIndex + quantity] = fabric.util.object.clone(newStyle);
     }
   }
+};
+
+fabric.IText.prototype.renderCursor = function(boundaries, ctx) {
+  var cursorLocation = this.get2DCursorLocation(),
+      lineIndex = cursorLocation.lineIndex,
+      charIndex = cursorLocation.charIndex > 0 ? cursorLocation.charIndex : 0,
+      charHeight = this.getValueOfPropertyAt(lineIndex, charIndex, 'fontSize'),
+      multiplier = this.scaleX * this.canvas.getZoom(),
+      cursorWidth = this.cursorWidth / multiplier,
+      topOffset = boundaries.topOffset,
+      dy = this.getValueOfPropertyAt(lineIndex, charIndex, 'deltaY');
+
+  topOffset += (1 - this._fontSizeFraction) * this.getHeightOfLine(lineIndex) / this.lineHeight
+    - charHeight * (1 - this._fontSizeFraction);
+
+  if (this.inCompositionMode) {
+    this.renderSelection(boundaries, ctx);
+  }
+
+  ctx.fillStyle = this.getValueOfPropertyAt(lineIndex, charIndex, 'fill');
+  ctx.globalAlpha = this.__isMousedown ? 1 : this._currentCursorOpacity;
+  ctx.fillRect(
+    boundaries.left + boundaries.leftOffset - cursorWidth / 2,
+    topOffset + boundaries.top + dy,
+    cursorWidth,
+    charHeight);
 };
 
 function isNumber(str) {

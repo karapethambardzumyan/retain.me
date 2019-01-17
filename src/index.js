@@ -273,7 +273,6 @@ main.init(() => {
           e.target.lastLineStyle = null;
         }
       }
-      console.log(e.target.styles);
 
       updateToolbar(e);
     });
