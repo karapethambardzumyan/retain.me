@@ -34,8 +34,7 @@ function updateToolbar(e) {
     text.updateToolbar(styles[start]);
   } else {
     const target = e.target;
-    let start = target.selectionStart + 1;
-    let end = target.selectionEnd + 1;
+    let start = target.selectionStart;
     const _text = target._text;
     const styles = target.getSelectionStyles(0, _text.length);
 
