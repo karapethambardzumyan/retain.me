@@ -49,7 +49,7 @@ fabric.IText.prototype.onInput = function(e) {
         let stylesArr = Object.values(this.styles);
         let leftPart = stylesArr.slice(0, index - 1);
         let rightPart = stylesArr.slice(index - 1, stylesArr.length);
-        let centerPart = [{ 0: rightPart[0][Math.max.apply(null, Object.keys(rightPart[0]).map(item => parseInt(item)))] }];
+        let centerPart = [{ 0: rightPart[0] ? rightPart[0][Math.max.apply(null, Object.keys(rightPart[0]).map(item => parseInt(item)))] : {} }];
 
         let styles = leftPart.concat(centerPart, rightPart);
             styles = Object.assign({}, styles);
@@ -66,7 +66,7 @@ fabric.IText.prototype.onInput = function(e) {
         let index = this.get2DCursorLocation(e.target.selectionStart).lineIndex;
         let stylesArr = Object.values(this.styles);
         let leftPart = stylesArr.slice(0, index);
-        let centerPart = { 0: leftPart[leftPart.length - 1][0] };
+        let centerPart = { 0: leftPart[leftPart.length - 1] ? leftPart[leftPart.length - 1][0] : {} };
         let rightPart = stylesArr.slice(index, stylesArr.length);
 
         let styles = leftPart.concat(centerPart, rightPart);
