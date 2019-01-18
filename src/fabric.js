@@ -417,6 +417,38 @@ fabric.IText.prototype.renderCursor = function(boundaries, ctx) {
     charHeight);
 };
 
+fabric.IText.prototype.selectWord = function(selectionStart) {
+  if(this.isRTL) {
+    selectionStart = selectionStart || this.selectionStart;
+    var newSelectionStart = this.searchWordBoundary(selectionStart, -1), /* search backwards */
+        newSelectionEnd = this.searchWordBoundary(selectionStart, 1); /* search forward */
+
+    this.selectionStart = newSelectionStart;
+    this.selectionEnd = newSelectionEnd;
+
+    this.text[this.selectionStart] === '\n' && (this.selectionStart = this.selectionStart + 1);
+
+    this._fireSelectionChanged();
+    this._updateTextarea();
+    this.renderCursorOrSelection();
+  }
+};
+
+fabric.IText.prototype.searchWordBoundary = function(selectionStart, direction) {
+  var index     = this._reSpace.test(this.text.charAt(selectionStart)) ? selectionStart - 1 : selectionStart,
+      _char     = this.text.charAt(index),
+      reNonWord = /[ \n\.,;!\?\-]/;
+
+  while (!reNonWord.test(_char) && index > 0 && index < this.text.length) {
+    index += direction;
+    _char = this.text.charAt(index);
+  }
+  if (reNonWord.test(_char) && _char !== '\n') {
+    index += direction === 1 ? 0 : 1;
+  }
+  return index;
+};
+
 function isNumber(str) {
   str = parseInt(str);
   return (typeof str === 'number' && !isNaN(str));
