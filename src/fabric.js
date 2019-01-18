@@ -22,22 +22,69 @@ fabric.IText.prototype.onKeyDown = function(e) {
     let end = e.target.selectionEnd;
     let value = e.target.value.split('');
 
-    if(start === end) {
-      value.splice(start, 1);
+    if(isNumber(value[start]) && isNumber(value[start + 1])) {
+      if(start === end) {
+        let lineIndex = this.get2DCursorLocation().lineIndex;
+        let charIndex = this.get2DCursorLocation().charIndex;
+        let lineText = this._textLines[lineIndex];
+        let char = value[start];
+        let firstPartOfText = lineText.slice(0, charIndex);
+        let secondPartOfText = lineText.slice(charIndex, lineText.length);
+        let insertionIndex = secondPartOfText.join('').match(/[^0-9]/);
+        insertionIndex = insertionIndex ? firstPartOfText.length + insertionIndex.index : lineText.length;
 
-      e.target.value = value.join('');
-      e.target.selectionStart = start;
-      e.target.selectionEnd = end;
+        for(var i = 0, textLines = this._textLines; i <= textLines.length; i++) {
+          if(i < lineIndex) {
+            insertionIndex += textLines[i].length + 1;
+          }
+        };
 
-      this.removeStyleFromTo(start, start + 1);
+        value.splice(insertionIndex - 1, 1);
+        e.target.value = value.join('');
+        e.target.selectionStart = start;
+        e.target.selectionEnd = start;
+
+        this.removeStyleFromTo(insertionIndex - 1, insertionIndex);
+      } else {
+        value.splice(start, end - start);
+
+        e.target.value = value.join('');
+        e.target.selectionStart = start;
+        e.target.selectionEnd = start;
+
+        this.removeStyleFromTo(start, end);
+      }
+
+      this.updateFromTextArea();
+      this.fire('changed');
+      if(this.canvas) {
+        this.canvas.fire('text:changed', { target: this });
+        this.canvas.requestRenderAll();
+      }
+
+      return;
     } else {
-      value.splice(start, end - start);
+      let start = e.target.selectionStart;
+      let end = e.target.selectionEnd;
+      let value = e.target.value.split('');
 
-      e.target.value = value.join('');
-      e.target.selectionStart = start;
-      e.target.selectionEnd = start;
+      if(start === end) {
+        value.splice(start, 1);
 
-      this.removeStyleFromTo(start, end);
+        e.target.value = value.join('');
+        e.target.selectionStart = start;
+        e.target.selectionEnd = end;
+
+        this.removeStyleFromTo(start, start + 1);
+      } else {
+        value.splice(start, end - start);
+
+        e.target.value = value.join('');
+        e.target.selectionStart = start;
+        e.target.selectionEnd = start;
+
+        this.removeStyleFromTo(start, end);
+      }
     }
 
     this.updateFromTextArea();
@@ -45,7 +92,10 @@ fabric.IText.prototype.onKeyDown = function(e) {
   }
 
   if(e.keyCode === 46) {
-    e.preventDefault();
+    // e.preventDefault();
+
+    e.target.selectionStart = e.target.selectionStart + 1;
+    e.target.selectionEnd = e.target.selectionEnd + 1;
 
     this.updateFromTextArea();
     return;
