@@ -182,10 +182,16 @@ class Controll {
   };
 
   setFontWeight() {
-    document.getElementById('font-weight').onchange = e => {
+    document.getElementById('font-normal').onclick = e => {
       e.preventDefault();
 
-      text.setWeight(e.target.value);
+      text.setWeight('normal');
+    };
+
+    document.getElementById('font-bold').onclick = e => {
+      e.preventDefault();
+
+      text.setWeight('bold');
     };
 
     return this;

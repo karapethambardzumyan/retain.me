@@ -32,7 +32,6 @@ class Text {
 
       document.getElementById('font-family').value = styles.fontFamily || TEXT_TOOLBAR.fontFamily;
       document.getElementById('font-size').value = styles.fontSize / PT_TO_PX || TEXT_TOOLBAR.fontSize;
-      document.getElementById('font-weight').value = styles.fontWeight || TEXT_TOOLBAR.fontWeight;
       document.getElementById(`font-align-${ position }`).classList.add('active');
       document.getElementById('font-color-preview').style.background = styles.fill || TEXT_TOOLBAR.fontColor;
       document.getElementById('font-color-value').value = styles.fill || TEXT_TOOLBAR.fontColor;
@@ -67,7 +66,6 @@ class Text {
 
     document.getElementById('font-family').value = TEXT_TOOLBAR.fontFamily;
     document.getElementById('font-size').value = TEXT_TOOLBAR.fontSize;
-    document.getElementById('font-weight').value = TEXT_TOOLBAR.fontWeight;
     document.getElementById(`font-align-${ position }`).classList.add('active');
     document.getElementById('font-color-preview').style.background = TEXT_TOOLBAR.fontColor;
     document.getElementById('font-color-value').innerHTML = TEXT_TOOLBAR.fontColor;
@@ -349,6 +347,7 @@ class Text {
   };
 
   setWeight(fontWeight) {
+    console.log(fontWeight);
     if(main.canvas.getActiveObject().selectionStart === main.canvas.getActiveObject().selectionEnd) {
       main.canvas.getActiveObject().followingStyles.fontWeight = fontWeight;
     } else {
