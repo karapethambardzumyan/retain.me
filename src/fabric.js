@@ -23,9 +23,11 @@ fabric.IText.prototype.onKeyDown = function(e) {
     let value = e.target.value.split('');
 
     let pos = this.get2DCursorLocation(start);
-    if(pos.charIndex === 0 && this._textLines[pos.lineIndex].length === 0) {
+    if(pos.charIndex === 0 && this._textLines[pos.lineIndex].length === 0 && value.length !== 0) {
       value.splice(start - 1, 1);
-
+      this.removeStyleFromTo(start - 1, start);
+      value.splice((start - (this._textLines[this.get2DCursorLocation(start).lineIndex - 1].length)) - 1, 1);
+      this.removeStyleFromTo((start - (this._textLines[this.get2DCursorLocation(start).lineIndex - 1].length)) - 1, (start - (this._textLines[this.get2DCursorLocation(start).lineIndex - 1].length)));
 
       e.target.value = value.join('');
       e.target.selectionStart = (start - (this._textLines[this.get2DCursorLocation(start).lineIndex - 1].length)) - 1;
