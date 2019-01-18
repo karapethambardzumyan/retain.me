@@ -557,45 +557,46 @@ fabric.IText.prototype.insertCharStyleObject = function(lineIndex, charIndex, qu
     while (newStyle && quantity--) {
       this.styles[lineIndex][charIndex + quantity] = fabric.util.object.clone(newStyle);
     }
-  } else {}
-  if (!this.styles) {
-    this.styles = {};
-  }
-  var currentLineStyles       = this.styles[lineIndex],
-      currentLineStylesCloned = currentLineStyles ? clone(currentLineStyles) : {};
+  } else {
+    if (!this.styles) {
+      this.styles = {};
+    }
+    var currentLineStyles       = this.styles[lineIndex],
+        currentLineStylesCloned = currentLineStyles ? fabric.util.object.clone(currentLineStyles) : {};
 
-  quantity || (quantity = 1);
-  // shift all char styles by quantity forward
-  // 0,1,2,3 -> (charIndex=2) -> 0,1,3,4 -> (insert 2) -> 0,1,2,3,4
-  for (var index in currentLineStylesCloned) {
-    var numericIndex = parseInt(index, 10);
-    if (numericIndex >= charIndex) {
-      currentLineStyles[numericIndex + quantity] = currentLineStylesCloned[numericIndex];
-      // only delete the style if there was nothing moved there
-      if (!currentLineStylesCloned[numericIndex - quantity]) {
-        delete currentLineStyles[numericIndex];
+    quantity || (quantity = 1);
+    // shift all char styles by quantity forward
+    // 0,1,2,3 -> (charIndex=2) -> 0,1,3,4 -> (insert 2) -> 0,1,2,3,4
+    for (var index in currentLineStylesCloned) {
+      var numericIndex = parseInt(index, 10);
+      if (numericIndex >= charIndex) {
+        currentLineStyles[numericIndex + quantity] = currentLineStylesCloned[numericIndex];
+        // only delete the style if there was nothing moved there
+        if (!currentLineStylesCloned[numericIndex - quantity]) {
+          delete currentLineStyles[numericIndex];
+        }
       }
     }
-  }
-  this._forceClearCache = true;
-  if (copiedStyle) {
-    while (quantity--) {
-      if (!Object.keys(copiedStyle[quantity]).length) {
-        continue;
+    this._forceClearCache = true;
+    if (copiedStyle) {
+      while (quantity--) {
+        if (!Object.keys(copiedStyle[quantity]).length) {
+          continue;
+        }
+        if (!this.styles[lineIndex]) {
+          this.styles[lineIndex] = {};
+        }
+        this.styles[lineIndex][charIndex + quantity] = fabric.util.object.clone(copiedStyle[quantity]);
       }
-      if (!this.styles[lineIndex]) {
-        this.styles[lineIndex] = {};
-      }
-      this.styles[lineIndex][charIndex + quantity] = clone(copiedStyle[quantity]);
+      return;
     }
-    return;
-  }
-  if (!currentLineStyles) {
-    return;
-  }
-  var newStyle = currentLineStyles[charIndex ? charIndex - 1 : 1];
-  while (newStyle && quantity--) {
-    this.styles[lineIndex][charIndex + quantity] = clone(newStyle);
+    if (!currentLineStyles) {
+      return;
+    }
+    var newStyle = currentLineStyles[charIndex ? charIndex - 1 : 1];
+    while (newStyle && quantity--) {
+      this.styles[lineIndex][charIndex + quantity] = fabric.util.object.clone(newStyle);
+    }
   }
 };
 
