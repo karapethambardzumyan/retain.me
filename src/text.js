@@ -266,13 +266,24 @@ class Text {
 
   addTemplate(template, target) {
     const activeObject = main.canvas.getActiveObject();
-    const stylesToBeApplied = activeObject.styles[0] ? activeObject.styles[0][0] : {};
+    const pos = activeObject.get2DCursorLocation(activeObject.selectionStart);
+    const stylesToBeApplied = activeObject._getStyleDeclaration(pos.lineIndex, pos.charIndex);
 
-    if(activeObject.selectionStart === 0 && activeObject.selectionEnd === activeObject.text.length) {
-      activeObject.insertChars(template, null, activeObject.selectionStart, activeObject.selectionEnd);
-      activeObject.setSelectionStyles(stylesToBeApplied, 0, activeObject.text.length);
+    if(!activeObject.isRTL) {
+      if(activeObject.selectionStart === 0 && activeObject.selectionEnd === activeObject.text.length) {
+        activeObject.insertChars(template, null, activeObject.selectionStart, activeObject.selectionEnd);
+        activeObject.setSelectionStyles(stylesToBeApplied, 0, activeObject.text.length);
+      } else {
+        activeObject.insertChars(template, null, activeObject.selectionStart, activeObject.selectionEnd);
+      }
     } else {
-      activeObject.insertChars(template, null, activeObject.selectionStart, activeObject.selectionEnd);
+      if(activeObject.selectionStart === 0 && activeObject.selectionEnd === activeObject.text.length) {
+        activeObject.insertChars(template, null, activeObject.selectionStart, activeObject.selectionEnd);
+        activeObject.setSelectionStyles(stylesToBeApplied, 0, activeObject.text.length);
+      } else {
+        activeObject.insertChars(template, null, activeObject.selectionStart, activeObject.selectionEnd);
+        activeObject.setSelectionStyles(stylesToBeApplied, activeObject.selectionStart, activeObject.selectionStart + template.length);
+      }
     }
 
     main.canvas.renderAll();
@@ -347,7 +358,6 @@ class Text {
   };
 
   setWeight(fontWeight) {
-    console.log(fontWeight);
     if(main.canvas.getActiveObject().selectionStart === main.canvas.getActiveObject().selectionEnd) {
       main.canvas.getActiveObject().followingStyles.fontWeight = fontWeight;
     } else {
