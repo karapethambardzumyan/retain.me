@@ -92,10 +92,33 @@ fabric.IText.prototype.onKeyDown = function(e) {
   }
 
   if(e.keyCode === 46) {
-    // e.preventDefault();
+    e.preventDefault();
 
-    e.target.selectionStart = e.target.selectionStart + 1;
-    e.target.selectionEnd = e.target.selectionEnd + 1;
+    let start = e.target.selectionStart;
+    let end = e.target.selectionEnd;
+    let value = e.target.value.split('');
+
+    if(start === end && start === 0) {
+      return;
+    }
+
+    if(start === end) {
+      value.splice(start - 1, 1);
+
+      e.target.value = value.join('');
+      e.target.selectionStart = start - 1;
+      e.target.selectionEnd = end - 1;
+
+      this.removeStyleFromTo(start, start + 1);
+    } else {
+      value.splice(start, end - start);
+
+      e.target.value = value.join('');
+      e.target.selectionStart = start;
+      e.target.selectionEnd = start;
+
+      this.removeStyleFromTo(start, end);
+    }
 
     this.updateFromTextArea();
     return;
