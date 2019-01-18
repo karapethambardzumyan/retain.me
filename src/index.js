@@ -271,6 +271,8 @@ main.init(() => {
           e.target.lb = 'left-first-time';
           e.target.lastLineStyle = null;
         }
+
+        e.target.setSelectionStyles(e.target.followingStyles, e.target.selectionStart, e.target.selectionStart+1);
       }
 
       updateToolbar(e);
