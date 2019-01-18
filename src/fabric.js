@@ -130,7 +130,7 @@ fabric.IText.prototype.onKeyDown = function(e) {
       e.target.selectionStart = start - 1;
       e.target.selectionEnd = end - 1;
 
-      this.removeStyleFromTo(start, start + 1);
+      this.removeStyleFromTo(e.target.selectionStart, e.target.selectionStart + 1);
     } else {
       value.splice(start, end - start);
 
