@@ -487,9 +487,16 @@ main.init(() => {
 
       if(e.target !== null && canvas.getActiveObject() && canvas.getActiveObject().get('type') === 'textbox') {
         const activeObject = main.canvas.getActiveObject();
+        const coords = activeObject.calcCoords();
+        const left = coords.bl.x;
 
-        if(activeObject.left < 7) {
-          activeObject.left = 0;
+        if(left < 7) {//??
+          activeObject.setCoords();
+          let bound = activeObject.getBoundingRect();
+
+          console.log(activeObject.left, bound.left);
+
+          activeObject.left = activeObject.left - bound.left;
         }
         if(activeObject.top < 7) {
           activeObject.top = 0;
