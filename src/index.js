@@ -435,6 +435,38 @@ main.init(() => {
       text.closeToolbar();
     });
 
+    canvas.on('object:rotating', e => {
+      const target = e.target;
+
+      if(target.angle > 80 && target.angle < 90) {
+        target._setOriginToCenter();
+        target.set('angle', 90).setCoords();
+        target._resetOrigin();
+        target.canvas.renderAll();
+      }
+
+      if(target.angle > 170 && target.angle < 180) {
+        target._setOriginToCenter();
+        target.set('angle', 180).setCoords();
+        target._resetOrigin();
+        target.canvas.renderAll();
+      }
+
+      if(target.angle > 260 && target.angle < 270) {
+        target._setOriginToCenter();
+        target.set('angle', 270).setCoords();
+        target._resetOrigin();
+        target.canvas.renderAll();
+      }
+
+      if(target.angle > 350 && target.angle < 360) {
+        target._setOriginToCenter();
+        target.set('angle', 360).setCoords();
+        target._resetOrigin();
+        target.canvas.renderAll();
+      }
+    });
+
     canvas.on('object:moving', e => {
       if(e.target !== null && canvas.getActiveObject() && canvas.getActiveObject().get('type') === 'image') {
         const activeObject = main.canvas.getActiveObject();

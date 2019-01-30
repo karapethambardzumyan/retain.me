@@ -44,7 +44,8 @@ class Text {
     const textToolbar = document.getElementById('text-toolbar');
 
     textToolbar.classList.remove('hidden');
-    textToolbar.style.top = `${ target.top - textToolbar.offsetHeight - 14 }px`;
+    // textToolbar.style.top = `${ target.top - textToolbar.offsetHeight - 14 }px`; ??
+    textToolbar.style.top = `${ target.top - textToolbar.offsetHeight - 100 }px`;
     textToolbar.style.left = `${ target.left + ((main.canvas.getActiveObject().width - textToolbar.offsetWidth) / 2) }px`;
   };
 
@@ -248,7 +249,7 @@ class Text {
       br: false,
       mt: false,
       mb: false,
-      mtr: false
+      mtr: true
     });
 
     main.canvas.add(textObject);
