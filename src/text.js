@@ -231,7 +231,7 @@ class Text {
       fill: TEXT_TOOLBAR.fontColor,
       text: TEXT_TOOLBAR.text,
       lineHeight: 1,
-      width: 400,
+      width: 130,
       transparentCorners: false,
       cornerColor: 'rgb(100,144,206)',
       cornerStyle: 'circle',

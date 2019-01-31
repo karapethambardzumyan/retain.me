@@ -3,6 +3,7 @@ import main from './main';
 import controll from './controll';
 import background from './background';
 import text from './text';
+import { getCoordsLeft, getCoordsTop } from './helpers';
 
 function updateToolbar(e) {
   if(!e.target.isRTL) {
@@ -487,23 +488,15 @@ main.init(() => {
 
       if(e.target !== null && canvas.getActiveObject() && canvas.getActiveObject().get('type') === 'textbox') {
         const activeObject = main.canvas.getActiveObject();
-        const coords = activeObject.calcCoords();
-        let left = null;
 
-        activeObject.angle === 360 && (left = coords.bl.x);
-        activeObject.angle >= 0 && activeObject.angle <= 90 && (left = coords.bl.x);
-        activeObject.angle > 90 && activeObject.angle <= 180 && (left = coords.br.x);
-        activeObject.angle > 180 && activeObject.angle <= 270 && (left = coords.tr.x);
-        activeObject.angle > 270 && activeObject.angle < 360 && (left = coords.tl.x);
+        const coordsLeft = getCoordsLeft(activeObject);
+        const coordsTop = getCoordsTop(activeObject);
 
-        if(left < 7) {
-          activeObject.setCoords();
-          let bound = activeObject.getBoundingRect();
-
-          activeObject.left = activeObject.left - bound.left;
+        if(coordsLeft.x < 7) {
+          activeObject.setPositionByOriginX({ x: 0, y: coordsLeft.y }, coordsLeft.originX, coordsLeft.originY);
         }
-        if(activeObject.top < 7) {
-          activeObject.top = 0;
+        if(coordsTop.y < 7) {
+          activeObject.setPositionByOriginY({ x: coordsTop.x, y: 0 }, coordsTop.originX, coordsTop.originY);
         }
         if(main.canvas.width - activeObject.width * activeObject.scaleX - activeObject.left < 7) {
           activeObject.left =  main.canvas.width - activeObject.width * activeObject.scaleX;
