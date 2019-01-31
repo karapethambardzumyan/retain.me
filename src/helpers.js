@@ -5,6 +5,8 @@ export function getCoordsLeft(target) {
   if(target.angle === 360 || target.angle === 0 || target.angle > 270 && target.angle < 360) {
     newCoords.x = coords.tl.x;
     newCoords.y = coords.tl.y;
+    newCoords.ox = coords.br.x;
+    newCoords.oy = coords.br.y;
     newCoords.originX = 'left';
     newCoords.originY = 'top';
   }
@@ -12,6 +14,8 @@ export function getCoordsLeft(target) {
   if(target.angle > 0 && target.angle <= 90) {
     newCoords.x = coords.bl.x;
     newCoords.y = coords.bl.y;
+    newCoords.ox = coords.tr.x;
+    newCoords.oy = coords.tr.y;
     newCoords.originX = 'left';
     newCoords.originY = 'bottom';
   }
@@ -19,6 +23,8 @@ export function getCoordsLeft(target) {
   if(target.angle > 90 && target.angle <= 180) {
     newCoords.x = coords.br.x;
     newCoords.y = coords.br.y;
+    newCoords.ox = coords.tl.x;
+    newCoords.oy = coords.tl.y;
     newCoords.originX = 'right';
     newCoords.originY = 'bottom';
   }
@@ -26,6 +32,8 @@ export function getCoordsLeft(target) {
   if(target.angle > 180 && target.angle <= 270) {
     newCoords.x = coords.tr.x;
     newCoords.y = coords.tr.y;
+    newCoords.ox = coords.bl.x;
+    newCoords.oy = coords.bl.y;
     newCoords.originX = 'right';
     newCoords.originY = 'top';
   }
@@ -40,6 +48,8 @@ export function getCoordsTop(target) {
   if(target.angle === 360 || target.angle === 0 || target.angle > 270 && target.angle < 360) {
     newCoords.x = coords.tr.x;
     newCoords.y = coords.tr.y;
+    newCoords.ox = coords.bl.x;
+    newCoords.oy = coords.bl.y;
     newCoords.originX = 'right';
     newCoords.originY = 'top';
   }
@@ -47,6 +57,8 @@ export function getCoordsTop(target) {
   if(target.angle > 0 && target.angle <= 90) {
     newCoords.x = coords.tl.x;
     newCoords.y = coords.tl.y;
+    newCoords.ox = coords.br.x;
+    newCoords.oy = coords.br.y;
     newCoords.originX = 'left';
     newCoords.originY = 'top';
   }
@@ -54,6 +66,8 @@ export function getCoordsTop(target) {
   if(target.angle > 90 && target.angle <= 180) {
     newCoords.x = coords.bl.x;
     newCoords.y = coords.bl.y;
+    newCoords.ox = coords.tr.x;
+    newCoords.oy = coords.tr.y;
     newCoords.originX = 'left';
     newCoords.originY = 'bottom';
   }
@@ -61,6 +75,8 @@ export function getCoordsTop(target) {
   if(target.angle > 180 && target.angle <= 270) {
     newCoords.x = coords.br.x;
     newCoords.y = coords.br.y;
+    newCoords.ox = coords.tl.x;
+    newCoords.oy = coords.tl.y;
     newCoords.originX = 'right';
     newCoords.originY = 'bottom';
   }

@@ -679,6 +679,18 @@ fabric.IText.prototype.selectWord = function(selectionStart) {
   }
 };
 
+fabric.IText.prototype.setPositionByOriginX = function(pos, originX, originY) {
+  var center = this.translateToCenterPoint(pos, originX, originY),
+      position = this.translateToOriginPoint(center, this.originX, this.originY);
+  this.set('left', position.x);
+},
+
+fabric.IText.prototype.setPositionByOriginY = function(pos, originX, originY) {
+  var center = this.translateToCenterPoint(pos, originX, originY),
+      position = this.translateToOriginPoint(center, this.originX, this.originY);
+  this.set('top', position.y);
+},
+
 function isNumber(str) {
   str = parseInt(str);
   return (typeof str === 'number' && !isNaN(str));

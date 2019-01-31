@@ -498,11 +498,11 @@ main.init(() => {
         if(coordsTop.y < 7) {
           activeObject.setPositionByOriginY({ x: coordsTop.x, y: 0 }, coordsTop.originX, coordsTop.originY);
         }
-        if(main.canvas.width - activeObject.width * activeObject.scaleX - activeObject.left < 7) {
-          activeObject.left =  main.canvas.width - activeObject.width * activeObject.scaleX;
+        if((main.canvas.width - (coordsLeft.ox - coordsLeft.x)) - coordsLeft.x < 7) {
+          activeObject.setPositionByOriginX({ x: (main.canvas.width - (coordsLeft.ox - coordsLeft.x)), y: coordsLeft.y }, coordsLeft.originX, coordsLeft.originY);
         }
-        if(main.canvas.height - activeObject.height * activeObject.scaleY - activeObject.top < 7) {
-          activeObject.top = main.canvas.height - activeObject.height * activeObject.scaleY;
+        if((main.canvas.height - (coordsTop.oy - coordsTop.y)) - coordsTop.y < 7) {
+          activeObject.setPositionByOriginY({ x: coordsTop.x, y: (main.canvas.height - (coordsTop.oy - coordsTop.y)) }, coordsTop.originX, coordsTop.originY);
         }
 
         text.closeToolbar();
