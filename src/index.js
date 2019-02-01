@@ -102,15 +102,55 @@ function drawRightAlignment(left) {
 };
 // right alignment helpers end
 
+// horizontal center alignment helpers start
+function clearHorizontalCenterAlignment() {
+  main.canvas.remove(main.horizontalCenterAlignment);
+  main.horizontalCenterAlignment = null;
+};
+
+function drawHorizontalCenterAlignment() {
+  clearHorizontalCenterAlignment();
+
+  main.horizontalCenterAlignment = new fabric.Line([0, main.canvas.height / 2, main.canvas.width, main.canvas.height / 2], {
+    left: 0,
+    top: main.canvas.height / 2,
+    stroke: '#000',
+    selectable: false
+  });
+  main.canvas.add(main.horizontalCenterAlignment);
+};
+// horizontal center alignment helpers end
+
+// vertical center alignment helpers start
+function clearVerticalCenterAlignment() {
+  main.canvas.remove(main.verticalCenterAlignment);
+  main.verticalCenterAlignment = null;
+};
+
+function drawVerticalCenterAlignment() {
+  clearVerticalCenterAlignment();
+
+  main.verticalCenterAlignment = new fabric.Line([main.canvas.width / 2, 0, main.canvas.width / 2, main.canvas.height], {
+    left: main.canvas.width / 2,
+    top: 0,
+    stroke: '#000',
+    selectable: false
+  });
+  main.canvas.add(main.verticalCenterAlignment);
+};
+// vertical center alignment helpers end
+
 // clear alignments start
 function clearAlignments() {
   clearLeftAlignment();
   clearCenterAlignment();
   clearRightAlignment();
+  clearHorizontalCenterAlignment();
+  clearVerticalCenterAlignment();
 };
 // clear alignments end
 
-// // should be done now
+// // should be done in the end
 // function clearHorizontalAlignment() {
 //   main.canvas.remove(main.horizontalAlignment);
 //   main.horizontalAlignment = null;
@@ -128,45 +168,7 @@ function clearAlignments() {
 //   main.canvas.add(main.horizontalAlignment);
 //   main.canvas.renderAll();
 // };
-// // should be done now
-
-// // that should be done at the end
-// function clearHorizontalCenterAlignment() {
-//   main.canvas.remove(main.horizontalCenterAlignment);
-//   main.horizontalCenterAlignment = null;
-// };
-//
-// function clearVerticalCenterAlignment() {
-//   main.canvas.remove(main.verticalCenterAlignment);
-//   main.verticalCenterAlignment = null;
-// };
-//
-// function drawHorizontalCenterAlignment() {
-//   main.canvas.remove(main.horizontalCenterAlignment);
-//   main.horizontalCenterAlignment = new fabric.Line([0, main.canvas.height / 2, main.canvas.width, main.canvas.height / 2], {
-//     left: 0,
-//     top: main.canvas.height / 2,
-//     stroke: '#000',
-//     selectable: false
-//   });
-//
-//   main.canvas.add(main.horizontalCenterAlignment);
-//   main.canvas.renderAll();
-// };
-//
-// function drawVerticalCenterAlignment() {
-//   main.canvas.remove(main.verticalCenterAlignment);
-//   main.verticalCenterAlignment = new fabric.Line([main.canvas.width / 2, 0, main.canvas.width / 2, main.canvas.height], {
-//     left: main.canvas.width / 2,
-//     top: 0,
-//     stroke: '#000',
-//     selectable: false
-//   });
-//
-//   main.canvas.add(main.verticalCenterAlignment);
-//   main.canvas.renderAll();
-// };
-// // that should be done at the end
+// // should be done in the end
 
 main.init(() => {
     let fonts = document.getElementById('fonts').value;
@@ -494,6 +496,27 @@ main.init(() => {
         }
         // textboxes moving end
 
+        // horizontal center alignment start
+        {
+          // drawHorizontalCenterAlignment();
+          // drawVerticalCenterAlignment();
+          const currentText = target;
+          const currentTextCoords = currentText.calcCoords();
+          const currentTextWidth = currentText.width;
+          const currentTextMaxLineWidth = Math.max.apply(null, currentText.__lineWidths);
+          let currentTextLeftOffset;
+          let xc = (currentTextCoords.tl.x + currentTextCoords.tr.x + currentTextCoords.br.x + currentTextCoords.bl.x) / 4;
+          let yc = (currentTextCoords.tl.y + currentTextCoords.tr.y + currentTextCoords.br.y + currentTextCoords.bl.y) / 4;
+
+          console.log(xc, yc);
+
+          // if(Math.abs(currentTextCoords.x - targetTextCoords.x) > 0 && Math.abs(currentTextCoords.x - targetTextCoords.x) < 5) {
+          //   currentText.setPositionByOriginX({ x: targetTextCoords.x - currentTextLeftOffset, y: currentTextCoords.y }, currentTextCoords.originX, currentTextCoords.originY);
+          //   drawHorizontalCenterAlignment();
+          // }
+        }
+        // horizontal center alignment end
+
         // left alignment start
         {
           const texts = target.canvas.getObjects().filter(object => object.type === 'textbox');
@@ -698,32 +721,28 @@ main.init(() => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // old draft start
-        // text.updateCenterAligment(e.target);
         // text.updateHorizontalAligment(e.target);
         //
-        // const texts = main.canvas.getObjects().filter(object => object.type === 'textbox');
-        // let snaped = null;
-        // let target = e.target.alignment;
         // const center = {
         //   left: main.canvas.width / 2,
         //   top: main.canvas.height / 2
         // };
         //
-        // let offset = 0;
-        // switch(e.target.textAlign) {
-        //   case 'left':
-        //     offset = Math.max.apply(null, e.target.__lineWidths) / 2;
-        //     break;
-        //   case 'center':
-        //     offset = e.target.width / 2;
-        //     break;
-        //   case 'right':
-        //     offset = (e.target.left + e.target.width) - (e.target.left + Math.max.apply(null, e.target.__lineWidths)) + Math.max.apply(null, e.target.__lineWidths) / 2;
-        //     break;
-        //   default:
-        //     break;
-        // }
         // if(Math.abs(e.target.left + offset - center.left) > 0 && Math.abs(e.target.left + offset - center.left) < 5) {
         //   e.target.left = center.left - offset;
         //   drawVerticalCenterAlignment();
@@ -732,45 +751,6 @@ main.init(() => {
         //   clearAllAlignment();
         // }
         //
-        // if(Math.abs((e.target.top + e.target.height / 2) - center.top) > 0 && Math.abs((e.target.top + e.target.height / 2) - center.top) < 5) {
-        //   e.target.top = (center.top - e.target.height / 2) - 1;
-        //   drawHorizontalCenterAlignment();
-        //   return;
-        // } else {
-        //   clearAllAlignment();
-        // }
-        //
-        // for(let i in texts) {
-        //   snaped = texts[i];
-        //
-        //   let snapedCenter = snaped.alignment.left + (snaped.alignment.right - snaped.alignment.left) / 2;
-        //   let targetCenter = target.left + (target.right - target.left) / 2;
-        //
-        //   let offset = 0;
-        //   switch(e.target.textAlign) {
-        //     case 'left':
-        //       offset = Math.max.apply(null, e.target.__lineWidths) / 2;
-        //       break;
-        //     case 'center':
-        //       offset = e.target.width / 2;
-        //       break;
-        //     case 'right':
-        //       offset = (e.target.left + e.target.width) - (e.target.left + Math.max.apply(null, e.target.__lineWidths)) + Math.max.apply(null, e.target.__lineWidths) / 2;
-        //       break;
-        //     default:
-        //       break;
-        //   }
-        //   if(Math.abs(snapedCenter - targetCenter) > 0 && Math.abs(snapedCenter - targetCenter) < 5) {
-        //     e.target.left = snapedCenter - offset
-        //
-        //     text.updateCenterAligment(snaped);
-        //     drawCenterAlignment(e.target, snapedCenter);
-        //     return;
-        //   } else {
-        //     clearAllAlignment();
-        //     continue;
-        //   }
-        // }
         // for(let i in text.objectTops) {
         //   if(Math.abs(e.target.top + e.target.__lineHeights[0] - text.objectTops[i]) > 0 && Math.abs(e.target.top + e.target.__lineHeights[0] - text.objectTops[i]) < 5) {
         //     e.target.top = text.objectTops[i] - e.target.__lineHeights[0];
