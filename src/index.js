@@ -316,9 +316,7 @@ main.init(() => {
 
       if(e.target !== null && canvas.getActiveObject() &&  canvas.getActiveObject().get('type') === 'textbox') {
         text.openToolbar(e.target);
-        clearLeftAlignment();
-        clearCenterAlignment();
-        clearRightAlignment();
+        clearAlignments();
       } else {
         text.closeToolbar();
       }
@@ -474,6 +472,8 @@ main.init(() => {
       if(e.target !== null && canvas.getActiveObject() && canvas.getActiveObject().get('type') === 'textbox') {
         const target = e.target;
 
+        clearAlignments();
+
         // textboxes moving start
         {
           const coordsLeft = getCoordsLeft(target);
@@ -517,7 +517,6 @@ main.init(() => {
 
           currentTextCoords.x = currentTextCoords.x + currentTextLeftOffset;
 
-          clearAlignments();
           if(currentText.angle !== 0 && currentText.angle !== 90 && currentText.angle !== 180 && currentText.angle !== 270 && currentText.angle !== 360) {
             return;
           }
@@ -578,7 +577,6 @@ main.init(() => {
 
           currentTextCoords.x = currentTextCoords.x + currentTextLeftOffset;
 
-          clearAlignments();
           if(currentText.angle !== 0 && currentText.angle !== 90 && currentText.angle !== 180 && currentText.angle !== 270 && currentText.angle !== 360) {
             return;
           }
@@ -639,7 +637,6 @@ main.init(() => {
 
           currentTextCoords.x = currentTextCoords.x + currentTextLeftOffset;
 
-          clearAlignments();
           if(currentText.angle !== 0 && currentText.angle !== 90 && currentText.angle !== 180 && currentText.angle !== 270 && currentText.angle !== 360) {
             return;
           }
