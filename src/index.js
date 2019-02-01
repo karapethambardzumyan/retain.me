@@ -314,7 +314,7 @@ main.init(() => {
 
       if(e.target !== null && canvas.getActiveObject() &&  canvas.getActiveObject().get('type') === 'textbox') {
         text.openToolbar(e.target);
-        clearAllAlignment();
+        // clearAllAlignment();
       } else {
         text.closeToolbar();
       }
@@ -501,7 +501,6 @@ main.init(() => {
 
         // left alignment start
         const texts = target.canvas.getObjects().filter(object => object.type === 'textbox');
-
         const currentText = target;
         const currentTextCoords = getCoordsLeft(currentText);
         const currentTextWidth = currentText.width;
