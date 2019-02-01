@@ -74,32 +74,7 @@ class Text {
   };
 
   updateLeftAligment(target) {
-    let { left, __lineWidths, width } = target;
-    let textWidth = Math.max.apply(null, __lineWidths);
-    let offsetLeft = left + textWidth;
-    let realLeft = 0;
-    let realRight = 0;
-    let offset = 0;
-    const alignment = target.textAlign;
-
-    switch(alignment) {
-      case 'left':
-        realLeft = left + 1;
-        break;
-      case 'right':
-        realLeft = (left + (left + width) - (left + textWidth)) + 1;
-        offset = (left + width) - (left + textWidth);
-        break;
-      case 'center':
-        realLeft = (left + ((left + width) - (left + textWidth)) / 2) + 1;
-        offset = ((left + width) - (left + textWidth)) / 2;
-        break;
-      default:
-        break;
-    }
-
-    target.alignment.left = realLeft;
-    target.alignment.offsetLeft = offset;
+    
   };
 
   updateCenterAligment(target) {
@@ -216,9 +191,9 @@ class Text {
         main.canvas.renderAll();
 
         this.updateLeftAligment(o);
-        this.updateCenterAligment(o);
-        this.updateRightAligment(o);
-        this.updateHorizontalAligment(o);
+        // this.updateCenterAligment(o);
+        // this.updateRightAligment(o);
+        // this.updateHorizontalAligment(o);
       });
     });
   };
@@ -261,9 +236,9 @@ class Text {
     this.openToolbar(textObject);
 
     this.updateLeftAligment(textObject);
-    this.updateCenterAligment(textObject);
-    this.updateRightAligment(textObject);
-    this.updateHorizontalAligment(textObject);
+    // this.updateCenterAligment(textObject);
+    // this.updateRightAligment(textObject);
+    // this.updateHorizontalAligment(textObject);
   };
 
   addTemplate(template, target) {

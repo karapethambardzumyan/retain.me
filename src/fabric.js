@@ -683,13 +683,25 @@ fabric.IText.prototype.setPositionByOriginX = function(pos, originX, originY) {
   var center = this.translateToCenterPoint(pos, originX, originY),
       position = this.translateToOriginPoint(center, this.originX, this.originY);
   this.set('left', position.x);
-},
+};
 
 fabric.IText.prototype.setPositionByOriginY = function(pos, originX, originY) {
   var center = this.translateToCenterPoint(pos, originX, originY),
       position = this.translateToOriginPoint(center, this.originX, this.originY);
   this.set('top', position.y);
-},
+};
+
+fabric.IText.prototype.getPositionByOriginX = function(pos, originX, originY) {
+  var center = this.translateToCenterPoint(pos, originX, originY),
+      position = this.translateToOriginPoint(center, this.originX, this.originY);
+  return position.x;
+};
+
+fabric.IText.prototype.getPositionByOriginY = function(pos, originX, originY) {
+  var center = this.translateToCenterPoint(pos, originX, originY),
+      position = this.translateToOriginPoint(center, this.originX, this.originY);
+  return position.y;
+};
 
 function isNumber(str) {
   str = parseInt(str);
