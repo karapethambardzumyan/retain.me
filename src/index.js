@@ -102,76 +102,76 @@ function drawLeftAlignment(target) {
 };
 
 function drawCenterAlignment(target, leftPos) {
-  let { left, __lineWidths, width } = target;
-  let textWidth = Math.max.apply(null, __lineWidths);
-  let offsetLeft = left + textWidth;
-
-  main.canvas.remove(main.centerAlignment);
-  main.centerAlignment = new fabric.Line([leftPos, 0, leftPos, main.canvas.height], {
-    left: leftPos,
-    top: 0,
-    stroke: '#000',
-    selectable: false
-  });
-
-  main.canvas.add(main.centerAlignment);
-  main.canvas.renderAll();
+  // let { left, __lineWidths, width } = target;
+  // let textWidth = Math.max.apply(null, __lineWidths);
+  // let offsetLeft = left + textWidth;
+  //
+  // main.canvas.remove(main.centerAlignment);
+  // main.centerAlignment = new fabric.Line([leftPos, 0, leftPos, main.canvas.height], {
+  //   left: leftPos,
+  //   top: 0,
+  //   stroke: '#000',
+  //   selectable: false
+  // });
+  //
+  // main.canvas.add(main.centerAlignment);
+  // main.canvas.renderAll();
 };
 
 function drawRightAlignment(target) {
-  let { left, __lineWidths, width } = target;
-  let textWidth = Math.max.apply(null, __lineWidths);
-  let offsetLeft = left + textWidth;
-
-  main.canvas.remove(main.rightAlignment);
-  main.rightAlignment = new fabric.Line([offsetLeft, 0, offsetLeft, main.canvas.height], {
-    left: target.alignment.right,
-    top: 0,
-    stroke: '#000',
-    selectable: false
-  });
-
-  main.canvas.add(main.rightAlignment);
-  main.canvas.renderAll();
+  // let { left, __lineWidths, width } = target;
+  // let textWidth = Math.max.apply(null, __lineWidths);
+  // let offsetLeft = left + textWidth;
+  //
+  // main.canvas.remove(main.rightAlignment);
+  // main.rightAlignment = new fabric.Line([offsetLeft, 0, offsetLeft, main.canvas.height], {
+  //   left: target.alignment.right,
+  //   top: 0,
+  //   stroke: '#000',
+  //   selectable: false
+  // });
+  //
+  // main.canvas.add(main.rightAlignment);
+  // main.canvas.renderAll();
 };
 
 function drawHorizontalAlignment(height) {
-  main.canvas.remove(main.horizontalAlignment);
-  main.horizontalAlignment = new fabric.Line([0, 0, main.canvas.width, 0], {
-    left: 0,
-    top: height,
-    stroke: '#000',
-    selectable: false
-  });
-
-  main.canvas.add(main.horizontalAlignment);
-  main.canvas.renderAll();
+  // main.canvas.remove(main.horizontalAlignment);
+  // main.horizontalAlignment = new fabric.Line([0, 0, main.canvas.width, 0], {
+  //   left: 0,
+  //   top: height,
+  //   stroke: '#000',
+  //   selectable: false
+  // });
+  //
+  // main.canvas.add(main.horizontalAlignment);
+  // main.canvas.renderAll();
 };
 
 function drawHorizontalCenterAlignment() {
-  main.canvas.remove(main.horizontalCenterAlignment);
-  main.horizontalCenterAlignment = new fabric.Line([0, main.canvas.height / 2, main.canvas.width, main.canvas.height / 2], {
-    left: 0,
-    top: main.canvas.height / 2,
-    stroke: '#000',
-    selectable: false
-  });
-
-  main.canvas.add(main.horizontalCenterAlignment);
-  main.canvas.renderAll();
+  // main.canvas.remove(main.horizontalCenterAlignment);
+  // main.horizontalCenterAlignment = new fabric.Line([0, main.canvas.height / 2, main.canvas.width, main.canvas.height / 2], {
+  //   left: 0,
+  //   top: main.canvas.height / 2,
+  //   stroke: '#000',
+  //   selectable: false
+  // });
+  //
+  // main.canvas.add(main.horizontalCenterAlignment);
+  // main.canvas.renderAll();
 };
 
 function drawVerticalCenterAlignment() {
-  main.canvas.remove(main.verticalCenterAlignment);
-  main.verticalCenterAlignment = new fabric.Line([main.canvas.width / 2, 0, main.canvas.width / 2, main.canvas.height], {
-    left: main.canvas.width / 2,
-    top: 0,
-    stroke: '#000',
-    selectable: false
-  });
-
-  main.canvas.add(main.verticalCenterAlignment);
-  main.canvas.renderAll();
+  // main.canvas.remove(main.verticalCenterAlignment);
+  // main.verticalCenterAlignment = new fabric.Line([main.canvas.width / 2, 0, main.canvas.width / 2, main.canvas.height], {
+  //   left: main.canvas.width / 2,
+  //   top: 0,
+  //   stroke: '#000',
+  //   selectable: false
+  // });
+  //
+  // main.canvas.add(main.verticalCenterAlignment);
+  // main.canvas.renderAll();
 };
 
 main.init(() => {
