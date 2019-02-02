@@ -513,8 +513,8 @@ main.init(() => {
             bl: fabric.util.rotatePoint(new fabric.Point(currentTextCoords.bl.x, currentTextCoords.bl.y), currentText.getCenterPoint(), fabric.util.degreesToRadians(360 - currentText.angle)),
             br: fabric.util.rotatePoint(new fabric.Point(currentTextCoords.br.x, currentTextCoords.br.y), currentText.getCenterPoint(), fabric.util.degreesToRadians(360 - currentText.angle))
           };
-          coords.tr.x = coords.tr.x - (currentTextWidth - currentTextMaxLineWidth);
-          coords.br.x = coords.br.x - (currentTextWidth - currentTextMaxLineWidth);
+          coords.tr.x = coords.tr.x - (currentTextWidth - currentTextMaxLineWidth);//??
+          coords.br.x = coords.br.x - (currentTextWidth - currentTextMaxLineWidth);//??
           coords = {
             tl: fabric.util.rotatePoint(new fabric.Point(coords.tl.x, coords.tl.y), currentText.getCenterPoint(), fabric.util.degreesToRadians(currentText.angle)),
             tr: fabric.util.rotatePoint(new fabric.Point(coords.tr.x, coords.tr.y), currentText.getCenterPoint(), fabric.util.degreesToRadians(currentText.angle)),
@@ -525,8 +525,7 @@ main.init(() => {
           y = (coords.tl.y + coords.tr.y + coords.bl.y + coords.br.y) / 4;
 
           if(Math.abs(canvasCenterY - y) > 0 && Math.abs(canvasCenterY - y) < 5) {
-            // currentText.top = 0;???????? need to figure out how to snap the textbox in this case
-            console.log('snap');
+            currentText.top = canvasCenterY - (coords.br.y - coords.tl.y) / 2
             drawHorizontalCenterAlignment();
           }
         }
