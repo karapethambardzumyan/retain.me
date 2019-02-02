@@ -150,26 +150,6 @@ function clearAlignments() {
 };
 // clear alignments end
 
-// // should be done in the end
-// function clearHorizontalAlignment() {
-//   main.canvas.remove(main.horizontalAlignment);
-//   main.horizontalAlignment = null;
-// };
-//
-// function drawHorizontalAlignment(height) {
-//   main.canvas.remove(main.horizontalAlignment);
-//   main.horizontalAlignment = new fabric.Line([0, 0, main.canvas.width, 0], {
-//     left: 0,
-//     top: height,
-//     stroke: '#000',
-//     selectable: false
-//   });
-//
-//   main.canvas.add(main.horizontalAlignment);
-//   main.canvas.renderAll();
-// };
-// // should be done in the end
-
 main.init(() => {
     let fonts = document.getElementById('fonts').value;
     const customFonts = fonts.length > 0 ? fonts.split(',') : [];
@@ -496,10 +476,11 @@ main.init(() => {
         }
         // textboxes moving end
 
-        // horizontal center alignment start
+        // horizontal and vertical center alignments start
         {
           const currentText = target;
           const currentTextCoords = currentText.calcCoords();
+          const canvasCenterX = currentText.canvas.width / 2;
           const canvasCenterY = currentText.canvas.height / 2;
           const currentTextWidth = currentText.width;
           const currentTextMaxLineWidth = Math.max.apply(null, currentText.__lineWidths);
@@ -513,8 +494,18 @@ main.init(() => {
             bl: fabric.util.rotatePoint(new fabric.Point(currentTextCoords.bl.x, currentTextCoords.bl.y), currentText.getCenterPoint(), fabric.util.degreesToRadians(360 - currentText.angle)),
             br: fabric.util.rotatePoint(new fabric.Point(currentTextCoords.br.x, currentTextCoords.br.y), currentText.getCenterPoint(), fabric.util.degreesToRadians(360 - currentText.angle))
           };
-          coords.tr.x = coords.tr.x - (currentTextWidth - currentTextMaxLineWidth);//??
-          coords.br.x = coords.br.x - (currentTextWidth - currentTextMaxLineWidth);//??
+          switch(currentText.textAlign) {
+            case 'left':
+              coords.tr.x = coords.tr.x - (currentTextWidth - currentTextMaxLineWidth);
+              coords.br.x = coords.br.x - (currentTextWidth - currentTextMaxLineWidth);
+              break;
+            case 'right':
+              coords.tl.x = coords.tl.x + (currentTextWidth - currentTextMaxLineWidth);
+              coords.bl.x = coords.bl.x + (currentTextWidth - currentTextMaxLineWidth);
+              break;
+            default:
+              break;
+          }
           coords = {
             tl: fabric.util.rotatePoint(new fabric.Point(coords.tl.x, coords.tl.y), currentText.getCenterPoint(), fabric.util.degreesToRadians(currentText.angle)),
             tr: fabric.util.rotatePoint(new fabric.Point(coords.tr.x, coords.tr.y), currentText.getCenterPoint(), fabric.util.degreesToRadians(currentText.angle)),
@@ -525,11 +516,18 @@ main.init(() => {
           y = (coords.tl.y + coords.tr.y + coords.bl.y + coords.br.y) / 4;
 
           if(Math.abs(canvasCenterY - y) > 0 && Math.abs(canvasCenterY - y) < 5) {
-            currentText.top = canvasCenterY - (coords.br.y - coords.tl.y) / 2
+            console.log(canvasCenterY);
+            (currentText.textAlign === 'left') && (currentText.top = canvasCenterY - (coords.br.y - coords.tl.y) / 2);
+            // (currentText.textAlign === 'right') && (currentText.top = canvasCenterY); //??
             drawHorizontalCenterAlignment();
           }
+          if(Math.abs(canvasCenterX - x) > 0 && Math.abs(canvasCenterX - x) < 5) {
+            (currentText.textAlign === 'left') && (currentText.left = canvasCenterX - (coords.br.x - coords.tl.x) / 2);
+            // (currentText.textAlign === 'right') && (currentText.left = canvasCenterX + (coords.tl.x - coords.br.x) / 2); //??
+            drawVerticalCenterAlignment();
+          }
         }
-        // horizontal center alignment end
+        // horizontal and vertical center alignments end
 
         // left alignment start
         {
@@ -710,74 +708,6 @@ main.init(() => {
           }
         }
         // right alignment end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // old draft start
-        // text.updateHorizontalAligment(e.target);
-        //
-        // const center = {
-        //   left: main.canvas.width / 2,
-        //   top: main.canvas.height / 2
-        // };
-        //
-        // if(Math.abs(e.target.left + offset - center.left) > 0 && Math.abs(e.target.left + offset - center.left) < 5) {
-        //   e.target.left = center.left - offset;
-        //   drawVerticalCenterAlignment();
-        //   return;
-        // } else {
-        //   clearAllAlignment();
-        // }
-        //
-        // for(let i in text.objectTops) {
-        //   if(Math.abs(e.target.top + e.target.__lineHeights[0] - text.objectTops[i]) > 0 && Math.abs(e.target.top + e.target.__lineHeights[0] - text.objectTops[i]) < 5) {
-        //     e.target.top = text.objectTops[i] - e.target.__lineHeights[0];
-        //
-        //     text.updateHorizontalAligment(e.target);
-        //     drawHorizontalAlignment(text.objectTops[i]);
-        //     return;
-        //   } else {
-        //     clearAllAlignment();
-        //     continue;
-        //   }
-        // }
-        // old draft end
       }
     });
 
@@ -807,3 +737,19 @@ main.init(() => {
       .addFontTemplate()
       .switchRTL();
 });
+
+// old draft start
+// text.updateHorizontalAligment(e.target);
+// for(let i in text.objectTops) {
+//   if(Math.abs(e.target.top + e.target.__lineHeights[0] - text.objectTops[i]) > 0 && Math.abs(e.target.top + e.target.__lineHeights[0] - text.objectTops[i]) < 5) {
+//     e.target.top = text.objectTops[i] - e.target.__lineHeights[0];
+//
+//     text.updateHorizontalAligment(e.target);
+//     drawHorizontalAlignment(text.objectTops[i]);
+//     return;
+//   } else {
+//     clearAllAlignment();
+//     continue;
+//   }
+// }
+// old draft end
