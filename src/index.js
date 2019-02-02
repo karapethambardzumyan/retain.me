@@ -516,14 +516,13 @@ main.init(() => {
           y = (coords.tl.y + coords.tr.y + coords.bl.y + coords.br.y) / 4;
 
           if(Math.abs(canvasCenterY - y) > 0 && Math.abs(canvasCenterY - y) < 5) {
-            console.log(canvasCenterY);
             (currentText.textAlign === 'left') && (currentText.top = canvasCenterY - (coords.br.y - coords.tl.y) / 2);
-            // (currentText.textAlign === 'right') && (currentText.top = canvasCenterY); //??
+            (currentText.textAlign === 'right') && (currentText.top = canvasCenterY + ((currentTextCoords.tl.y - coords.br.y) + (coords.br.y - coords.tl.y) / 2));
             drawHorizontalCenterAlignment();
           }
           if(Math.abs(canvasCenterX - x) > 0 && Math.abs(canvasCenterX - x) < 5) {
             (currentText.textAlign === 'left') && (currentText.left = canvasCenterX - (coords.br.x - coords.tl.x) / 2);
-            // (currentText.textAlign === 'right') && (currentText.left = canvasCenterX + (coords.tl.x - coords.br.x) / 2); //??
+            (currentText.textAlign === 'right') && (currentText.left = canvasCenterX + ((currentTextCoords.tl.x - coords.br.x) + (coords.br.x - coords.tl.x) / 2));
             drawVerticalCenterAlignment();
           }
         }
