@@ -498,22 +498,37 @@ main.init(() => {
 
         // horizontal center alignment start
         {
-          // drawHorizontalCenterAlignment();
-          // drawVerticalCenterAlignment();
           const currentText = target;
           const currentTextCoords = currentText.calcCoords();
+          const canvasCenterY = currentText.canvas.height / 2;
           const currentTextWidth = currentText.width;
           const currentTextMaxLineWidth = Math.max.apply(null, currentText.__lineWidths);
-          let currentTextLeftOffset;
-          let xc = (currentTextCoords.tl.x + currentTextCoords.tr.x + currentTextCoords.br.x + currentTextCoords.bl.x) / 4;
-          let yc = (currentTextCoords.tl.y + currentTextCoords.tr.y + currentTextCoords.br.y + currentTextCoords.bl.y) / 4;
+          let coords;
+          let x;
+          let y;
 
-          console.log(xc, yc);
+          coords = {
+            tl: fabric.util.rotatePoint(new fabric.Point(currentTextCoords.tl.x, currentTextCoords.tl.y), currentText.getCenterPoint(), fabric.util.degreesToRadians(360 - currentText.angle)),
+            tr: fabric.util.rotatePoint(new fabric.Point(currentTextCoords.tr.x, currentTextCoords.tr.y), currentText.getCenterPoint(), fabric.util.degreesToRadians(360 - currentText.angle)),
+            bl: fabric.util.rotatePoint(new fabric.Point(currentTextCoords.bl.x, currentTextCoords.bl.y), currentText.getCenterPoint(), fabric.util.degreesToRadians(360 - currentText.angle)),
+            br: fabric.util.rotatePoint(new fabric.Point(currentTextCoords.br.x, currentTextCoords.br.y), currentText.getCenterPoint(), fabric.util.degreesToRadians(360 - currentText.angle))
+          };
+          coords.tr.x = coords.tr.x - (currentTextWidth - currentTextMaxLineWidth);
+          coords.br.x = coords.br.x - (currentTextWidth - currentTextMaxLineWidth);
+          coords = {
+            tl: fabric.util.rotatePoint(new fabric.Point(coords.tl.x, coords.tl.y), currentText.getCenterPoint(), fabric.util.degreesToRadians(currentText.angle)),
+            tr: fabric.util.rotatePoint(new fabric.Point(coords.tr.x, coords.tr.y), currentText.getCenterPoint(), fabric.util.degreesToRadians(currentText.angle)),
+            bl: fabric.util.rotatePoint(new fabric.Point(coords.bl.x, coords.bl.y), currentText.getCenterPoint(), fabric.util.degreesToRadians(currentText.angle)),
+            br: fabric.util.rotatePoint(new fabric.Point(coords.br.x, coords.br.y), currentText.getCenterPoint(), fabric.util.degreesToRadians(currentText.angle))
+          };
+          x = (coords.tl.x + coords.tr.x + coords.bl.x + coords.br.x) / 4;
+          y = (coords.tl.y + coords.tr.y + coords.bl.y + coords.br.y) / 4;
 
-          // if(Math.abs(currentTextCoords.x - targetTextCoords.x) > 0 && Math.abs(currentTextCoords.x - targetTextCoords.x) < 5) {
-          //   currentText.setPositionByOriginX({ x: targetTextCoords.x - currentTextLeftOffset, y: currentTextCoords.y }, currentTextCoords.originX, currentTextCoords.originY);
-          //   drawHorizontalCenterAlignment();
-          // }
+          if(Math.abs(canvasCenterY - y) > 0 && Math.abs(canvasCenterY - y) < 5) {
+            // currentText.top = 0;???????? need to figure out how to snap the textbox in this case
+            console.log('snap');
+            drawHorizontalCenterAlignment();
+          }
         }
         // horizontal center alignment end
 
