@@ -1,6 +1,5 @@
 import main from './main';
 import { PT_TO_PX, TEXT_TOOLBAR } from './constants';
-import { getCoordsLeft } from './helpers';
 
 function insertAtCursor(input, textToInsert) {
   const value = input.value;
@@ -73,97 +72,6 @@ class Text {
     document.getElementById('font-color-value').innerHTML = TEXT_TOOLBAR.fontColor;
   };
 
-  updateLeftAligment(target) {
-    
-  };
-
-  updateCenterAligment(target) {
-    // let { left, __lineWidths, width } = target;
-    // let textWidth = Math.max.apply(null, __lineWidths);
-    // let offsetLeft = left + textWidth;
-    // let realLeft = 0;
-    // let realRight = 0;
-    // let offset = 0;
-    // const alignment = target.textAlign;
-    //
-    // switch(alignment) {
-    //   case 'left':
-    //     realLeft = left + 1;
-    //     realRight = realLeft + textWidth;
-    //     offset = textWidth;
-    //     break;
-    //   case 'right':
-    //     realLeft = (left + (left + width) - (left + textWidth)) + 1;
-    //     realRight = realLeft + textWidth;
-    //     offset = ((left + width) - (left + textWidth)) + textWidth;
-    //     break;
-    //   case 'center':
-    //     realLeft = (left + ((left + width) - (left + textWidth)) / 2) + 1;
-    //     realRight = realLeft + textWidth;
-    //     offset = (((left + width) - (left + textWidth)) / 2) + textWidth;
-    //     break;
-    //   default:
-    //     break;
-    // }
-    //
-    // target.alignment.left = realLeft;
-    // target.alignment.right = realRight;
-  };
-
-  updateRightAligment(target) {
-    // let { left, __lineWidths, width } = target;
-    // let textWidth = Math.max.apply(null, __lineWidths);
-    // let offsetLeft = left + textWidth;
-    // let realLeft = 0;
-    // let realRight = 0;
-    // let offset = 0;
-    // const alignment = target.textAlign;
-    //
-    // switch(alignment) {
-    //   case 'left':
-    //     realLeft = left + 1;
-    //     realRight = realLeft + textWidth;
-    //     offset = textWidth;
-    //     break;
-    //   case 'right':
-    //     realLeft = (left + (left + width) - (left + textWidth)) + 1;
-    //     realRight = realLeft + textWidth;
-    //     offset = ((left + width) - (left + textWidth)) + textWidth;
-    //     break;
-    //   case 'center':
-    //     realLeft = (left + ((left + width) - (left + textWidth)) / 2) + 1;
-    //     realRight = realLeft + textWidth;
-    //     offset = (((left + width) - (left + textWidth)) / 2) + textWidth;
-    //     break;
-    //   default:
-    //     break;
-    // }
-    //
-    // target.alignment.left = realLeft;
-    // target.alignment.right = realRight;
-    // target.alignment.offsetRight = offset;
-  };
-
-  updateHorizontalAligment(target) {
-    // const objects = [];
-    // this.objectTops = [];
-    //
-    // for(let i in main.canvas.getObjects()) {
-    //   if(main.canvas.getObjects()[i].type === 'textbox') {
-    //     objects.push({
-    //       heights: main.canvas.getObjects()[i].__lineHeights,
-    //       top: main.canvas.getObjects()[i].top
-    //     });
-    //   }
-    // }
-    //
-    // for(let i in objects) {
-    //   for(let j in objects[i].heights) {
-    //     this.objectTops.push(objects[i].heights[j] * (Number(j) + 1) + objects[i].top);
-    //   }
-    // }
-  };
-
   addAll() {
     fabric.util.enlivenObjects(main.config.texts, objects => {
       objects.forEach(o => {
@@ -183,17 +91,11 @@ class Text {
           cornerStyle: 'circle',
           cornerSize: 11,
           borderColor: 'rgb(100,144,206)',
-          borderDashArray: [2, 3],
-          alignment: {}
+          borderDashArray: [2, 3]
         });
         o.followingStyles = {};
 
         main.canvas.renderAll();
-
-        this.updateLeftAligment(o);
-        // this.updateCenterAligment(o);
-        // this.updateRightAligment(o);
-        // this.updateHorizontalAligment(o);
       });
     });
   };
@@ -214,8 +116,7 @@ class Text {
       cornerSize: 11,
       borderColor: 'rgb(100,144,206)',
       borderDashArray: [2, 3],
-      followingStyles: {},
-      alignment: {}
+      followingStyles: {}
     });
 
     textObject.setControlsVisibility({
@@ -234,11 +135,6 @@ class Text {
     main.config.texts.push(textObject);
 
     this.openToolbar(textObject);
-
-    this.updateLeftAligment(textObject);
-    // this.updateCenterAligment(textObject);
-    // this.updateRightAligment(textObject);
-    // this.updateHorizontalAligment(textObject);
   };
 
   addTemplate(template, target) {
@@ -455,3 +351,25 @@ class Text {
 const text = new Text();
 
 export default text;
+
+// old draft start
+// updateHorizontalAligment(target) {
+//   const objects = [];
+//   this.objectTops = [];
+//
+//   for(let i in main.canvas.getObjects()) {
+//     if(main.canvas.getObjects()[i].type === 'textbox') {
+//       objects.push({
+//         heights: main.canvas.getObjects()[i].__lineHeights,
+//         top: main.canvas.getObjects()[i].top
+//       });
+//     }
+//   }
+//
+//   for(let i in objects) {
+//     for(let j in objects[i].heights) {
+//       this.objectTops.push(objects[i].heights[j] * (Number(j) + 1) + objects[i].top);
+//     }
+//   }
+// };
+// old draft end
