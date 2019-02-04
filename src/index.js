@@ -45,6 +45,25 @@ function updateToolbar(e) {
   document.getElementById('font-template').removeAttribute('disabled');
 };
 
+// top alignment helpers start
+function clearTopAlignment() {
+  main.canvas.remove(main.topAlignment);
+  main.topAlignment = null;
+};
+
+function drawTopAlignment(top) {
+  clearLeftAlignment();
+
+  main.topAlignment = new fabric.Line([0, top, main.canvas.width, top], {
+    left: 0,
+    top: top,
+    stroke: '#000',
+    selectable: false
+  });
+  main.canvas.add(main.topAlignment);
+};
+// top alignment helpers end
+
 // left alignment helpers start
 function clearLeftAlignment() {
   main.canvas.remove(main.leftAlignment);
@@ -142,6 +161,7 @@ function drawVerticalCenterAlignment() {
 
 // clear alignments start
 function clearAlignments() {
+  clearTopAlignment();
   clearLeftAlignment();
   clearCenterAlignment();
   clearRightAlignment();
@@ -476,6 +496,232 @@ main.init(() => {
         }
         // textboxes moving end
 
+        // top alignment start
+        {
+          const texts = target.canvas.getObjects().filter(object => object.type === 'textbox');
+          const currentText = target;
+          const currentTextCoords = getCoordsLeft(currentText);
+          const currentTextWidth = currentText.width;
+          const currentTextMaxLineWidth = Math.max.apply(null, currentText.__lineWidths);
+          let currentTextLeftOffset;
+          // for left aligned text
+          ((currentText.angle === 0 || currentText.angle === 360) && currentText.textAlign === 'left') && (currentTextLeftOffset = 0);
+          ((currentText.angle === 90 || currentText.angle === 270) && currentText.textAlign === 'left') && (currentTextLeftOffset = 0);
+          (currentText.angle === 180 && currentText.textAlign === 'left') && (currentTextLeftOffset = currentTextWidth - currentTextMaxLineWidth);
+          // for center aligned text
+          ((currentText.angle === 0 || currentText.angle === 360) && currentText.textAlign === 'center') && (currentTextLeftOffset = (currentTextWidth - currentTextMaxLineWidth) / 2);
+          ((currentText.angle === 90 || currentText.angle === 270) && currentText.textAlign === 'center') && (currentTextLeftOffset = 0);
+          (currentText.angle === 180 && currentText.textAlign === 'center') && (currentTextLeftOffset = (currentTextWidth - currentTextMaxLineWidth) / 2);
+          // for right aligned text
+          ((currentText.angle === 0 || currentText.angle === 360) && currentText.textAlign === 'right') && (currentTextLeftOffset = currentTextWidth - currentTextMaxLineWidth);
+          ((currentText.angle === 90 || currentText.angle === 270) && currentText.textAlign === 'right') && (currentTextLeftOffset = 0);
+          (currentText.angle === 180 && currentText.textAlign === 'right') && (currentTextLeftOffset = 0);
+
+          currentTextCoords.x = currentTextCoords.x + currentTextLeftOffset;
+
+          if(currentText.angle === 0 || currentText.angle === 90 || currentText.angle === 180 || currentText.angle === 270 || currentText.angle === 360) {
+            for(let i in texts) {
+              const targetText = texts[i];
+              const targetTextCoords = getCoordsLeft(targetText);
+              const targetTextWidth = targetText.width;
+              const targetTextMaxLineWidth = Math.max.apply(null, targetText.__lineWidths);
+              let targetTextLeftOffset;
+              // // for left aligned text
+              // ((targetText.angle === 0 || targetText.angle === 360) && targetText.textAlign === 'left') && (targetTextLeftOffset = 0);
+              // ((targetText.angle === 90 || targetText.angle === 270) && targetText.textAlign === 'left') && (targetTextLeftOffset = 0);
+              // (targetText.angle === 180 && targetText.textAlign === 'left') && (targetTextLeftOffset = targetTextWidth - targetTextMaxLineWidth);
+              // // for center aligned text
+              // ((targetText.angle === 0 || targetText.angle === 360) && targetText.textAlign === 'center') && (targetTextLeftOffset = (targetTextWidth - targetTextMaxLineWidth) / 2);
+              // ((targetText.angle === 90 || targetText.angle === 270) && targetText.textAlign === 'center') && (targetTextLeftOffset = 0);
+              // (targetText.angle === 180 && targetText.textAlign === 'center') && (targetTextLeftOffset = (targetTextWidth - targetTextMaxLineWidth) / 2);
+              // // for right aligned text
+              // ((targetText.angle === 0 || targetText.angle === 360) && targetText.textAlign === 'right') && (targetTextLeftOffset = targetTextWidth - targetTextMaxLineWidth);
+              // ((targetText.angle === 90 || targetText.angle === 270) && targetText.textAlign === 'right') && (targetTextLeftOffset = 0);
+              // (targetText.angle === 180 && targetText.textAlign === 'right') && (targetTextLeftOffset = 0);
+              //
+              // targetTextCoords.x = targetTextCoords.x + targetTextLeftOffset;
+              //
+              // if(targetText.angle === 0 || targetText.angle === 90 || targetText.angle === 180 || targetText.angle === 270 || targetText.angle === 360) {
+              //   if(Math.abs(currentTextCoords.x - targetTextCoords.x) > 0 && Math.abs(currentTextCoords.x - targetTextCoords.x) < 5) {
+              //     currentText.setPositionByOriginX({ x: targetTextCoords.x - currentTextLeftOffset, y: currentTextCoords.y }, currentTextCoords.originX, currentTextCoords.originY);
+              //     drawTopAlignment(targetTextCoords.x);
+              //   }
+              // }
+
+              drawTopAlignment(100);
+            }
+          }
+        }
+        // top alignment end
+
+        // left alignment start
+        {
+          const texts = target.canvas.getObjects().filter(object => object.type === 'textbox');
+          const currentText = target;
+          const currentTextCoords = getCoordsLeft(currentText);
+          const currentTextWidth = currentText.width;
+          const currentTextMaxLineWidth = Math.max.apply(null, currentText.__lineWidths);
+          let currentTextLeftOffset;
+          // for left aligned text
+          ((currentText.angle === 0 || currentText.angle === 360) && currentText.textAlign === 'left') && (currentTextLeftOffset = 0);
+          ((currentText.angle === 90 || currentText.angle === 270) && currentText.textAlign === 'left') && (currentTextLeftOffset = 0);
+          (currentText.angle === 180 && currentText.textAlign === 'left') && (currentTextLeftOffset = currentTextWidth - currentTextMaxLineWidth);
+          // for center aligned text
+          ((currentText.angle === 0 || currentText.angle === 360) && currentText.textAlign === 'center') && (currentTextLeftOffset = (currentTextWidth - currentTextMaxLineWidth) / 2);
+          ((currentText.angle === 90 || currentText.angle === 270) && currentText.textAlign === 'center') && (currentTextLeftOffset = 0);
+          (currentText.angle === 180 && currentText.textAlign === 'center') && (currentTextLeftOffset = (currentTextWidth - currentTextMaxLineWidth) / 2);
+          // for right aligned text
+          ((currentText.angle === 0 || currentText.angle === 360) && currentText.textAlign === 'right') && (currentTextLeftOffset = currentTextWidth - currentTextMaxLineWidth);
+          ((currentText.angle === 90 || currentText.angle === 270) && currentText.textAlign === 'right') && (currentTextLeftOffset = 0);
+          (currentText.angle === 180 && currentText.textAlign === 'right') && (currentTextLeftOffset = 0);
+
+          currentTextCoords.x = currentTextCoords.x + currentTextLeftOffset;
+
+          if(currentText.angle === 0 || currentText.angle === 90 || currentText.angle === 180 || currentText.angle === 270 || currentText.angle === 360) {
+            for(let i in texts) {
+              const targetText = texts[i];
+              const targetTextCoords = getCoordsLeft(targetText);
+              const targetTextWidth = targetText.width;
+              const targetTextMaxLineWidth = Math.max.apply(null, targetText.__lineWidths);
+              let targetTextLeftOffset;
+              // for left aligned text
+              ((targetText.angle === 0 || targetText.angle === 360) && targetText.textAlign === 'left') && (targetTextLeftOffset = 0);
+              ((targetText.angle === 90 || targetText.angle === 270) && targetText.textAlign === 'left') && (targetTextLeftOffset = 0);
+              (targetText.angle === 180 && targetText.textAlign === 'left') && (targetTextLeftOffset = targetTextWidth - targetTextMaxLineWidth);
+              // for center aligned text
+              ((targetText.angle === 0 || targetText.angle === 360) && targetText.textAlign === 'center') && (targetTextLeftOffset = (targetTextWidth - targetTextMaxLineWidth) / 2);
+              ((targetText.angle === 90 || targetText.angle === 270) && targetText.textAlign === 'center') && (targetTextLeftOffset = 0);
+              (targetText.angle === 180 && targetText.textAlign === 'center') && (targetTextLeftOffset = (targetTextWidth - targetTextMaxLineWidth) / 2);
+              // for right aligned text
+              ((targetText.angle === 0 || targetText.angle === 360) && targetText.textAlign === 'right') && (targetTextLeftOffset = targetTextWidth - targetTextMaxLineWidth);
+              ((targetText.angle === 90 || targetText.angle === 270) && targetText.textAlign === 'right') && (targetTextLeftOffset = 0);
+              (targetText.angle === 180 && targetText.textAlign === 'right') && (targetTextLeftOffset = 0);
+
+              targetTextCoords.x = targetTextCoords.x + targetTextLeftOffset;
+
+              if(targetText.angle === 0 || targetText.angle === 90 || targetText.angle === 180 || targetText.angle === 270 || targetText.angle === 360) {
+                if(Math.abs(currentTextCoords.x - targetTextCoords.x) > 0 && Math.abs(currentTextCoords.x - targetTextCoords.x) < 5) {
+                  currentText.setPositionByOriginX({ x: targetTextCoords.x - currentTextLeftOffset, y: currentTextCoords.y }, currentTextCoords.originX, currentTextCoords.originY);
+                  drawLeftAlignment(targetTextCoords.x);
+                }
+              }
+            }
+          }
+        }
+        // left alignment end
+
+        // center alignment start
+        {
+          const texts = target.canvas.getObjects().filter(object => object.type === 'textbox');
+          const currentText = target;
+          const currentTextCoords = getCoordsLeft(currentText);
+          const currentTextWidth = currentText.width;
+          const currentTextMaxLineWidth = Math.max.apply(null, currentText.__lineWidths);
+          let currentTextLeftOffset;
+          // for left aligned text
+          ((currentText.angle === 0 || currentText.angle === 360) && currentText.textAlign === 'left') && (currentTextLeftOffset = currentTextMaxLineWidth / 2);
+          ((currentText.angle === 90 || currentText.angle === 270) && currentText.textAlign === 'left') && (currentTextLeftOffset = currentText.height / 2);
+          (currentText.angle === 180 && currentText.textAlign === 'left') && (currentTextLeftOffset = (currentTextWidth - currentTextMaxLineWidth) + (currentTextMaxLineWidth / 2));
+          // for center aligned text
+          ((currentText.angle === 0 || currentText.angle === 360) && currentText.textAlign === 'center') && (currentTextLeftOffset = (currentTextMaxLineWidth / 2) + ((currentTextWidth - currentTextMaxLineWidth) / 2));
+          ((currentText.angle === 90 || currentText.angle === 270) && currentText.textAlign === 'center') && (currentTextLeftOffset = currentText.height / 2);
+          (currentText.angle === 180 && currentText.textAlign === 'center') && (currentTextLeftOffset = (currentTextMaxLineWidth / 2) + ((currentTextWidth - currentTextMaxLineWidth) / 2));
+          // for right aligned text
+          ((currentText.angle === 0 || currentText.angle === 360) && currentText.textAlign === 'right') && (currentTextLeftOffset = (currentTextWidth - currentTextMaxLineWidth) + (currentTextMaxLineWidth / 2));
+          ((currentText.angle === 90 || currentText.angle === 270) && currentText.textAlign === 'right') && (currentTextLeftOffset = currentText.height / 2);
+          (currentText.angle === 180 && currentText.textAlign === 'right') && (currentTextLeftOffset = currentTextMaxLineWidth / 2);
+
+          currentTextCoords.x = currentTextCoords.x + currentTextLeftOffset;
+
+          if(currentText.angle === 0 || currentText.angle === 90 || currentText.angle === 180 || currentText.angle === 270 || currentText.angle === 360) {
+            for(let i in texts) {
+              const targetText = texts[i];
+              const targetTextCoords = getCoordsLeft(targetText);
+              const targetTextWidth = targetText.width;
+              const targetTextMaxLineWidth = Math.max.apply(null, targetText.__lineWidths);
+              let targetTextLeftOffset;
+              // for left aligned text
+              ((targetText.angle === 0 || targetText.angle === 360) && targetText.textAlign === 'left') && (targetTextLeftOffset = targetTextMaxLineWidth / 2);
+              ((targetText.angle === 90 || targetText.angle === 270) && targetText.textAlign === 'left') && (targetTextLeftOffset = targetText.height / 2);
+              (targetText.angle === 180 && targetText.textAlign === 'left') && (targetTextLeftOffset = (targetTextWidth - targetTextMaxLineWidth) + (targetTextMaxLineWidth / 2));
+              // for center aligned text
+              ((targetText.angle === 0 || targetText.angle === 360) && targetText.textAlign === 'center') && (targetTextLeftOffset = (targetTextMaxLineWidth / 2) + ((targetTextWidth - targetTextMaxLineWidth) / 2));
+              ((targetText.angle === 90 || targetText.angle === 270) && targetText.textAlign === 'center') && (targetTextLeftOffset = targetText.height / 2);
+              (targetText.angle === 180 && targetText.textAlign === 'center') && (targetTextLeftOffset = (targetTextMaxLineWidth / 2) + ((targetTextWidth - targetTextMaxLineWidth) / 2));
+              // for right aligned text
+              ((targetText.angle === 0 || targetText.angle === 360) && targetText.textAlign === 'right') && (targetTextLeftOffset = (targetTextWidth - targetTextMaxLineWidth) + (targetTextMaxLineWidth / 2));
+              ((targetText.angle === 90 || targetText.angle === 270) && targetText.textAlign === 'right') && (targetTextLeftOffset = targetText.height / 2);
+              (targetText.angle === 180 && targetText.textAlign === 'right') && (targetTextLeftOffset = targetTextMaxLineWidth / 2);
+
+              targetTextCoords.x = targetTextCoords.x + targetTextLeftOffset;
+
+              if(targetText.angle === 0 || targetText.angle === 90 || targetText.angle === 180 || targetText.angle === 270 || targetText.angle === 360) {
+                if(Math.abs(currentTextCoords.x - targetTextCoords.x) > 0 && Math.abs(currentTextCoords.x - targetTextCoords.x) < 5) {
+                  currentText.setPositionByOriginX({ x: targetTextCoords.x - currentTextLeftOffset, y: currentTextCoords.y }, currentTextCoords.originX, currentTextCoords.originY);
+                  drawCenterAlignment(targetTextCoords.x);
+                }
+              }
+            }
+          }
+        }
+        // center alignment end
+
+        // right alignment start
+        {
+          const texts = target.canvas.getObjects().filter(object => object.type === 'textbox');
+          const currentText = target;
+          const currentTextCoords = getCoordsLeft(currentText);
+          const currentTextWidth = currentText.width;
+          const currentTextMaxLineWidth = Math.max.apply(null, currentText.__lineWidths);
+          let currentTextLeftOffset;
+          // for left aligned text
+          ((currentText.angle === 0 || currentText.angle === 360) && currentText.textAlign === 'left') && (currentTextLeftOffset = currentTextMaxLineWidth);
+          ((currentText.angle === 90 || currentText.angle === 270) && currentText.textAlign === 'left') && (currentTextLeftOffset = currentText.height);
+          (currentText.angle === 180 && currentText.textAlign === 'left') && (currentTextLeftOffset = currentTextWidth);
+          // for center aligned text
+          ((currentText.angle === 0 || currentText.angle === 360) && currentText.textAlign === 'center') && (currentTextLeftOffset = currentTextMaxLineWidth + ((currentTextWidth - currentTextMaxLineWidth) / 2));
+          ((currentText.angle === 90 || currentText.angle === 270) && currentText.textAlign === 'center') && (currentTextLeftOffset = currentText.height);
+          (currentText.angle === 180 && currentText.textAlign === 'center') && (currentTextLeftOffset = currentTextMaxLineWidth + ((currentTextWidth - currentTextMaxLineWidth) / 2));
+          // for right aligned text
+          ((currentText.angle === 0 || currentText.angle === 360) && currentText.textAlign === 'right') && (currentTextLeftOffset = currentTextWidth);
+          ((currentText.angle === 90 || currentText.angle === 270) && currentText.textAlign === 'right') && (currentTextLeftOffset = currentText.height);
+          (currentText.angle === 180 && currentText.textAlign === 'right') && (currentTextLeftOffset = currentTextMaxLineWidth);
+
+          currentTextCoords.x = currentTextCoords.x + currentTextLeftOffset;
+
+          if(currentText.angle === 0 || currentText.angle === 90 || currentText.angle === 180 || currentText.angle === 270 || currentText.angle === 360) {
+            for(let i in texts) {
+              const targetText = texts[i];
+              const targetTextCoords = getCoordsLeft(targetText);
+              const targetTextWidth = targetText.width;
+              const targetTextMaxLineWidth = Math.max.apply(null, targetText.__lineWidths);
+              let targetTextLeftOffset;
+              // for left aligned text
+              ((targetText.angle === 0 || targetText.angle === 360) && targetText.textAlign === 'left') && (targetTextLeftOffset = targetTextMaxLineWidth);
+              ((targetText.angle === 90 || targetText.angle === 270) && targetText.textAlign === 'left') && (targetTextLeftOffset = targetText.height);
+              (targetText.angle === 180 && targetText.textAlign === 'left') && (targetTextLeftOffset = targetTextWidth);
+              // for center aligned text
+              ((targetText.angle === 0 || targetText.angle === 360) && targetText.textAlign === 'center') && (targetTextLeftOffset = targetTextMaxLineWidth + ((targetTextWidth - targetTextMaxLineWidth) / 2));
+              ((targetText.angle === 90 || targetText.angle === 270) && targetText.textAlign === 'center') && (targetTextLeftOffset = targetText.height);
+              (targetText.angle === 180 && targetText.textAlign === 'center') && (targetTextLeftOffset = targetTextMaxLineWidth + ((targetTextWidth - targetTextMaxLineWidth) / 2));
+              // for right aligned text
+              ((targetText.angle === 0 || targetText.angle === 360) && targetText.textAlign === 'right') && (targetTextLeftOffset = targetTextWidth);
+              ((targetText.angle === 90 || targetText.angle === 270) && targetText.textAlign === 'right') && (targetTextLeftOffset = targetText.height);
+              (targetText.angle === 180 && targetText.textAlign === 'right') && (targetTextLeftOffset = targetTextMaxLineWidth);
+
+              targetTextCoords.x = targetTextCoords.x + targetTextLeftOffset;
+
+              if(targetText.angle === 0 || targetText.angle === 90 || targetText.angle === 180 || targetText.angle === 270 || targetText.angle === 360) {
+                if(Math.abs(currentTextCoords.x - targetTextCoords.x) > 0 && Math.abs(currentTextCoords.x - targetTextCoords.x) < 5) {
+                  currentText.setPositionByOriginX({ x: targetTextCoords.x - currentTextLeftOffset, y: currentTextCoords.y }, currentTextCoords.originX, currentTextCoords.originY);
+                  drawRightAlignment(targetTextCoords.x);
+                }
+              }
+            }
+          }
+        }
+        // right alignment end
+
         // horizontal and vertical center alignments start
         {
           const currentText = target;
@@ -531,186 +777,6 @@ main.init(() => {
           }
         }
         // horizontal and vertical center alignments end
-
-        // left alignment start
-        {
-          const texts = target.canvas.getObjects().filter(object => object.type === 'textbox');
-          const currentText = target;
-          const currentTextCoords = getCoordsLeft(currentText);
-          const currentTextWidth = currentText.width;
-          const currentTextMaxLineWidth = Math.max.apply(null, currentText.__lineWidths);
-          let currentTextLeftOffset;
-          // for left aligned text
-          ((currentText.angle === 0 || currentText.angle === 360) && currentText.textAlign === 'left') && (currentTextLeftOffset = 0);
-          ((currentText.angle === 90 || currentText.angle === 270) && currentText.textAlign === 'left') && (currentTextLeftOffset = 0);
-          (currentText.angle === 180 && currentText.textAlign === 'left') && (currentTextLeftOffset = currentTextWidth - currentTextMaxLineWidth);
-          // for center aligned text
-          ((currentText.angle === 0 || currentText.angle === 360) && currentText.textAlign === 'center') && (currentTextLeftOffset = (currentTextWidth - currentTextMaxLineWidth) / 2);
-          ((currentText.angle === 90 || currentText.angle === 270) && currentText.textAlign === 'center') && (currentTextLeftOffset = 0);
-          (currentText.angle === 180 && currentText.textAlign === 'center') && (currentTextLeftOffset = (currentTextWidth - currentTextMaxLineWidth) / 2);
-          // for right aligned text
-          ((currentText.angle === 0 || currentText.angle === 360) && currentText.textAlign === 'right') && (currentTextLeftOffset = currentTextWidth - currentTextMaxLineWidth);
-          ((currentText.angle === 90 || currentText.angle === 270) && currentText.textAlign === 'right') && (currentTextLeftOffset = 0);
-          (currentText.angle === 180 && currentText.textAlign === 'right') && (currentTextLeftOffset = 0);
-
-          currentTextCoords.x = currentTextCoords.x + currentTextLeftOffset;
-
-          if(currentText.angle !== 0 && currentText.angle !== 90 && currentText.angle !== 180 && currentText.angle !== 270 && currentText.angle !== 360) {
-            return;
-          }
-
-          for(let i in texts) {
-            const targetText = texts[i];
-            const targetTextCoords = getCoordsLeft(targetText);
-            const targetTextWidth = targetText.width;
-            const targetTextMaxLineWidth = Math.max.apply(null, targetText.__lineWidths);
-            let targetTextLeftOffset;
-            // for left aligned text
-            ((targetText.angle === 0 || targetText.angle === 360) && targetText.textAlign === 'left') && (targetTextLeftOffset = 0);
-            ((targetText.angle === 90 || targetText.angle === 270) && targetText.textAlign === 'left') && (targetTextLeftOffset = 0);
-            (targetText.angle === 180 && targetText.textAlign === 'left') && (targetTextLeftOffset = targetTextWidth - targetTextMaxLineWidth);
-            // for center aligned text
-            ((targetText.angle === 0 || targetText.angle === 360) && targetText.textAlign === 'center') && (targetTextLeftOffset = (targetTextWidth - targetTextMaxLineWidth) / 2);
-            ((targetText.angle === 90 || targetText.angle === 270) && targetText.textAlign === 'center') && (targetTextLeftOffset = 0);
-            (targetText.angle === 180 && targetText.textAlign === 'center') && (targetTextLeftOffset = (targetTextWidth - targetTextMaxLineWidth) / 2);
-            // for right aligned text
-            ((targetText.angle === 0 || targetText.angle === 360) && targetText.textAlign === 'right') && (targetTextLeftOffset = targetTextWidth - targetTextMaxLineWidth);
-            ((targetText.angle === 90 || targetText.angle === 270) && targetText.textAlign === 'right') && (targetTextLeftOffset = 0);
-            (targetText.angle === 180 && targetText.textAlign === 'right') && (targetTextLeftOffset = 0);
-
-            targetTextCoords.x = targetTextCoords.x + targetTextLeftOffset;
-
-            if(targetText.angle !== 0 && targetText.angle !== 90 && targetText.angle !== 180 && targetText.angle !== 270 && targetText.angle !== 360) {
-              return;
-            }
-
-            if(Math.abs(currentTextCoords.x - targetTextCoords.x) > 0 && Math.abs(currentTextCoords.x - targetTextCoords.x) < 5) {
-              currentText.setPositionByOriginX({ x: targetTextCoords.x - currentTextLeftOffset, y: currentTextCoords.y }, currentTextCoords.originX, currentTextCoords.originY);
-              drawLeftAlignment(targetTextCoords.x);
-            }
-          }
-        }
-        // left alignment end
-
-        // center alignment start
-        {
-          const texts = target.canvas.getObjects().filter(object => object.type === 'textbox');
-          const currentText = target;
-          const currentTextCoords = getCoordsLeft(currentText);
-          const currentTextWidth = currentText.width;
-          const currentTextMaxLineWidth = Math.max.apply(null, currentText.__lineWidths);
-          let currentTextLeftOffset;
-          // for left aligned text
-          ((currentText.angle === 0 || currentText.angle === 360) && currentText.textAlign === 'left') && (currentTextLeftOffset = currentTextMaxLineWidth / 2);
-          ((currentText.angle === 90 || currentText.angle === 270) && currentText.textAlign === 'left') && (currentTextLeftOffset = currentText.height / 2);
-          (currentText.angle === 180 && currentText.textAlign === 'left') && (currentTextLeftOffset = (currentTextWidth - currentTextMaxLineWidth) + (currentTextMaxLineWidth / 2));
-          // for center aligned text
-          ((currentText.angle === 0 || currentText.angle === 360) && currentText.textAlign === 'center') && (currentTextLeftOffset = (currentTextMaxLineWidth / 2) + ((currentTextWidth - currentTextMaxLineWidth) / 2));
-          ((currentText.angle === 90 || currentText.angle === 270) && currentText.textAlign === 'center') && (currentTextLeftOffset = currentText.height / 2);
-          (currentText.angle === 180 && currentText.textAlign === 'center') && (currentTextLeftOffset = (currentTextMaxLineWidth / 2) + ((currentTextWidth - currentTextMaxLineWidth) / 2));
-          // for right aligned text
-          ((currentText.angle === 0 || currentText.angle === 360) && currentText.textAlign === 'right') && (currentTextLeftOffset = (currentTextWidth - currentTextMaxLineWidth) + (currentTextMaxLineWidth / 2));
-          ((currentText.angle === 90 || currentText.angle === 270) && currentText.textAlign === 'right') && (currentTextLeftOffset = currentText.height / 2);
-          (currentText.angle === 180 && currentText.textAlign === 'right') && (currentTextLeftOffset = currentTextMaxLineWidth / 2);
-
-          currentTextCoords.x = currentTextCoords.x + currentTextLeftOffset;
-
-          if(currentText.angle !== 0 && currentText.angle !== 90 && currentText.angle !== 180 && currentText.angle !== 270 && currentText.angle !== 360) {
-            return;
-          }
-
-          for(let i in texts) {
-            const targetText = texts[i];
-            const targetTextCoords = getCoordsLeft(targetText);
-            const targetTextWidth = targetText.width;
-            const targetTextMaxLineWidth = Math.max.apply(null, targetText.__lineWidths);
-            let targetTextLeftOffset;
-            // for left aligned text
-            ((targetText.angle === 0 || targetText.angle === 360) && targetText.textAlign === 'left') && (targetTextLeftOffset = targetTextMaxLineWidth / 2);
-            ((targetText.angle === 90 || targetText.angle === 270) && targetText.textAlign === 'left') && (targetTextLeftOffset = targetText.height / 2);
-            (targetText.angle === 180 && targetText.textAlign === 'left') && (targetTextLeftOffset = (targetTextWidth - targetTextMaxLineWidth) + (targetTextMaxLineWidth / 2));
-            // for center aligned text
-            ((targetText.angle === 0 || targetText.angle === 360) && targetText.textAlign === 'center') && (targetTextLeftOffset = (targetTextMaxLineWidth / 2) + ((targetTextWidth - targetTextMaxLineWidth) / 2));
-            ((targetText.angle === 90 || targetText.angle === 270) && targetText.textAlign === 'center') && (targetTextLeftOffset = targetText.height / 2);
-            (targetText.angle === 180 && targetText.textAlign === 'center') && (targetTextLeftOffset = (targetTextMaxLineWidth / 2) + ((targetTextWidth - targetTextMaxLineWidth) / 2));
-            // for right aligned text
-            ((targetText.angle === 0 || targetText.angle === 360) && targetText.textAlign === 'right') && (targetTextLeftOffset = (targetTextWidth - targetTextMaxLineWidth) + (targetTextMaxLineWidth / 2));
-            ((targetText.angle === 90 || targetText.angle === 270) && targetText.textAlign === 'right') && (targetTextLeftOffset = targetText.height / 2);
-            (targetText.angle === 180 && targetText.textAlign === 'right') && (targetTextLeftOffset = targetTextMaxLineWidth / 2);
-
-            targetTextCoords.x = targetTextCoords.x + targetTextLeftOffset;
-
-            if(targetText.angle !== 0 && targetText.angle !== 90 && targetText.angle !== 180 && targetText.angle !== 270 && targetText.angle !== 360) {
-              return;
-            }
-
-            if(Math.abs(currentTextCoords.x - targetTextCoords.x) > 0 && Math.abs(currentTextCoords.x - targetTextCoords.x) < 5) {
-              currentText.setPositionByOriginX({ x: targetTextCoords.x - currentTextLeftOffset, y: currentTextCoords.y }, currentTextCoords.originX, currentTextCoords.originY);
-              drawCenterAlignment(targetTextCoords.x);
-            }
-          }
-        }
-        // center alignment end
-
-        // right alignment start
-        {
-          const texts = target.canvas.getObjects().filter(object => object.type === 'textbox');
-          const currentText = target;
-          const currentTextCoords = getCoordsLeft(currentText);
-          const currentTextWidth = currentText.width;
-          const currentTextMaxLineWidth = Math.max.apply(null, currentText.__lineWidths);
-          let currentTextLeftOffset;
-          // for left aligned text
-          ((currentText.angle === 0 || currentText.angle === 360) && currentText.textAlign === 'left') && (currentTextLeftOffset = currentTextMaxLineWidth);
-          ((currentText.angle === 90 || currentText.angle === 270) && currentText.textAlign === 'left') && (currentTextLeftOffset = currentText.height);
-          (currentText.angle === 180 && currentText.textAlign === 'left') && (currentTextLeftOffset = currentTextWidth);
-          // for center aligned text
-          ((currentText.angle === 0 || currentText.angle === 360) && currentText.textAlign === 'center') && (currentTextLeftOffset = currentTextMaxLineWidth + ((currentTextWidth - currentTextMaxLineWidth) / 2));
-          ((currentText.angle === 90 || currentText.angle === 270) && currentText.textAlign === 'center') && (currentTextLeftOffset = currentText.height);
-          (currentText.angle === 180 && currentText.textAlign === 'center') && (currentTextLeftOffset = currentTextMaxLineWidth + ((currentTextWidth - currentTextMaxLineWidth) / 2));
-          // for right aligned text
-          ((currentText.angle === 0 || currentText.angle === 360) && currentText.textAlign === 'right') && (currentTextLeftOffset = currentTextWidth);
-          ((currentText.angle === 90 || currentText.angle === 270) && currentText.textAlign === 'right') && (currentTextLeftOffset = currentText.height);
-          (currentText.angle === 180 && currentText.textAlign === 'right') && (currentTextLeftOffset = currentTextMaxLineWidth);
-
-          currentTextCoords.x = currentTextCoords.x + currentTextLeftOffset;
-
-          if(currentText.angle !== 0 && currentText.angle !== 90 && currentText.angle !== 180 && currentText.angle !== 270 && currentText.angle !== 360) {
-            return;
-          }
-
-          for(let i in texts) {
-            const targetText = texts[i];
-            const targetTextCoords = getCoordsLeft(targetText);
-            const targetTextWidth = targetText.width;
-            const targetTextMaxLineWidth = Math.max.apply(null, targetText.__lineWidths);
-            let targetTextLeftOffset;
-            // for left aligned text
-            ((targetText.angle === 0 || targetText.angle === 360) && targetText.textAlign === 'left') && (targetTextLeftOffset = targetTextMaxLineWidth);
-            ((targetText.angle === 90 || targetText.angle === 270) && targetText.textAlign === 'left') && (targetTextLeftOffset = targetText.height);
-            (targetText.angle === 180 && targetText.textAlign === 'left') && (targetTextLeftOffset = targetTextWidth);
-            // for center aligned text
-            ((targetText.angle === 0 || targetText.angle === 360) && targetText.textAlign === 'center') && (targetTextLeftOffset = targetTextMaxLineWidth + ((targetTextWidth - targetTextMaxLineWidth) / 2));
-            ((targetText.angle === 90 || targetText.angle === 270) && targetText.textAlign === 'center') && (targetTextLeftOffset = targetText.height);
-            (targetText.angle === 180 && targetText.textAlign === 'center') && (targetTextLeftOffset = targetTextMaxLineWidth + ((targetTextWidth - targetTextMaxLineWidth) / 2));
-            // for right aligned text
-            ((targetText.angle === 0 || targetText.angle === 360) && targetText.textAlign === 'right') && (targetTextLeftOffset = targetTextWidth);
-            ((targetText.angle === 90 || targetText.angle === 270) && targetText.textAlign === 'right') && (targetTextLeftOffset = targetText.height);
-            (targetText.angle === 180 && targetText.textAlign === 'right') && (targetTextLeftOffset = targetTextMaxLineWidth);
-
-            targetTextCoords.x = targetTextCoords.x + targetTextLeftOffset;
-
-            if(targetText.angle !== 0 && targetText.angle !== 90 && targetText.angle !== 180 && targetText.angle !== 270 && targetText.angle !== 360) {
-              return;
-            }
-
-            if(Math.abs(currentTextCoords.x - targetTextCoords.x) > 0 && Math.abs(currentTextCoords.x - targetTextCoords.x) < 5) {
-              currentText.setPositionByOriginX({ x: targetTextCoords.x - currentTextLeftOffset, y: currentTextCoords.y }, currentTextCoords.originX, currentTextCoords.originY);
-              drawRightAlignment(targetTextCoords.x);
-            }
-          }
-        }
-        // right alignment end
       }
     });
 
