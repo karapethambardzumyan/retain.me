@@ -869,19 +869,3 @@ main.init(() => {
       .addFontTemplate()
       .switchRTL();
 });
-
-// old draft start
-// text.updateHorizontalAligment(e.target);
-// for(let i in text.objectTops) {
-//   if(Math.abs(e.target.top + e.target.__lineHeights[0] - text.objectTops[i]) > 0 && Math.abs(e.target.top + e.target.__lineHeights[0] - text.objectTops[i]) < 5) {
-//     e.target.top = text.objectTops[i] - e.target.__lineHeights[0];
-//
-//     text.updateHorizontalAligment(e.target);
-//     drawHorizontalAlignment(text.objectTops[i]);
-//     return;
-//   } else {
-//     clearAllAlignment();
-//     continue;
-//   }
-// }
-// old draft end

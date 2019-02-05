@@ -351,25 +351,3 @@ class Text {
 const text = new Text();
 
 export default text;
-
-// old draft start
-// updateHorizontalAligment(target) {
-//   const objects = [];
-//   this.objectTops = [];
-//
-//   for(let i in main.canvas.getObjects()) {
-//     if(main.canvas.getObjects()[i].type === 'textbox') {
-//       objects.push({
-//         heights: main.canvas.getObjects()[i].__lineHeights,
-//         top: main.canvas.getObjects()[i].top
-//       });
-//     }
-//   }
-//
-//   for(let i in objects) {
-//     for(let j in objects[i].heights) {
-//       this.objectTops.push(objects[i].heights[j] * (Number(j) + 1) + objects[i].top);
-//     }
-//   }
-// };
-// old draft end
