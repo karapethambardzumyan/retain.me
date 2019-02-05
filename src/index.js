@@ -321,6 +321,8 @@ main.init(() => {
     });
 
     canvas.on('mouse:up', e => {
+      (e.target && e.target.coords) && (e.target.coords = null);
+
       if(e.target !== null && canvas.getActiveObject() && canvas.getActiveObject().get('type') === 'image') {
         main.saveConfig({
           background: {
@@ -350,8 +352,6 @@ main.init(() => {
       texts = texts.filter(item => item.get('type') === 'textbox');
 
       main.saveConfig({ texts });
-
-      e.target.lastWidth = e.target.width;
     });
 
     canvas.on('object:scaling', e => {
@@ -434,8 +434,28 @@ main.init(() => {
         e.target.set(attrs);
       }
 
-      if(e.target !== null && canvas.getActiveObject() && canvas.getActiveObject().get('type') === 'textbox') { //?? should be implemented
+      if(e.target !== null && canvas.getActiveObject() && canvas.getActiveObject().get('type') === 'textbox') {
+        const target = e.target;
+        const coords = target.calcCoords();
 
+        if(!target.coords) {
+          target.coords = coords;
+        }
+
+        if(coords.bl.x < 0) {
+          const blX = 0;
+          const blY = target.coords.br.y - Math.tan(target.angle * Math.PI / 180) * target.coords.br.x;
+          const tlX = blX + (target.coords.tr.x - target.coords.br.x);
+          const tlY = target.coords.tr.y - (target.coords.br.y - blY);
+          const width = Math.sqrt((target.coords.tr.x - blX) ** 2 + (target.coords.tr.y - blY) ** 2) - 2;
+
+          target.set('width', width);
+          target.setPositionByOriginX({ x: tlX, y: tlY }, 'left', 'top');
+          target.setPositionByOriginY({ x: tlX, y: tlY }, 'left', 'top');
+          target.setCoords();
+        } else {
+          target.coords = null;
+        }
       }
 
       text.closeToolbar();
@@ -606,7 +626,6 @@ main.init(() => {
               targetTextCoords.oy = targetTextCoords.oy - targetTextLeftOffset;
 
               if(targetText.angle === 0 || targetText.angle === 90 || targetText.angle === 180 || targetText.angle === 270 || targetText.angle === 360) {
-                console.log((targetTextCoords.oy - targetTextCoords.y));
                 if(Math.abs(currentTextCoords.oy - targetTextCoords.oy) > 0 && Math.abs(currentTextCoords.oy - targetTextCoords.oy) < 5) {
                   currentText.setPositionByOriginY({ x: currentTextCoords.x, y: targetTextCoords.oy -   (currentTextCoords.oy - currentTextCoords.y) }, currentTextCoords.originX, currentTextCoords.originY);
                   drawBottomAlignment(targetTextCoords.oy);
