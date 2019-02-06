@@ -109,7 +109,7 @@ class Text {
       fill: TEXT_TOOLBAR.fontColor,
       text: TEXT_TOOLBAR.text,
       lineHeight: 1,
-      width: 80,
+      width: 200,
       transparentCorners: false,
       cornerColor: 'rgb(100,144,206)',
       cornerStyle: 'circle',
