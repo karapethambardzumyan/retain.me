@@ -443,7 +443,7 @@ main.init(() => {
         }
 
         // top left y
-        if(coords.tl.y < 0 && (target.angle === 0 || target.angle === 360 || target.angle > 0 && target.angle < 90)) {
+        if(coords.tl.y < 0 && (target.angle > 0 && target.angle < 90)) {
             const tlX = (target.coords.tr.x - target.coords.br.x) + (target.coords.br.x - target.coords.tr.y / Math.tan(target.angle * Math.PI / 180));
             const tlY = 0;
             const width = Math.sqrt((target.coords.br.x - tlX) ** 2 + (target.coords.br.y - tlY) ** 2) - 2;
@@ -463,19 +463,6 @@ main.init(() => {
 
             target.set('width', width);
             target.setPositionByOrigin({ x: trX, y: trY }, 'right', 'top');
-            target.setCoords();
-
-            return;
-        }
-
-        // bottom left y
-        if(coords.bl.y < 0 && (target.angle >= 90 && target.angle < 180)) {
-            const blX = (target.coords.bl.x - target.coords.tl.x) + (target.coords.tl.x - target.coords.bl.y / Math.tan(target.angle * Math.PI / 180));
-            const blY = 0;
-            const width = Math.sqrt((target.coords.tr.x - blX) ** 2 + (target.coords.tr.y - blY) ** 2) - 2;
-
-            target.set('width', width);
-            target.setPositionByOrigin({ x: blX, y: blY }, 'left', 'bottom');
             target.setCoords();
 
             return;
@@ -541,6 +528,19 @@ main.init(() => {
 
             target.set('width', width);
             target.setPositionByOrigin({ x: brX, y: brY }, 'right', 'bottom');
+            target.setCoords();
+
+            return;
+        }
+
+        // right side, top right x
+        if(coords.tr.x > target.canvas.width) {
+            const trX = target.canvas.width;
+            const trY = (target.canvas.width - target.coords.tl.x) * Math.tan(target.angle * Math.PI / 180) + target.coords.tl.y
+            const width = Math.sqrt((target.coords.tl.x - trX) ** 2 + (target.coords.tl.y - trY) ** 2) - 1;
+
+            target.set('width', width);
+            target.setPositionByOrigin({ x: trX, y: trY }, 'right', 'top');
             target.setCoords();
 
             return;
