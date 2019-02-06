@@ -495,7 +495,7 @@ main.init(() => {
         }
 
         // top left x
-        if(coords.tl.x < 0) {
+        if(coords.tl.x < 0 && (target.angle > 270 && target.angle < 360)) {
             const tlX = 0;
             const tlY = target.coords.tr.y - Math.tan(target.angle * Math.PI / 180) * target.coords.tr.x;
             const width = Math.sqrt((target.coords.br.x - tlX) ** 2 + (target.coords.br.y - tlY) ** 2) - 2;
