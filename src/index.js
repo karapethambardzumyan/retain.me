@@ -437,14 +437,21 @@ main.init(() => {
       if(e.target !== null && canvas.getActiveObject() && canvas.getActiveObject().get('type') === 'textbox') {
         const target = e.target;
         const coords = target.calcCoords();
-        const currentCoords = {};
-
-        if(target.angle === 0 || target.angle === 360) {
-
-        }
 
         if(!target.coords) {
           target.coords = coords;
+        }
+
+        if(coords.tl.y < 0 && (target.angle === 0 || target.angle === 360 || target.angle > 0 && target.angle < 90)) {
+            const tlX = (target.coords.tr.x - target.coords.br.x) + (target.coords.br.x - target.coords.tr.y / Math.tan(target.angle * Math.PI / 180));
+            const tlY = 0;
+            const width = Math.sqrt((target.coords.br.x - tlX) ** 2 + (target.coords.br.y - tlY) ** 2) - 2;
+
+            target.set('width', width);
+            target.setPositionByOrigin({ x: tlX, y: tlY }, 'left', 'top');
+            target.setCoords();
+
+            return;
         }
 
         if(coords.bl.x < 0 && (target.angle === 0 || target.angle === 360 || target.angle > 0 && target.angle < 90)) {
@@ -455,7 +462,11 @@ main.init(() => {
           target.set('width', width);
           target.setPositionByOrigin({ x: blX, y: blY }, 'left', 'bottom');
           target.setCoords();
-        } else if(coords.tl.x < 0) {
+
+          return
+        }
+
+        if(coords.tl.x < 0) {
             const tlX = 0;
             const tlY = target.coords.tr.y - Math.tan(target.angle * Math.PI / 180) * target.coords.tr.x;
             const width = Math.sqrt((target.coords.br.x - tlX) ** 2 + (target.coords.br.y - tlY) ** 2) - 2;
@@ -463,7 +474,11 @@ main.init(() => {
             target.set('width', width);
             target.setPositionByOrigin({ x: tlX, y: tlY }, 'left', 'top');
             target.setCoords();
-        } else if(coords.br.x < 0 && (target.angle > 90 && target.angle < 180)) {
+
+            return
+        }
+
+        if(coords.br.x < 0 && (target.angle > 90 && target.angle < 180)) {
             const brX = 0;
             const brY = target.coords.bl.y - Math.tan(target.angle * Math.PI / 180) * target.coords.bl.x;
             const width = Math.sqrt((target.coords.tl.x - brX) ** 2 + (target.coords.tl.y - brY) ** 2) - 2;
@@ -471,7 +486,11 @@ main.init(() => {
             target.set('width', width);
             target.setPositionByOrigin({ x: brX, y: brY }, 'right', 'bottom');
             target.setCoords();
-        } else if(coords.tr.x < 0) {
+
+            return
+        }
+
+        if(coords.tr.x < 0) {
             const trX = 0;
             const trY = target.coords.tl.y - Math.tan(target.angle * Math.PI / 180) * target.coords.tl.x;
             const width = Math.sqrt((target.coords.bl.x - trX) ** 2 + (target.coords.bl.y - trY) ** 2) - 2;
@@ -479,9 +498,11 @@ main.init(() => {
             target.set('width', width);
             target.setPositionByOrigin({ x: trX, y: trY }, 'right', 'top');
             target.setCoords();
-        } else {
-          target.coords = null;
+
+            return;
         }
+
+        target.coords = null;
       }
 
       text.closeToolbar();
