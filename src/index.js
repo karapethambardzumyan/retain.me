@@ -442,68 +442,9 @@ main.init(() => {
           target.coords = coords;
         }
 
-        // left start
-        {
-          if(coords.bl.x < 0 && (target.angle > 0 && target.angle < 90)) {
-            target.leftScale = true;
-            console.log('left, bl');
-            const blX = 0;
-            const blY = target.coords.br.y - Math.tan(target.angle * Math.PI / 180) * target.coords.br.x;
-            const width = Math.sqrt((target.coords.tr.x - blX) ** 2 + (target.coords.tr.y - blY) ** 2) - 1.5;
-
-            target.set('width', width);
-            target.setPositionByOrigin({ x: blX, y: blY }, 'left', 'bottom');
-            target.setCoords();
-
-            return;
-          }
-          else if(coords.br.x < 0 && (target.angle > 90 && target.angle < 180)) {
-            target.leftScale = true;
-            console.log('left, br');
-            const brX = 0;
-            const brY = target.coords.bl.y - Math.tan(target.angle * Math.PI / 180) * target.coords.bl.x;
-            const width = Math.sqrt((target.coords.tl.x - brX) ** 2 + (target.coords.tl.y - brY) ** 2) - 1.5;
-
-            target.set('width', width);
-            target.setPositionByOrigin({ x: brX, y: brY }, 'right', 'bottom');
-            target.setCoords();
-
-            return;
-          }
-          else if(coords.tr.x < 0 && (target.angle >= 180 && target.angle < 270)) {
-            target.leftScale = true;
-            console.log('left, tr');
-            const trX = 0;
-            const trY = target.coords.tl.y - Math.tan(target.angle * Math.PI / 180) * target.coords.tl.x;
-            const width = Math.sqrt((target.coords.bl.x - trX) ** 2 + (target.coords.bl.y - trY) ** 2) - 1.5;
-
-            target.set('width', width);
-            target.setPositionByOrigin({ x: trX, y: trY }, 'right', 'top');
-            target.setCoords();
-
-            return;
-          }
-          else if(coords.tl.x < 0 && (target.angle === 0 || target.angle === 360 ||target.angle > 270 && target.angle < 360)) {
-            target.leftScale = true;
-            console.log('left, tl');
-            const tlX = 0;
-            const tlY = target.coords.tr.y - Math.tan(target.angle * Math.PI / 180) * target.coords.tr.x;
-            const width = Math.sqrt((target.coords.br.x - tlX) ** 2 + (target.coords.br.y - tlY) ** 2) - 1.5;
-
-            target.set('width', width);
-            target.setPositionByOrigin({ x: tlX, y: tlY }, 'left', 'top');
-            target.setCoords();
-
-            return;
-          } else {
-            target.leftScale = true;
-          }
-        }
-        // left end
-
         // top start
         {
-          if(coords.tl.y < 0 && (target.angle > 0 && target.angle <= 90)) {
+          if(coords.tl.y < 0 && (target.angle > 0 && target.angle <= 90) && !target.leftScale && !target.rightScale && !target.bottomScale) {
             target.topScale = true;
             console.log('top, tl');
             const tlX = (target.coords.tr.x - target.coords.br.x) + (target.coords.br.x - target.coords.tr.y / Math.tan(target.angle * Math.PI / 180));
@@ -516,7 +457,7 @@ main.init(() => {
 
             return;
           }
-          else if(coords.bl.y < 0 && (target.angle > 90 && target.angle <= 180)) {
+          else if(coords.bl.y < 0 && (target.angle > 90 && target.angle <= 180) && !target.leftScale && !target.rightScale && !target.bottomScale) {
             target.topScale = true;
             console.log('top, bl');
             const blX = (target.coords.br.x - target.coords.tr.x) + (target.coords.tr.x - target.coords.br.y / Math.tan(target.angle * Math.PI / 180));
@@ -529,7 +470,7 @@ main.init(() => {
 
             return;
           }
-          else if(coords.br.y < 0 && (target.angle > 180 && target.angle <= 270)) {
+          else if(coords.br.y < 0 && (target.angle > 180 && target.angle <= 270) && !target.leftScale && !target.rightScale && !target.bottomScale) {
             target.topScale = true;
             console.log('top, br');
             const brX = (target.coords.br.x - target.coords.tr.x) + (target.coords.tr.x - target.coords.br.y / Math.tan(target.angle * Math.PI / 180));
@@ -542,7 +483,7 @@ main.init(() => {
 
             return;
           }
-          else if(coords.tr.y < 0 && (target.angle > 270 && target.angle <= 360)) {
+          else if(coords.tr.y < 0 && (target.angle > 270 && target.angle <= 360) && !target.leftScale && !target.rightScale && !target.bottomScale) {
             target.topScale = true;
             console.log('top, tr');
             const trX = (target.coords.tl.x - target.coords.bl.x) + (target.coords.bl.x - target.coords.tl.y / Math.tan(target.angle * Math.PI / 180));
@@ -560,9 +501,68 @@ main.init(() => {
         }
         // top end
 
+        // left start
+        {
+          if(coords.bl.x < 0 && (target.angle > 0 && target.angle < 90) && !target.topScale && !target.rightScale && !target.bottomScale) {
+            target.leftScale = true;
+            console.log('left, bl');
+            const blX = 0;
+            const blY = target.coords.br.y - Math.tan(target.angle * Math.PI / 180) * target.coords.br.x;
+            const width = Math.sqrt((target.coords.tr.x - blX) ** 2 + (target.coords.tr.y - blY) ** 2) - 1.5;
+
+            target.set('width', width);
+            target.setPositionByOrigin({ x: blX, y: blY }, 'left', 'bottom');
+            target.setCoords();
+
+            return;
+          }
+          else if(coords.br.x < 0 && (target.angle > 90 && target.angle < 180) && !target.topScale && !target.rightScale && !target.bottomScale) {
+            target.leftScale = true;
+            console.log('left, br');
+            const brX = 0;
+            const brY = target.coords.bl.y - Math.tan(target.angle * Math.PI / 180) * target.coords.bl.x;
+            const width = Math.sqrt((target.coords.tl.x - brX) ** 2 + (target.coords.tl.y - brY) ** 2) - 1.5;
+
+            target.set('width', width);
+            target.setPositionByOrigin({ x: brX, y: brY }, 'right', 'bottom');
+            target.setCoords();
+
+            return;
+          }
+          else if(coords.tr.x < 0 && (target.angle >= 180 && target.angle < 270) && !target.topScale && !target.rightScale && !target.bottomScale) {
+            target.leftScale = true;
+            console.log('left, tr');
+            const trX = 0;
+            const trY = target.coords.tl.y - Math.tan(target.angle * Math.PI / 180) * target.coords.tl.x;
+            const width = Math.sqrt((target.coords.bl.x - trX) ** 2 + (target.coords.bl.y - trY) ** 2) - 1.5;
+
+            target.set('width', width);
+            target.setPositionByOrigin({ x: trX, y: trY }, 'right', 'top');
+            target.setCoords();
+
+            return;
+          }
+          else if(coords.tl.x < 0 && (target.angle === 0 || target.angle === 360 ||target.angle > 270 && target.angle < 360) && !target.topScale && !target.rightScale && !target.bottomScale) {
+            target.leftScale = true;
+            console.log('left, tl');
+            const tlX = 0;
+            const tlY = target.coords.tr.y - Math.tan(target.angle * Math.PI / 180) * target.coords.tr.x;
+            const width = Math.sqrt((target.coords.br.x - tlX) ** 2 + (target.coords.br.y - tlY) ** 2) - 1.5;
+
+            target.set('width', width);
+            target.setPositionByOrigin({ x: tlX, y: tlY }, 'left', 'top');
+            target.setCoords();
+
+            return;
+          } else {
+            target.leftScale = false;
+          }
+        }
+        // left end
+
         // right start
         {
-          if(coords.tr.x > target.canvas.width && (target.angle === 0 || target.angle === 360 || target.angle > 0 && target.angle < 90)) {
+          if(coords.tr.x > target.canvas.width && (target.angle === 0 || target.angle === 360 || target.angle > 0 && target.angle < 90) && !target.topScale && !target.leftScale && !target.bottomScale) {
             target.rightScale = true;
             console.log('right, tr');
             const trX = target.canvas.width;
@@ -575,7 +575,7 @@ main.init(() => {
 
             return;
           }
-          else if(coords.tl.x > target.canvas.width && (target.angle > 90 && target.angle <= 180)) {
+          else if(coords.tl.x > target.canvas.width && (target.angle > 90 && target.angle <= 180) && !target.topScale && !target.leftScale && !target.bottomScale) {
             target.rightScale = true;
             console.log('right, tl');
             const tlX = target.canvas.width;
@@ -588,7 +588,7 @@ main.init(() => {
 
             return;
           }
-          else if(coords.bl.x > target.canvas.width && (target.angle > 180 && target.angle < 270)) {
+          else if(coords.bl.x > target.canvas.width && (target.angle > 180 && target.angle < 270) && !target.topScale && !target.leftScale && !target.bottomScale) {
             target.rightScale = true;
             console.log('right, bl');
             const blX = target.canvas.width;
@@ -601,7 +601,7 @@ main.init(() => {
 
             return;
           }
-          else if(coords.br.x > target.canvas.width && (target.angle > 270 && target.angle < 360)) {
+          else if(coords.br.x > target.canvas.width && (target.angle > 270 && target.angle < 360) && !target.topScale && !target.leftScale && !target.bottomScale) {
             target.rightScale = true;
             console.log('right, br');
             const brX = target.canvas.width;
@@ -621,7 +621,7 @@ main.init(() => {
 
         // bottom start
         {
-          if(coords.br.y > target.canvas.height && (target.angle > 0 && target.angle <= 90)) {
+          if(coords.br.y > target.canvas.height && (target.angle > 0 && target.angle <= 90) && !target.topScale && !target.leftScale && !target.rightScale) {
             target.bottomScale = true;
             console.log('bottom, br');
             const brX = coords.bl.x - (coords.bl.y - target.canvas.height) / Math.tan(target.angle * Math.PI / 180);
@@ -634,7 +634,7 @@ main.init(() => {
 
             return;
           }
-          else if(coords.tr.y > target.canvas.height && (target.angle > 90 && target.angle <= 180)) {
+          else if(coords.tr.y > target.canvas.height && (target.angle > 90 && target.angle <= 180) && !target.topScale && !target.leftScale && !target.rightScale) {
             target.bottomScale = true;
             console.log('bottom, tr');
             const trX = coords.tl.x - (coords.tl.y - target.canvas.height) / Math.tan(target.angle * Math.PI / 180);
@@ -647,7 +647,7 @@ main.init(() => {
 
             return;
           }
-          else if(coords.tl.y > target.canvas.height && (target.angle > 180 && target.angle <= 270)) {
+          else if(coords.tl.y > target.canvas.height && (target.angle > 180 && target.angle <= 270) && !target.topScale && !target.leftScale && !target.rightScale) {
             target.bottomScale = true;
             console.log('bottom, tl');
             const tlX = coords.tr.x - (coords.tr.y - target.canvas.height) / Math.tan(target.angle * Math.PI / 180);
@@ -660,7 +660,7 @@ main.init(() => {
 
             return;
           }
-          else if(coords.bl.y > target.canvas.height && (target.angle >= 270 && target.angle < 360)) {
+          else if(coords.bl.y > target.canvas.height && (target.angle >= 270 && target.angle < 360) && !target.topScale && !target.leftScale && !target.rightScale) {
             target.bottomScale = true;
             console.log('bottom, bl');
             const blX = coords.br.x - (coords.br.y - target.canvas.height) / Math.tan(target.angle * Math.PI / 180);
