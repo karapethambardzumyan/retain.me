@@ -42,11 +42,11 @@ class Text {
 
   openToolbar(target) {
     const textToolbar = document.getElementById('text-toolbar');
+    const targetCenter = target.getCenterPoint();
 
     textToolbar.classList.remove('hidden');
-    // textToolbar.style.top = `${ target.top - textToolbar.offsetHeight - 14 }px`; ??
-    textToolbar.style.top = `${ target.top - textToolbar.offsetHeight - 100 }px`;
-    textToolbar.style.left = `${ target.left + ((main.canvas.getActiveObject().width - textToolbar.offsetWidth) / 2) }px`;
+    textToolbar.style.top = `${ targetCenter.y - target.height / 2 - textToolbar.offsetHeight - 60 }px`;
+    textToolbar.style.left = `${ targetCenter.x - textToolbar.offsetWidth / 2 }px`;
   };
 
   closeToolbar() {
