@@ -922,55 +922,91 @@ main.init(() => {
 
         // center alignment start
         {
-          const texts = target.canvas.getObjects().filter(object => object.type === 'textbox');
+          const texts = target.canvas.getObjects().filter(object => object.type === 'textbox'); texts
           const currentText = target;
-          const currentTextCoords = getCoordsLeft(currentText);
+          const currentTextCoords = currentText.calcCoords();
+          const canvasCenterX = currentText.canvas.width / 2;
+          const canvasCenterY = currentText.canvas.height / 2;
           const currentTextWidth = currentText.width;
           const currentTextMaxLineWidth = Math.max.apply(null, currentText.__lineWidths);
-          let currentTextLeftOffset;
-          // for left aligned text
-          ((currentText.angle === 0 || currentText.angle === 360) && currentText.textAlign === 'left') && (currentTextLeftOffset = currentTextMaxLineWidth / 2);
-          ((currentText.angle === 90 || currentText.angle === 270) && currentText.textAlign === 'left') && (currentTextLeftOffset = currentText.height / 2);
-          (currentText.angle === 180 && currentText.textAlign === 'left') && (currentTextLeftOffset = (currentTextWidth - currentTextMaxLineWidth) + (currentTextMaxLineWidth / 2));
-          // for center aligned text
-          ((currentText.angle === 0 || currentText.angle === 360) && currentText.textAlign === 'center') && (currentTextLeftOffset = (currentTextMaxLineWidth / 2) + ((currentTextWidth - currentTextMaxLineWidth) / 2));
-          ((currentText.angle === 90 || currentText.angle === 270) && currentText.textAlign === 'center') && (currentTextLeftOffset = currentText.height / 2);
-          (currentText.angle === 180 && currentText.textAlign === 'center') && (currentTextLeftOffset = (currentTextMaxLineWidth / 2) + ((currentTextWidth - currentTextMaxLineWidth) / 2));
-          // for right aligned text
-          ((currentText.angle === 0 || currentText.angle === 360) && currentText.textAlign === 'right') && (currentTextLeftOffset = (currentTextWidth - currentTextMaxLineWidth) + (currentTextMaxLineWidth / 2));
-          ((currentText.angle === 90 || currentText.angle === 270) && currentText.textAlign === 'right') && (currentTextLeftOffset = currentText.height / 2);
-          (currentText.angle === 180 && currentText.textAlign === 'right') && (currentTextLeftOffset = currentTextMaxLineWidth / 2);
+          let coords;
+          let x;
+          let y;
 
-          currentTextCoords.x = currentTextCoords.x + currentTextLeftOffset;
+          coords = {
+            tl: fabric.util.rotatePoint(new fabric.Point(currentTextCoords.tl.x, currentTextCoords.tl.y), currentText.getCenterPoint(), fabric.util.degreesToRadians(360 - currentText.angle)),
+            tr: fabric.util.rotatePoint(new fabric.Point(currentTextCoords.tr.x, currentTextCoords.tr.y), currentText.getCenterPoint(), fabric.util.degreesToRadians(360 - currentText.angle)),
+            bl: fabric.util.rotatePoint(new fabric.Point(currentTextCoords.bl.x, currentTextCoords.bl.y), currentText.getCenterPoint(), fabric.util.degreesToRadians(360 - currentText.angle)),
+            br: fabric.util.rotatePoint(new fabric.Point(currentTextCoords.br.x, currentTextCoords.br.y), currentText.getCenterPoint(), fabric.util.degreesToRadians(360 - currentText.angle))
+          };
+          switch(currentText.textAlign) {
+            case 'left':
+              coords.tr.x = coords.tr.x - (currentTextWidth - currentTextMaxLineWidth);
+              coords.br.x = coords.br.x - (currentTextWidth - currentTextMaxLineWidth);
+              break;
+            case 'center':
+              break;
+            case 'right':
+              coords.tl.x = coords.tl.x + (currentTextWidth - currentTextMaxLineWidth);
+              coords.bl.x = coords.bl.x + (currentTextWidth - currentTextMaxLineWidth);
+              break;
+            default:
+              break;
+          }
+          coords = {
+            tl: fabric.util.rotatePoint(new fabric.Point(coords.tl.x, coords.tl.y), currentText.getCenterPoint(), fabric.util.degreesToRadians(currentText.angle)),
+            tr: fabric.util.rotatePoint(new fabric.Point(coords.tr.x, coords.tr.y), currentText.getCenterPoint(), fabric.util.degreesToRadians(currentText.angle)),
+            bl: fabric.util.rotatePoint(new fabric.Point(coords.bl.x, coords.bl.y), currentText.getCenterPoint(), fabric.util.degreesToRadians(currentText.angle)),
+            br: fabric.util.rotatePoint(new fabric.Point(coords.br.x, coords.br.y), currentText.getCenterPoint(), fabric.util.degreesToRadians(currentText.angle))
+          };
+          x = (coords.tl.x + coords.tr.x + coords.bl.x + coords.br.x) / 4;
+          y = (coords.tl.y + coords.tr.y + coords.bl.y + coords.br.y) / 4;
 
-          if(currentText.angle === 0 || currentText.angle === 90 || currentText.angle === 180 || currentText.angle === 270 || currentText.angle === 360) {
-            for(let i in texts) {
-              const targetText = texts[i];
-              const targetTextCoords = getCoordsLeft(targetText);
-              const targetTextWidth = targetText.width;
-              const targetTextMaxLineWidth = Math.max.apply(null, targetText.__lineWidths);
-              let targetTextLeftOffset;
-              // for left aligned text
-              ((targetText.angle === 0 || targetText.angle === 360) && targetText.textAlign === 'left') && (targetTextLeftOffset = targetTextMaxLineWidth / 2);
-              ((targetText.angle === 90 || targetText.angle === 270) && targetText.textAlign === 'left') && (targetTextLeftOffset = targetText.height / 2);
-              (targetText.angle === 180 && targetText.textAlign === 'left') && (targetTextLeftOffset = (targetTextWidth - targetTextMaxLineWidth) + (targetTextMaxLineWidth / 2));
-              // for center aligned text
-              ((targetText.angle === 0 || targetText.angle === 360) && targetText.textAlign === 'center') && (targetTextLeftOffset = (targetTextMaxLineWidth / 2) + ((targetTextWidth - targetTextMaxLineWidth) / 2));
-              ((targetText.angle === 90 || targetText.angle === 270) && targetText.textAlign === 'center') && (targetTextLeftOffset = targetText.height / 2);
-              (targetText.angle === 180 && targetText.textAlign === 'center') && (targetTextLeftOffset = (targetTextMaxLineWidth / 2) + ((targetTextWidth - targetTextMaxLineWidth) / 2));
-              // for right aligned text
-              ((targetText.angle === 0 || targetText.angle === 360) && targetText.textAlign === 'right') && (targetTextLeftOffset = (targetTextWidth - targetTextMaxLineWidth) + (targetTextMaxLineWidth / 2));
-              ((targetText.angle === 90 || targetText.angle === 270) && targetText.textAlign === 'right') && (targetTextLeftOffset = targetText.height / 2);
-              (targetText.angle === 180 && targetText.textAlign === 'right') && (targetTextLeftOffset = targetTextMaxLineWidth / 2);
+          for(let i in texts) {
+            const targetText = texts[i];
+            const targetTextCoords = targetText.calcCoords();
+            const canvasCenterX = targetText.canvas.width / 2;
+            const canvasCenterY = targetText.canvas.height / 2;
+            const targetTextWidth = targetText.width;
+            const targetTextMaxLineWidth = Math.max.apply(null, targetText.__lineWidths);
+            let targetCoords;
+            let targetTetxX;
+            let targetTetxY;
 
-              targetTextCoords.x = targetTextCoords.x + targetTextLeftOffset;
+            targetCoords = {
+              tl: fabric.util.rotatePoint(new fabric.Point(targetTextCoords.tl.x, targetTextCoords.tl.y), targetText.getCenterPoint(), fabric.util.degreesToRadians(360 - targetText.angle)),
+              tr: fabric.util.rotatePoint(new fabric.Point(targetTextCoords.tr.x, targetTextCoords.tr.y), targetText.getCenterPoint(), fabric.util.degreesToRadians(360 - targetText.angle)),
+              bl: fabric.util.rotatePoint(new fabric.Point(targetTextCoords.bl.x, targetTextCoords.bl.y), targetText.getCenterPoint(), fabric.util.degreesToRadians(360 - targetText.angle)),
+              br: fabric.util.rotatePoint(new fabric.Point(targetTextCoords.br.x, targetTextCoords.br.y), targetText.getCenterPoint(), fabric.util.degreesToRadians(360 - targetText.angle))
+            };
+            switch(targetText.textAlign) {
+              case 'left':
+                targetCoords.tr.x = targetCoords.tr.x - (targetTextWidth - targetTextMaxLineWidth);
+                targetCoords.br.x = targetCoords.br.x - (targetTextWidth - targetTextMaxLineWidth);
+                break;
+              case 'center':
+                break;
+              case 'right':
+                targetCoords.tl.x = targetCoords.tl.x + (targetTextWidth - targetTextMaxLineWidth);
+                targetCoords.bl.x = targetCoords.bl.x + (targetTextWidth - targetTextMaxLineWidth);
+                break;
+              default:
+                break;
+            }
+            targetCoords = {
+              tl: fabric.util.rotatePoint(new fabric.Point(targetCoords.tl.x, targetCoords.tl.y), targetText.getCenterPoint(), fabric.util.degreesToRadians(targetText.angle)),
+              tr: fabric.util.rotatePoint(new fabric.Point(targetCoords.tr.x, targetCoords.tr.y), targetText.getCenterPoint(), fabric.util.degreesToRadians(targetText.angle)),
+              bl: fabric.util.rotatePoint(new fabric.Point(targetCoords.bl.x, targetCoords.bl.y), targetText.getCenterPoint(), fabric.util.degreesToRadians(targetText.angle)),
+              br: fabric.util.rotatePoint(new fabric.Point(targetCoords.br.x, targetCoords.br.y), targetText.getCenterPoint(), fabric.util.degreesToRadians(targetText.angle))
+            };
+            targetTetxX = (targetCoords.tl.x + targetCoords.tr.x + targetCoords.bl.x + targetCoords.br.x) / 4;
+            targetTetxY = (targetCoords.tl.y + targetCoords.tr.y + targetCoords.bl.y + targetCoords.br.y) / 4;
 
-              if(targetText.angle === 0 || targetText.angle === 90 || targetText.angle === 180 || targetText.angle === 270 || targetText.angle === 360) {
-                if(Math.abs(currentTextCoords.x - targetTextCoords.x) > 0 && Math.abs(currentTextCoords.x - targetTextCoords.x) < 5) {
-                  currentText.setPositionByOriginX({ x: targetTextCoords.x - currentTextLeftOffset, y: currentTextCoords.y }, currentTextCoords.originX, currentTextCoords.originY);
-                  drawCenterAlignment(targetTextCoords.x);
-                }
-              }
+            if(Math.abs(targetTetxX - x) > 0 && Math.abs(targetTetxX - x) < 5) {
+              (currentText.textAlign === 'left') && (currentText.left = targetTetxX - (coords.br.x - coords.tl.x) / 2);
+              (currentText.textAlign === 'center') && (currentText.left = targetTetxX - (coords.br.x - coords.tl.x) / 2);
+              (currentText.textAlign === 'right') && (currentText.left = targetTetxX + ((currentTextCoords.tl.x - coords.br.x) + (coords.br.x - coords.tl.x) / 2));
+              drawCenterAlignment(targetTetxX);
             }
           }
         }
