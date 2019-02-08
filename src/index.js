@@ -121,6 +121,25 @@ function drawCenterAlignment(left) {
 };
 // center alignment helpers end
 
+// center vertical alignment helpers start
+function clearCenterVerticalAlignment() {
+  main.canvas.remove(main.centerVerticalAlignment);
+  main.centerVerticalAlignment = null;
+};
+
+function drawCenterVerticalAlignment(top) {
+  clearCenterVerticalAlignment();
+
+  main.centerVerticalAlignment = new fabric.Line([0, top, main.canvas.width, top], {
+    left: 0,
+    top: top,
+    stroke: '#000',
+    selectable: false
+  });
+  main.canvas.add(main.centerVerticalAlignment);
+};
+// center vertical alignment helpers end
+
 // right alignment helpers start
 function clearRightAlignment() {
   main.canvas.remove(main.rightAlignment);
@@ -184,6 +203,7 @@ function clearAlignments() {
   clearBottomAlignment();
   clearLeftAlignment();
   clearCenterAlignment();
+  clearCenterVerticalAlignment();
   clearRightAlignment();
   clearHorizontalCenterAlignment();
   clearVerticalCenterAlignment();
@@ -970,8 +990,8 @@ main.init(() => {
             const targetTextWidth = targetText.width;
             const targetTextMaxLineWidth = Math.max.apply(null, targetText.__lineWidths);
             let targetCoords;
-            let targetTetxX;
-            let targetTetxY;
+            let targetTextX;
+            let targetTextY;
 
             targetCoords = {
               tl: fabric.util.rotatePoint(new fabric.Point(targetTextCoords.tl.x, targetTextCoords.tl.y), targetText.getCenterPoint(), fabric.util.degreesToRadians(360 - targetText.angle)),
@@ -999,14 +1019,20 @@ main.init(() => {
               bl: fabric.util.rotatePoint(new fabric.Point(targetCoords.bl.x, targetCoords.bl.y), targetText.getCenterPoint(), fabric.util.degreesToRadians(targetText.angle)),
               br: fabric.util.rotatePoint(new fabric.Point(targetCoords.br.x, targetCoords.br.y), targetText.getCenterPoint(), fabric.util.degreesToRadians(targetText.angle))
             };
-            targetTetxX = (targetCoords.tl.x + targetCoords.tr.x + targetCoords.bl.x + targetCoords.br.x) / 4;
-            targetTetxY = (targetCoords.tl.y + targetCoords.tr.y + targetCoords.bl.y + targetCoords.br.y) / 4;
+            targetTextX = (targetCoords.tl.x + targetCoords.tr.x + targetCoords.bl.x + targetCoords.br.x) / 4;
+            targetTextY = (targetCoords.tl.y + targetCoords.tr.y + targetCoords.bl.y + targetCoords.br.y) / 4;
 
-            if(Math.abs(targetTetxX - x) > 0 && Math.abs(targetTetxX - x) < 5) {
-              (currentText.textAlign === 'left') && (currentText.left = targetTetxX - (coords.br.x - coords.tl.x) / 2);
-              (currentText.textAlign === 'center') && (currentText.left = targetTetxX - (coords.br.x - coords.tl.x) / 2);
-              (currentText.textAlign === 'right') && (currentText.left = targetTetxX + ((currentTextCoords.tl.x - coords.br.x) + (coords.br.x - coords.tl.x) / 2));
-              drawCenterAlignment(targetTetxX);
+            if(Math.abs(targetTextX - x) > 0 && Math.abs(targetTextX - x) < 5) {
+              (currentText.textAlign === 'left') && (currentText.left = targetTextX - (coords.br.x - coords.tl.x) / 2);
+              (currentText.textAlign === 'center') && (currentText.left = targetTextX - (coords.br.x - coords.tl.x) / 2);
+              (currentText.textAlign === 'right') && (currentText.left = targetTextX + ((currentTextCoords.tl.x - coords.br.x) + (coords.br.x - coords.tl.x) / 2));
+              drawCenterAlignment(targetTextX);
+            }
+            if(Math.abs(targetTextY - y) > 0 && Math.abs(targetTextY - y) < 5) {
+              (currentText.textAlign === 'left') && (currentText.top = targetTextY - (coords.br.y - coords.tl.y) / 2);
+              (currentText.textAlign === 'center') && (currentText.top = targetTextY - (coords.br.y - coords.tl.y) / 2);
+              (currentText.textAlign === 'right') && (currentText.top = targetTextY + ((currentTextCoords.tl.y - coords.br.y) + (coords.br.y - coords.tl.y) / 2));
+              drawCenterVerticalAlignment(targetTextY);
             }
           }
         }
