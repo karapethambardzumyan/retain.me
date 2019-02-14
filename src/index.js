@@ -238,7 +238,7 @@ main.init(() => {
     };
   }, canvas => {
     window.onkeydown = e => {
-      if(main.canvas.getActiveObject() && main.canvas.getActiveObject().type === 'textbox') {
+      if(main.canvas.getActiveObject() && main.canvas.getActiveObject().type === 'textbox' || main.canvas.getActiveObject().type === 'image') {
         switch(e.keyCode) {
           case 37:
             main.canvas.getActiveObject().left = main.canvas.getActiveObject().left - 1;
@@ -261,6 +261,33 @@ main.init(() => {
         }
 
         main.canvas.renderAll();
+      }
+    };
+
+    window.onkeyup = e => {
+      if(e.keyCode === 37 || e.keyCode === 39 || e.keyCode === 38 || e.keyCode === 40) {
+        if(e.target !== null && canvas.getActiveObject() && canvas.getActiveObject().get('type') === 'image') {
+          const target = main.canvas.getActiveObject();
+
+          main.saveConfig({
+            background: {
+              scale: {
+                x: target.scaleX,
+                y: target.scaleY
+              },
+              position: {
+                left: target.aCoords.tl.x,
+                top: target.aCoords.tl.y
+              }
+            }
+          });
+        }
+
+        if(main.canvas.getActiveObject() && main.canvas.getActiveObject().type === 'textbox') {
+            let texts = canvas.getObjects();
+            texts = texts.filter(item => item.get('type') === 'textbox');
+            main.saveConfig({ texts });
+        }
       }
     };
 
