@@ -238,7 +238,7 @@ main.init(() => {
     };
   }, canvas => {
     window.onkeydown = e => {
-      if(main.canvas.getActiveObject() && main.canvas.getActiveObject().type === 'textbox' || main.canvas.getActiveObject().type === 'image') {
+      if(main.canvas.getActiveObject() && (main.canvas.getActiveObject().type === 'textbox' || main.canvas.getActiveObject().type === 'image')) {
         switch(e.keyCode) {
           case 37:
             main.canvas.getActiveObject().left = main.canvas.getActiveObject().left - 1;

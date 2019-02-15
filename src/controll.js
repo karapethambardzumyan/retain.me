@@ -249,6 +249,8 @@ class Controll {
       document.getElementById('font-color-preview').style.background = e.target.value;
 
       text.setColor(e.target.value);
+      main.canvas.getActiveObject().hiddenTextarea.focus();
+      main.canvas.getActiveObject().hiddenTextarea.value = main.canvas.getActiveObject().text;
     };
 
     document.getElementById('font-color-value').onkeyup = e => {
