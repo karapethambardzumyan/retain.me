@@ -1196,6 +1196,7 @@ main.init(() => {
       .setFontFamily()
       .setFontSize()
       .setFontHeight()
+      .setLetterSpacing()
       .setFontWeight()
       .setFontAlign()
       .setFontColor()

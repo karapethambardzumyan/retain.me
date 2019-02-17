@@ -230,6 +230,20 @@ class Text {
     }
   };
 
+  setLetterSpacing(charSpacing) {
+    main.canvas.getActiveObject().set({ charSpacing });
+    main.canvas.renderAll();
+    main.canvas.getActiveObject().setCoords();
+    main.canvas.fire('object:modified', { target: main.canvas.getActiveObject() });
+
+    const textarea = main.canvas.getActiveObject().hiddenTextarea;
+
+    if(textarea) {
+      textarea.focus();
+      textarea.value = main.canvas.getActiveObject().text;
+    }
+  };
+
   setWeight(fontWeight) {
     if(main.canvas.getActiveObject().selectionStart === main.canvas.getActiveObject().selectionEnd) {
       main.canvas.getActiveObject().followingStyles.fontWeight = fontWeight;

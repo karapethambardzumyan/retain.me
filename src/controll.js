@@ -181,6 +181,16 @@ class Controll {
     return this;
   };
 
+  setLetterSpacing() {
+    document.getElementById('letter-spacing').onchange = e => {
+      e.preventDefault();
+
+      text.setLetterSpacing(e.target.value);
+    };
+
+    return this;
+  };
+
   setFontWeight() {
     document.getElementById('font-normal').onclick = e => {
       e.preventDefault();
